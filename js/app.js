@@ -1,5 +1,5 @@
 // ── STATE ──
-let ck={},sr="",ac="All",sc="All",sf="All",rf="All",shf=false,sco=false,ex=null,vw="list";
+let ck={},sr="",ac="All",sc="All",sf="All",rf="All",cf="All",shf=false,sco=false,ex=null,vw="list";
 let tm="dark",currentPark=null,A=[],pf="All";
 let prevRoute=null,wikiCache={};
 try{const t=localStorage.getItem("addo-theme");if(t)tm=t}catch(e){}
@@ -402,14 +402,16 @@ const fl=A.filter(a=>{
   if(sc!=="All"&&a.s!==sc)return false;
   if(sf!=="All"&&a.sz!==sf)return false;
   if(rf!=="All"&&a.r!==rf)return false;
+  if(cf!=="All"&&(!ANIMALS[a._id]||ANIMALS[a._id].cs!==cf))return false;
   const parkCk=ck[park.id]||{};
-  if(sco&&!parkCk[a._id])return false;
+  if(sco==='spotted'&&!parkCk[a._id])return false;
+  if(sco==='unspotted'&&parkCk[a._id])return false;
   if(sr){const q=sr.toLowerCase();return a.n.toLowerCase().includes(q)||a.s.toLowerCase().includes(q)||a.c.toLowerCase().includes(q)||a.cl.toLowerCase().includes(q)}
   return true;
 });
 const parkCk=ck[park.id]||{};
 const tc=Object.keys(parkCk).length,pr=tc/A.length*100;
-const hf=sf!=="All"||rf!=="All"||sc!=="All"||sco||sr;
+const hf=sf!=="All"||rf!=="All"||cf!=="All"||sc!=="All"||sco||sr;
 
 let h=`<div class="hdr"><button class="back-btn" id="backBtn">\u2190</button><button class="tmb" id="tmb">${tm==='dark'?'\u2600\uFE0F':'\uD83C\uDF19'}</button><div class="hdr-ey">${e(park.name)}</div><h1>${e(park.subtitle)}</h1><div class="hdr-m">${A.length} species \u2022 Tap to spot</div></div>`;
 
@@ -433,7 +435,7 @@ subs.forEach(sub=>{const cnt=scSource.filter(a=>a.s===sub).length;const clr=ac!=
 h+=`</div>`;
 }
 
-h+=`<div class="fb"><div class="fbn ${hf?'on':''}" id="ftg">\u2699 Filters${hf?' \u25CF':''}</div><div class="fbn ${sco?'sp':''}" id="spt">${sco?'\u2713 Spotted':'\u2610 Spotted'}</div>`;
+h+=`<div class="fb"><div class="fbn ${hf?'on':''}" id="ftg">\u2699 Filters${hf?' \u25CF':''}</div><div class="fbn ${sco?'sp':''}" id="spt">${sco==='spotted'?'\u2713 Spotted':sco==='unspotted'?'\u2610 Not Spotted':'\u{1F441} All'}</div>`;
 if(hf)h+=`<div class="fbn cl" id="cla">Clear</div>`;
 h+=`<span class="fcn">${fl.length} shown</span><div class="vt"><button class="vtb ${vw==='list'?'on':''}" id="vl" title="List view">☰</button><button class="vtb ${vw==='grid'?'on':''}" id="vg" title="Grid view">⊞</button></div></div>`;
 
@@ -441,6 +443,8 @@ h+=`<div class="fp ${shf?'show':''}"><div class="fg"><div class="fgl">Size</div>
 ["All",...SIZES].forEach(s=>{h+=`<div class="fo ${sf===s?'on':''}" data-sz="${s}">${s}</div>`});
 h+=`</div></div><div class="fg"><div class="fgl">Rarity</div><div class="fos">`;
 ["All","Common","Uncommon","Rare"].forEach(r=>{const clr=rc(r);h+=`<div class="fo ${rf===r?'on':''}" data-rf="${r}" style="${rf===r&&r!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${r}</div>`});
+h+=`</div></div><div class="fg"><div class="fgl">Conservation</div><div class="fos">`;
+["All","Least Concern","Near Threatened","Vulnerable","Endangered","Critically Endangered"].forEach(c=>{const cls=c==='All'?'':csClass(c);h+=`<div class="fo ${cf===c?'on':''} ${cls?'ap-cs-fo ap-cs-'+cls:''}" data-cf="${c}">${c==='Critically Endangered'?'Critical':c}</div>`});
 h+=`</div></div></div>`;
 
 h+=`<div class="al${vw==='grid'?' grid':''}">`;
@@ -463,7 +467,8 @@ h+=`<div class="cg"></div>`;
 if(imgUrl){h+=`<button class="cv-expand" data-lb="${a._id}">\u26F6</button>`}
 h+=`<div class="ctb2"><span class="rb ${rCls}">${a.r}</span></div>`;
 h+=`<div class="ckb ${ic?'ck':''}" data-chk="${a._id}">${ic?'\u2713':''}</div>`;
-h+=`<div class="cio"><div class="cn">${a.n}</div><div class="cta"><span class="ctg ctg-s" style="background:${clr}30;color:${clr}">${a.s}</span><span class="ctg ctg-z">${a.sz} \u2022 ${a.cl}</span></div></div>`;
+const csC=ANIMALS[a._id]?csClass(ANIMALS[a._id].cs):'dd';
+h+=`<div class="cio"><div class="cn">${a.n}</div><div class="cta"><span class="ctg ctg-s" style="background:${clr}30;color:${clr}">${a.s}</span><span class="ctg ctg-z">${a.sz} \u2022 ${a.cl}</span>${ANIMALS[a._id]&&ANIMALS[a._id].cs?`<span class="ctg ap-cs-pill ap-cs-${csC}">${ANIMALS[a._id].cs}</span>`:''}</div></div>`;
 h+=`<span class="ceh ${ie?'o':''}">\u25BC</span>`;
 h+=`</div>`;
 h+=`<div class="cd ${ie?'open':''}"><div class="cd-wrap"><div class="cdi">`;
@@ -502,17 +507,18 @@ document.getElementById('sinp').addEventListener('input',function(){sr=this.valu
 if(hadFocus){const inp=document.getElementById('sinp');inp.focus();if(cursorPos!==null)inp.setSelectionRange(cursorPos,cursorPos)}
 const scl=document.getElementById('scl');if(scl)scl.onclick=()=>{sr='';R()};
 document.getElementById('ftg').onclick=()=>{shf=!shf;R()};
-document.getElementById('spt').onclick=()=>{sco=!sco;R()};
+document.getElementById('spt').onclick=()=>{sco=sco===false?'spotted':sco==='spotted'?'unspotted':false;R()};
 document.getElementById('vl').onclick=()=>{vw='list';ex=null;R()};
 document.getElementById('vg').onclick=()=>{vw='grid';ex=null;R()};
 document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}R()};
 document.getElementById('backBtn').onclick=()=>{navigate('home')};
-const cla=document.getElementById('cla');if(cla)cla.onclick=()=>{sr='';sc='All';sf='All';rf='All';sco=false;R()};
-const eclr=document.getElementById('eclr');if(eclr)eclr.onclick=()=>{sr='';sc='All';sf='All';rf='All';sco=false;R()};
+const cla=document.getElementById('cla');if(cla)cla.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;R()};
+const eclr=document.getElementById('eclr');if(eclr)eclr.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;R()};
 document.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{ac=el.dataset.cat;sc='All';R()});
 document.querySelectorAll('[data-sc]').forEach(el=>el.onclick=()=>{sc=el.dataset.sc;R()});
 document.querySelectorAll('[data-sz]').forEach(el=>el.onclick=()=>{sf=el.dataset.sz;R()});
 document.querySelectorAll('[data-rf]').forEach(el=>el.onclick=()=>{rf=el.dataset.rf;R()});
+document.querySelectorAll('[data-cf]').forEach(el=>el.onclick=()=>{cf=el.dataset.cf;R()});
 document.querySelectorAll('[data-chk]').forEach(el=>el.onclick=function(ev){
   ev.stopPropagation();const id=this.dataset.chk;
   if(!ck[park.id])ck[park.id]={};
@@ -588,17 +594,25 @@ const fl=adjusted.filter(a=>{
   if(sc!=="All"&&a.s!==sc)return false;
   if(sf!=="All"&&a.sz!==sf)return false;
   if(rf!=="All"&&a.r!==rf)return false;
-  if(sco){
+  if(cf!=="All"&&(!ANIMALS[a._id]||ANIMALS[a._id].cs!==cf))return false;
+  if(sco==='spotted'){
     if(pf!=='All'){
       if(!ck[pf]||!ck[pf][a._id])return false;
     } else {
       if(!uniqueSpotted.has(a._id))return false;
     }
   }
+  if(sco==='unspotted'){
+    if(pf!=='All'){
+      if(ck[pf]&&ck[pf][a._id])return false;
+    } else {
+      if(uniqueSpotted.has(a._id))return false;
+    }
+  }
   if(sr){const q=sr.toLowerCase();return a.n.toLowerCase().includes(q)||a.s.toLowerCase().includes(q)||a.c.toLowerCase().includes(q)||a.cl.toLowerCase().includes(q)}
   return true;
 });
-const hf=sf!=="All"||rf!=="All"||sc!=="All"||sco||sr;
+const hf=sf!=="All"||rf!=="All"||cf!=="All"||sc!=="All"||sco||sr;
 const spottedCount=pf!=='All'
   ?(ck[pf]?Object.keys(ck[pf]).filter(id=>adjusted.some(a=>a._id===id)).length:0)
   :uniqueSpotted.size;
@@ -628,7 +642,7 @@ subs.forEach(sub=>{const cnt=scSource.filter(a=>a.s===sub).length;const clr=ac!=
 h+=`</div>`;
 }
 
-h+=`<div class="fb"><div class="fbn ${hf?'on':''}" id="ftg">\u2699 Filters${hf?' \u25CF':''}</div><div class="fbn ${sco?'sp':''}" id="spt">${sco?'\u2713 Spotted':'\u2610 Spotted'}</div>`;
+h+=`<div class="fb"><div class="fbn ${hf?'on':''}" id="ftg">\u2699 Filters${hf?' \u25CF':''}</div><div class="fbn ${sco?'sp':''}" id="spt">${sco==='spotted'?'\u2713 Spotted':sco==='unspotted'?'\u2610 Not Spotted':'\u{1F441} All'}</div>`;
 if(hf)h+=`<div class="fbn cl" id="cla">Clear</div>`;
 h+=`<span class="fcn">${fl.length} shown</span><div class="vt"><button class="vtb ${vw==='list'?'on':''}" id="vl" title="List view">\u2630</button><button class="vtb ${vw==='grid'?'on':''}" id="vg" title="Grid view">⊞</button></div></div>`;
 
@@ -636,6 +650,8 @@ h+=`<div class="fp ${shf?'show':''}"><div class="fg"><div class="fgl">Size</div>
 ["All",...SIZES].forEach(s=>{h+=`<div class="fo ${sf===s?'on':''}" data-sz="${s}">${s}</div>`});
 h+=`</div></div><div class="fg"><div class="fgl">Rarity</div><div class="fos">`;
 ["All","Common","Uncommon","Rare"].forEach(r=>{const clr=rc(r);h+=`<div class="fo ${rf===r?'on':''}" data-rf="${r}" style="${rf===r&&r!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${r}</div>`});
+h+=`</div></div><div class="fg"><div class="fgl">Conservation</div><div class="fos">`;
+["All","Least Concern","Near Threatened","Vulnerable","Endangered","Critically Endangered"].forEach(c=>{const cls=c==='All'?'':csClass(c);h+=`<div class="fo ${cf===c?'on':''} ${cls?'ap-cs-fo ap-cs-'+cls:''}" data-cf="${c}">${c==='Critically Endangered'?'Critical':c}</div>`});
 h+=`</div></div></div>`;
 
 h+=`<div class="al${vw==='grid'?' grid':''}">`;
@@ -659,7 +675,8 @@ h+=`<div class="cg"></div>`;
 if(imgUrl){h+=`<button class="cv-expand" data-lb="${a._id}">\u26F6</button>`}
 h+=`<div class="ctb2"><span class="rb ${rCls}">${a.r}</span></div>`;
 h+=`<div class="ckb ckb-ro ${isSpotted?'ck':''}" data-nav="${firstSpottedPark||''}">${isSpotted?'\u2713':''}</div>`;
-h+=`<div class="cio"><div class="cn">${a.n}</div><div class="cta"><span class="ctg ctg-s" style="background:${clr}30;color:${clr}">${a.s}</span><span class="ctg ctg-z">${a.sz} \u2022 ${a.cl}</span></div></div>`;
+const csC2=ANIMALS[a._id]?csClass(ANIMALS[a._id].cs):'dd';
+h+=`<div class="cio"><div class="cn">${a.n}</div><div class="cta"><span class="ctg ctg-s" style="background:${clr}30;color:${clr}">${a.s}</span><span class="ctg ctg-z">${a.sz} \u2022 ${a.cl}</span>${ANIMALS[a._id]&&ANIMALS[a._id].cs?`<span class="ctg ap-cs-pill ap-cs-${csC2}">${ANIMALS[a._id].cs}</span>`:''}</div></div>`;
 h+=`<span class="ceh ${ie?'o':''}">\u25BC</span>`;
 h+=`</div>`;
 h+=`<div class="cd ${ie?'open':''}"><div class="cd-wrap"><div class="cdi">`;
@@ -706,17 +723,18 @@ document.getElementById('sinp').addEventListener('input',function(){sr=this.valu
 if(hadFocus){const inp=document.getElementById('sinp');inp.focus();if(cursorPos!==null)inp.setSelectionRange(cursorPos,cursorPos)}
 const scl=document.getElementById('scl');if(scl)scl.onclick=()=>{sr='';R()};
 document.getElementById('ftg').onclick=()=>{shf=!shf;R()};
-document.getElementById('spt').onclick=()=>{sco=!sco;R()};
+document.getElementById('spt').onclick=()=>{sco=sco===false?'spotted':sco==='spotted'?'unspotted':false;R()};
 document.getElementById('vl').onclick=()=>{vw='list';ex=null;R()};
 document.getElementById('vg').onclick=()=>{vw='grid';ex=null;R()};
 document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}R()};
 document.getElementById('backBtn').onclick=()=>{navigate('home')};
-const cla=document.getElementById('cla');if(cla)cla.onclick=()=>{sr='';sc='All';sf='All';rf='All';sco=false;R()};
-const eclr=document.getElementById('eclr');if(eclr)eclr.onclick=()=>{sr='';sc='All';sf='All';rf='All';sco=false;R()};
+const cla=document.getElementById('cla');if(cla)cla.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;R()};
+const eclr=document.getElementById('eclr');if(eclr)eclr.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;R()};
 document.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{ac=el.dataset.cat;sc='All';R()});
 document.querySelectorAll('[data-sc]').forEach(el=>el.onclick=()=>{sc=el.dataset.sc;R()});
 document.querySelectorAll('[data-sz]').forEach(el=>el.onclick=()=>{sf=el.dataset.sz;R()});
 document.querySelectorAll('[data-rf]').forEach(el=>el.onclick=()=>{rf=el.dataset.rf;R()});
+document.querySelectorAll('[data-cf]').forEach(el=>el.onclick=()=>{cf=el.dataset.cf;R()});
 document.querySelectorAll('[data-pf]').forEach(el=>el.onclick=()=>{pf=el.dataset.pf;ac='All';sc='All';R()});
 document.querySelectorAll('[data-nav]').forEach(el=>el.onclick=function(ev){
   ev.stopPropagation();
@@ -849,7 +867,15 @@ function renderAnimal(animalId){
   // Conservation status
   if(a.cs){
     const csCls=csClass(a.cs);
-    h+=`<div class="ap-cs"><span class="ap-cs-label">IUCN Status</span><span class="ap-cs-val ap-cs-${csCls}">${e(a.cs)}</span></div>`;
+    h+=`<div class="ap-section"><div class="ap-section-title">\uD83D\uDEE1\uFE0F Conservation Status</div>`;
+    h+=`<div class="ap-cs" id="csToggle" style="cursor:pointer"><span class="ap-cs-label">IUCN Red List <span class="ap-cs-arrow" id="csArrow">\u25B6</span></span><span class="ap-cs-val ap-cs-${csCls}">${e(a.cs)}</span></div>`;
+    h+=`<div class="ap-cs-info" id="csInfo" style="display:none">`;
+    h+=`<div class="ap-cs-scale">`;
+    const csLevels=[{k:'lc',l:'LC',f:'Least Concern'},{k:'nt',l:'NT',f:'Near Threatened'},{k:'vu',l:'VU',f:'Vulnerable'},{k:'en',l:'EN',f:'Endangered'},{k:'cr',l:'CR',f:'Critically Endangered'}];
+    csLevels.forEach(lv=>{h+=`<div class="ap-cs-step ap-cs-${lv.k} ${csCls===lv.k?'active':''}" title="${lv.f}">${lv.l}</div>`});
+    h+=`</div>`;
+    h+=`<div class="ap-cs-desc">The <strong>IUCN Red List</strong> assesses the global conservation status of species. Categories range from <strong>Least Concern</strong> (populations stable) to <strong>Critically Endangered</strong> (extremely high risk of extinction in the wild).</div>`;
+    h+=`</div></div>`;
   }
 
   // Wikipedia excerpt
@@ -887,6 +913,7 @@ function renderAnimal(animalId){
       openLightbox(imgUrl,a.n,a.i,rarity);
     };
   }
+  const cst=document.getElementById('csToggle');if(cst)cst.onclick=()=>{const info=document.getElementById('csInfo'),arr=document.getElementById('csArrow');if(info.style.display==='none'){info.style.display='';arr.textContent='\u25BC'}else{info.style.display='none';arr.textContent='\u25B6'}};
   document.querySelectorAll('[data-goto]').forEach(el=>el.onclick=()=>{navigate('park/'+el.dataset.goto)});
   document.querySelectorAll('[data-spot]').forEach(el=>el.onclick=function(){
     const parkId=this.dataset.spot;
@@ -933,7 +960,7 @@ function R(){
     currentPark=null;
     A=[];
     // Reset filters when returning home
-    sr="";ac="All";sc="All";sf="All";rf="All";shf=false;sco=false;ex=null;pf="All";
+    sr="";ac="All";sc="All";sf="All";rf="All";cf="All";shf=false;sco=false;ex=null;pf="All";
     imgLoaded=false;
     renderHome();
   }
@@ -948,7 +975,7 @@ window.addEventListener('hashchange',function(ev){
   // Reset filters when navigating to a new page
   const route=getRoute();
   if(route.page==='browse'){
-    sr="";ac="All";sc="All";sf="All";rf="All";shf=false;sco=false;ex=null;
+    sr="";ac="All";sc="All";sf="All";rf="All";cf="All";shf=false;sco=false;ex=null;
     imgLoaded=false;
   }
   R();
