@@ -277,11 +277,6 @@ body.light .browse-btn{box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .ap-cs-step{flex:1;text-align:center;font-size:9px;font-weight:700;padding:6px 0;border-radius:6px;opacity:.35;letter-spacing:.3px}
 .ap-cs-step.active{opacity:1;transform:scale(1.08);box-shadow:0 0 8px rgba(0,0,0,.3)}
 .ap-cs-pill{font-size:9px;font-weight:700;padding:3px 8px;border-radius:6px}
-.ap-cs-fo.on.ap-cs-lc{border-color:rgba(107,143,60,.5);background:rgba(107,143,60,.15);color:#a8cc5a}
-.ap-cs-fo.on.ap-cs-nt{border-color:rgba(180,160,60,.5);background:rgba(180,160,60,.15);color:#d4c85a}
-.ap-cs-fo.on.ap-cs-vu{border-color:rgba(200,160,40,.5);background:rgba(200,160,40,.15);color:#e0b830}
-.ap-cs-fo.on.ap-cs-en{border-color:rgba(200,100,40,.5);background:rgba(200,100,40,.15);color:#e88040}
-.ap-cs-fo.on.ap-cs-cr{border-color:rgba(200,50,50,.5);background:rgba(200,50,50,.15);color:#e05050}
 .ap-cs-arrow{font-size:8px;margin-left:4px;display:inline-block;color:var(--dim)}
 .ap-cs-desc{font-size:12px;line-height:1.5;color:var(--dim)}
 .ap-cs-lc{background:rgba(107,143,60,.2);color:#a8cc5a;border:1px solid rgba(107,143,60,.3)}
@@ -320,11 +315,6 @@ body.light .browse-btn{box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .ap-wiki-loading{font-size:12px;color:var(--muted);padding:12px 0;animation:pulse 1.5s ease infinite}
 /* ── ANIMAL PROFILE LIGHT OVERRIDES ── */
 body.light .ap-section{box-shadow:0 1px 4px rgba(0,0,0,.08)}
-body.light .ap-cs-fo.on.ap-cs-lc{border-color:rgba(74,117,32,.4);background:rgba(74,117,32,.1);color:#3a6a15}
-body.light .ap-cs-fo.on.ap-cs-nt{border-color:rgba(140,130,30,.4);background:rgba(140,130,30,.1);color:#7a7020}
-body.light .ap-cs-fo.on.ap-cs-vu{border-color:rgba(170,130,20,.4);background:rgba(170,130,20,.1);color:#8a6a10}
-body.light .ap-cs-fo.on.ap-cs-en{border-color:rgba(180,80,30,.4);background:rgba(180,80,30,.1);color:#a05020}
-body.light .ap-cs-fo.on.ap-cs-cr{border-color:rgba(180,40,40,.4);background:rgba(180,40,40,.1);color:#a03030}
 body.light .ap-cs{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.06)}
 body.light .ap-cs-step.active{box-shadow:0 0 8px rgba(0,0,0,.12)}
 body.light .ap-cs-lc{background:rgba(74,117,32,.12);color:#3a6a15;border-color:rgba(74,117,32,.25)}

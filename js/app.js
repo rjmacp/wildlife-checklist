@@ -63,6 +63,8 @@ try{const d=localStorage.getItem("addo-imgs-v2");if(d)imgCache=JSON.parse(d)}cat
 function sv(){try{localStorage.setItem("wildlife-ck-v1",JSON.stringify(ck))}catch(e){}}
 function svImgs(){try{localStorage.setItem("addo-imgs-v2",JSON.stringify(imgCache))}catch(e){}}
 function rc(r){return r==="Common"?"#6B8F3C":r==="Uncommon"?"#C4A86A":"#BF6A3D"}
+function szc(s){return s==="Small"?"#5B9BD5":s==="Medium"?"#6B8F3C":s==="Large"?"#C4A86A":"#BF6A3D"}
+function csc(c){return c==="Least Concern"?"#6B8F3C":c==="Near Threatened"?"#B4A03C":c==="Vulnerable"?"#C8A028":c==="Endangered"?"#C86428":"#C83232"}
 function e(s){return s.replace(/&/g,'&amp;').replace(/'/g,'&#39;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
 // ── BUILD PARK SPECIES ──
@@ -440,11 +442,11 @@ if(hf)h+=`<div class="fbn cl" id="cla">Clear</div>`;
 h+=`<span class="fcn">${fl.length} shown</span><div class="vt"><button class="vtb ${vw==='list'?'on':''}" id="vl" title="List view">☰</button><button class="vtb ${vw==='grid'?'on':''}" id="vg" title="Grid view">⊞</button></div></div>`;
 
 h+=`<div class="fp ${shf?'show':''}"><div class="fg"><div class="fgl">Size</div><div class="fos">`;
-["All",...SIZES].forEach(s=>{h+=`<div class="fo ${sf===s?'on':''}" data-sz="${s}">${s}</div>`});
+["All",...SIZES].forEach(s=>{const clr=szc(s);h+=`<div class="fo ${sf===s?'on':''}" data-sz="${s}" style="${sf===s&&s!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${s}</div>`});
 h+=`</div></div><div class="fg"><div class="fgl">Rarity</div><div class="fos">`;
 ["All","Common","Uncommon","Rare"].forEach(r=>{const clr=rc(r);h+=`<div class="fo ${rf===r?'on':''}" data-rf="${r}" style="${rf===r&&r!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${r}</div>`});
 h+=`</div></div><div class="fg"><div class="fgl">Conservation</div><div class="fos">`;
-["All","Least Concern","Near Threatened","Vulnerable","Endangered","Critically Endangered"].forEach(c=>{const cls=c==='All'?'':csClass(c);h+=`<div class="fo ${cf===c?'on':''} ${cls?'ap-cs-fo ap-cs-'+cls:''}" data-cf="${c}">${c==='Critically Endangered'?'Critical':c}</div>`});
+["All","Least Concern","Near Threatened","Vulnerable","Endangered","Critically Endangered"].forEach(c=>{const clr=csc(c);h+=`<div class="fo ${cf===c?'on':''}" data-cf="${c}" style="${cf===c&&c!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${c==='Critically Endangered'?'Critical':c}</div>`});
 h+=`</div></div></div>`;
 
 h+=`<div class="al${vw==='grid'?' grid':''}">`;
@@ -647,11 +649,11 @@ if(hf)h+=`<div class="fbn cl" id="cla">Clear</div>`;
 h+=`<span class="fcn">${fl.length} shown</span><div class="vt"><button class="vtb ${vw==='list'?'on':''}" id="vl" title="List view">\u2630</button><button class="vtb ${vw==='grid'?'on':''}" id="vg" title="Grid view">⊞</button></div></div>`;
 
 h+=`<div class="fp ${shf?'show':''}"><div class="fg"><div class="fgl">Size</div><div class="fos">`;
-["All",...SIZES].forEach(s=>{h+=`<div class="fo ${sf===s?'on':''}" data-sz="${s}">${s}</div>`});
+["All",...SIZES].forEach(s=>{const clr=szc(s);h+=`<div class="fo ${sf===s?'on':''}" data-sz="${s}" style="${sf===s&&s!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${s}</div>`});
 h+=`</div></div><div class="fg"><div class="fgl">Rarity</div><div class="fos">`;
 ["All","Common","Uncommon","Rare"].forEach(r=>{const clr=rc(r);h+=`<div class="fo ${rf===r?'on':''}" data-rf="${r}" style="${rf===r&&r!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${r}</div>`});
 h+=`</div></div><div class="fg"><div class="fgl">Conservation</div><div class="fos">`;
-["All","Least Concern","Near Threatened","Vulnerable","Endangered","Critically Endangered"].forEach(c=>{const cls=c==='All'?'':csClass(c);h+=`<div class="fo ${cf===c?'on':''} ${cls?'ap-cs-fo ap-cs-'+cls:''}" data-cf="${c}">${c==='Critically Endangered'?'Critical':c}</div>`});
+["All","Least Concern","Near Threatened","Vulnerable","Endangered","Critically Endangered"].forEach(c=>{const clr=csc(c);h+=`<div class="fo ${cf===c?'on':''}" data-cf="${c}" style="${cf===c&&c!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${c==='Critically Endangered'?'Critical':c}</div>`});
 h+=`</div></div></div>`;
 
 h+=`<div class="al${vw==='grid'?' grid':''}">`;
