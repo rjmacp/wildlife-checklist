@@ -46,6 +46,13 @@ img{display:block}input,button{font-family:inherit}::-webkit-scrollbar{display:n
 .pp{font-size:13px;color:var(--dim);font-weight:600}
 .pt{height:5px;background:var(--w05);border-radius:3px;overflow:hidden;margin-bottom:12px}
 .pf{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.22,1,.36,1)}
+.pb-exp{cursor:pointer}
+.pb-arrow{font-size:10px;margin-left:4px;display:inline-block;color:var(--dim);transition:transform .2s}
+.pb-detail{padding-top:12px;border-top:1px solid var(--w04);margin-top:12px}
+.pb-rarity{display:flex;gap:12px;flex-wrap:wrap}
+.pb-rarity-row{display:flex;align-items:center;gap:6px}
+.pb-rarity-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.pb-rarity-val{font-size:11px;font-weight:600;color:var(--dim)}
 .ccs{display:flex;gap:6px;flex-wrap:wrap}
 .cci{font-size:10px;padding:4px 9px;border-radius:8px;background:var(--w03);color:var(--muted);border:1px solid var(--w03);font-weight:600}
 .sb{position:relative;margin-bottom:12px}

@@ -419,9 +419,19 @@ let h=`<div class="hdr"><button class="back-btn" id="backBtn">\u2190</button><bu
 
 if(imgLoading){h+=`<div class="ild">\uD83D\uDCF7 Loading photos\u2026</div>`}
 
-h+=`<div class="pb"><div class="pr"><span class="ps">${tc} / ${A.length}</span><span class="pp">${pr.toFixed(1)}% spotted</span></div><div class="pt"><div class="pf" style="width:${pr}%;background:${pr>50?'linear-gradient(90deg,#6B8F3C,#A8CC5A)':'linear-gradient(90deg,#C4A86A,#D4B87A)'}"></div></div><div class="ccs">`;
-CATS.forEach(cat=>{const ct=A.filter(a=>a.c===cat&&parkCk[a._id]).length,tot=A.filter(a=>a.c===cat).length,clr=CC[cat].bg;h+=`<div class="cci" style="${ct>0?`background:${clr}28;color:${clr};border-color:${clr}40`:''}">${CI[cat]} ${ct}/${tot}</div>`});
-h+=`</div></div>`;
+h+=`<div class="pb pb-exp" id="pbToggle">`;
+h+=`<div class="pr"><span class="ps">${tc} / ${A.length}</span><span class="pp">${pr.toFixed(1)}% spotted <span class="pb-arrow" id="pbArrow">\u25BC</span></span></div>`;
+h+=`<div class="pt"><div class="pf" style="width:${pr}%;background:${pr>50?'linear-gradient(90deg,#6B8F3C,#A8CC5A)':'linear-gradient(90deg,#C4A86A,#D4B87A)'}"></div></div>`;
+h+=`<div class="pb-detail" id="pbDetail" style="display:none">`;
+const totalClr2=pr>50?'#6B8F3C':'var(--gold)';
+const totalComplete2=tc===A.length&&A.length>0;
+h+=`<div class="park-card-rings" style="margin-bottom:12px">`;
+h+=`<div class="park-card-ring${totalComplete2?' complete':''}"><div class="dash-ring-svg">${svgRing(tc,A.length,48,totalClr2)}<div class="dash-ring-icon" style="font-size:13px">${tc}/${A.length}</div></div><div class="dash-ring-label">Total</div></div>`;
+CATS.forEach(cat=>{const ct=A.filter(a=>a.c===cat&&parkCk[a._id]).length,tot=A.filter(a=>a.c===cat).length;if(!tot)return;const clr=CC[cat].bg;const catComp=ct===tot&&tot>0;h+=`<div class="park-card-ring${catComp?' complete':''}"><div class="dash-ring-svg">${svgRing(ct,tot,48,clr)}<div class="dash-ring-icon" style="font-size:14px">${CI[cat]}</div></div><div class="dash-ring-label">${ct}/${tot}</div></div>`});
+h+=`</div>`;
+h+=`<div class="pb-rarity">`;
+["Common","Uncommon","Rare"].forEach(r=>{const tot=A.filter(a=>a.r===r).length,sp=A.filter(a=>a.r===r&&parkCk[a._id]).length;if(!tot)return;const clr=rc(r);h+=`<div class="pb-rarity-row"><span class="pb-rarity-label" style="color:${clr}">${r}</span><span class="pb-rarity-val">${sp}/${tot}</span></div>`});
+h+=`</div></div></div>`;
 
 h+=`<div class="sb"><span class="si">\uD83D\uDD0D</span><input type="text" placeholder="Search by name, color, type..." value="${e(sr)}" id="sinp">${sr?'<button class="sx" id="scl">\u2715</button>':''}</div>`;
 
@@ -511,6 +521,7 @@ document.getElementById('sinp').addEventListener('input',function(){sr=this.valu
 if(hadFocus){const inp=document.getElementById('sinp');inp.focus();if(cursorPos!==null)inp.setSelectionRange(cursorPos,cursorPos)}
 const scl=document.getElementById('scl');if(scl)scl.onclick=()=>{sr='';R()};
 document.getElementById('ftg').onclick=()=>{shf=!shf;R()};
+document.getElementById('pbToggle').onclick=()=>{const d=document.getElementById('pbDetail'),a=document.getElementById('pbArrow');if(d.style.display==='none'){d.style.display='';a.textContent='\u25B2'}else{d.style.display='none';a.textContent='\u25BC'}};
 document.querySelectorAll('[data-sp]').forEach(el=>el.onclick=()=>{const v=el.dataset.sp;sco=v==='false'?false:v;R()});
 document.getElementById('vl').onclick=()=>{vw='list';ex=null;R()};
 document.getElementById('vg').onclick=()=>{vw='grid';ex=null;R()};
@@ -625,7 +636,20 @@ let h=`<div class="hdr"><button class="back-btn" id="backBtn">\u2190</button><bu
 
 if(imgLoading){h+=`<div class="ild">\uD83D\uDCF7 Loading photos\u2026</div>`}
 
-h+=`<div class="pb"><div class="pr"><span class="ps">${spottedCount} / ${adjusted.length}</span><span class="pp">spotted</span></div><div class="pt"><div class="pf" style="width:${adjusted.length?spottedCount/adjusted.length*100:0}%;background:${spottedCount/adjusted.length*100>50?'linear-gradient(90deg,#6B8F3C,#A8CC5A)':'linear-gradient(90deg,#C4A86A,#D4B87A)'}"></div></div></div>`;
+const browsepr=adjusted.length?spottedCount/adjusted.length*100:0;
+h+=`<div class="pb pb-exp" id="pbToggle">`;
+h+=`<div class="pr"><span class="ps">${spottedCount} / ${adjusted.length}</span><span class="pp">${browsepr.toFixed(1)}% spotted <span class="pb-arrow" id="pbArrow">\u25BC</span></span></div>`;
+h+=`<div class="pt"><div class="pf" style="width:${browsepr}%;background:${browsepr>50?'linear-gradient(90deg,#6B8F3C,#A8CC5A)':'linear-gradient(90deg,#C4A86A,#D4B87A)'}"></div></div>`;
+h+=`<div class="pb-detail" id="pbDetail" style="display:none">`;
+const bTotalClr=browsepr>50?'#6B8F3C':'var(--gold)';
+const bTotalComp=spottedCount===adjusted.length&&adjusted.length>0;
+h+=`<div class="park-card-rings" style="margin-bottom:12px">`;
+h+=`<div class="park-card-ring${bTotalComp?' complete':''}"><div class="dash-ring-svg">${svgRing(spottedCount,adjusted.length,48,bTotalClr)}<div class="dash-ring-icon" style="font-size:13px">${spottedCount}/${adjusted.length}</div></div><div class="dash-ring-label">Total</div></div>`;
+CATS.forEach(cat=>{const tot=adjusted.filter(a=>a.c===cat).length;if(!tot)return;const ct=adjusted.filter(a=>a.c===cat&&uniqueSpotted.has(a._id)).length;const clr=CC[cat]?CC[cat].bg:'#888';const catComp=ct===tot&&tot>0;h+=`<div class="park-card-ring${catComp?' complete':''}"><div class="dash-ring-svg">${svgRing(ct,tot,48,clr)}<div class="dash-ring-icon" style="font-size:14px">${CI[cat]||''}</div></div><div class="dash-ring-label">${ct}/${tot}</div></div>`});
+h+=`</div>`;
+h+=`<div class="pb-rarity">`;
+["Common","Uncommon","Rare"].forEach(r=>{const tot=adjusted.filter(a=>a.r===r).length,sp=adjusted.filter(a=>a.r===r&&uniqueSpotted.has(a._id)).length;if(!tot)return;const clr=rc(r);h+=`<div class="pb-rarity-row"><span class="pb-rarity-label" style="color:${clr}">${r}</span><span class="pb-rarity-val">${sp}/${tot}</span></div>`});
+h+=`</div></div></div>`;
 
 h+=`<div class="sb"><span class="si">\uD83D\uDD0D</span><input type="text" placeholder="Search by name, color, type..." value="${e(sr)}" id="sinp">${sr?'<button class="sx" id="scl">\u2715</button>':''}</div>`;
 
@@ -675,7 +699,6 @@ h+=`<div class="cp" style="${imgUrl?'display:none':''}">${a.i}</div>`;
 h+=`<div class="cg"></div>`;
 if(imgUrl){h+=`<button class="cv-expand" data-lb="${a._id}">\u26F6</button>`}
 h+=`<div class="ctb2"><span class="rb ${rCls}">${a.r}</span></div>`;
-h+=`<div class="ckb ckb-ro ${isSpotted?'ck':''}" data-nav="${firstSpottedPark||''}">${isSpotted?'\u2713':''}</div>`;
 const csC2=ANIMALS[a._id]?csClass(ANIMALS[a._id].cs):'dd';
 h+=`<div class="cio"><div class="cn">${a.n}</div><div class="cta"><span class="ctg ctg-s" style="background:${clr}30;color:${clr}">${a.s}</span><span class="ctg ctg-z">${a.sz} \u2022 ${a.cl}</span>${ANIMALS[a._id]&&ANIMALS[a._id].cs?`<span class="ctg ap-cs-pill ap-cs-${csC2}">${ANIMALS[a._id].cs}</span>`:''}</div></div>`;
 h+=`<span class="ceh ${ie?'o':''}">\u25BC</span>`;
@@ -724,6 +747,7 @@ document.getElementById('sinp').addEventListener('input',function(){sr=this.valu
 if(hadFocus){const inp=document.getElementById('sinp');inp.focus();if(cursorPos!==null)inp.setSelectionRange(cursorPos,cursorPos)}
 const scl=document.getElementById('scl');if(scl)scl.onclick=()=>{sr='';R()};
 document.getElementById('ftg').onclick=()=>{shf=!shf;R()};
+document.getElementById('pbToggle').onclick=()=>{const d=document.getElementById('pbDetail'),a=document.getElementById('pbArrow');if(d.style.display==='none'){d.style.display='';a.textContent='\u25B2'}else{d.style.display='none';a.textContent='\u25BC'}};
 document.querySelectorAll('[data-sp]').forEach(el=>el.onclick=()=>{const v=el.dataset.sp;sco=v==='false'?false:v;R()});
 document.getElementById('vl').onclick=()=>{vw='list';ex=null;R()};
 document.getElementById('vg').onclick=()=>{vw='grid';ex=null;R()};
