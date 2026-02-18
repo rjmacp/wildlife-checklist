@@ -137,3 +137,29 @@ img{display:block}input,button{font-family:inherit}::-webkit-scrollbar{display:n
 @keyframes checkPop{0%{transform:scale(.7)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
 .ac{transition:border-color .3s ease,box-shadow .3s ease}
 .cv{transition:background .3s ease}
+/* ── BACK BUTTON ── */
+.back-btn{position:absolute;top:8px;left:0;width:36px;height:36px;border-radius:50%;border:1px solid var(--w06);background:var(--w03);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text);transition:all .25s;z-index:5}
+.back-btn:active{transform:scale(.9)}
+body.light .back-btn{border-color:rgba(0,0,0,.1);background:rgba(0,0,0,.04)}
+/* ── PARK SELECTOR ── */
+.park-list{display:flex;flex-direction:column;gap:12px}
+.park-card{background:var(--card);border-radius:var(--r);padding:20px;border:1px solid var(--w04);cursor:pointer;display:flex;gap:16px;align-items:center;transition:all .3s ease}
+.park-card:active{transform:scale(.98)}
+.park-icon{font-size:42px;flex-shrink:0;width:60px;height:60px;display:flex;align-items:center;justify-content:center;background:var(--w03);border-radius:14px;border:1px solid var(--w04)}
+.park-info{flex:1;min-width:0}
+.park-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text);margin-bottom:3px}
+.park-sub{font-size:12px;color:var(--dim);margin-bottom:10px;font-weight:500}
+.park-prog-text{font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:600}
+.park-prog-bar{height:4px;background:var(--w05);border-radius:3px;overflow:hidden}
+.park-prog-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.22,1,.36,1)}
+body.light .park-card{box-shadow:0 1px 4px rgba(0,0,0,.08)}
+body.light .park-name{color:var(--text)}
+/* ── CROSS-PARK BADGE ── */
+.xp-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--gold);font-weight:600;padding:6px 12px;background:rgba(196,168,106,.08);border-radius:8px;border:1px solid rgba(196,168,106,.15);cursor:pointer;position:relative;transition:all .2s}
+.xp-badge:hover,.xp-badge:active{background:rgba(196,168,106,.15)}
+.xp-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:0;background:var(--card);border:1px solid var(--w06);border-radius:10px;padding:10px 14px;min-width:220px;z-index:10;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.xp-badge.show .xp-tooltip{display:block;animation:si .2s ease}
+.xp-row{font-size:11px;color:var(--text);padding:4px 0;font-weight:500}
+.xp-row+.xp-row{border-top:1px solid var(--w04)}
+body.light .xp-badge{color:var(--gold-dim);background:rgba(154,123,58,.08);border-color:rgba(154,123,58,.15)}
+body.light .xp-tooltip{box-shadow:0 4px 16px rgba(0,0,0,.1)}
