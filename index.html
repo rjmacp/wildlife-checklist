@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#141208">
+<title>Addo Wildlife Checklist</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#141208;--card:#1e1c14;--gold:#C4A86A;--gold-dim:#8A7A50;--green:#6B8F3C;--green-lt:#A8CC5A;--text:#E8DCC8;--dim:#8A7A60;--muted:#5a5040;--orange:#BF6A3D;--r:16px;--w05:rgba(255,255,255,.05);--w03:rgba(255,255,255,.03);--w04:rgba(255,255,255,.04);--w06:rgba(255,255,255,.06);--w08:rgba(255,255,255,.08);--w10:rgba(255,255,255,.1);--w02:rgba(255,255,255,.02);--overlay:rgba(20,18,8,.95);--overlay-mid:rgba(20,18,8,.5);--cv-bg:#1a1810;--cp-bg:linear-gradient(135deg,#1a1810,#252318);--name-col:#fff;--name-shadow:0 1px 8px rgba(0,0,0,.5);--ctg-s-bg:rgba(255,255,255,.1);--ctg-s-col:rgba(255,255,255,.7);--ctg-z-bg:rgba(255,255,255,.06);--ctg-z-col:rgba(255,255,255,.5);--ckb-border:rgba(255,255,255,.2);--ckb-bg:rgba(0,0,0,.3);--rb-border:rgba(255,255,255,.1);--sx-bg:rgba(255,255,255,.08)}
+body.light{--bg:#F5F0E8;--card:#FFFFFF;-- gold:#9A7B3A;--gold-dim:#7A6530;--green:#4A7520;--green-lt:#3D6A18;--text:#2C2A24;--dim:#6B6455;--muted:#9A9080;--orange:#A55830;--cv-bg:#E8E2D8;--cp-bg:linear-gradient(135deg,#E8E2D8,#DDD5C8);--overlay:rgba(245,240,232,.95);--overlay-mid:rgba(245,240,232,.5);--name-col:#2C2A24;--name-shadow:0 1px 4px rgba(0,0,0,.15);--w05:rgba(0,0,0,.06);--w03:rgba(0,0,0,.04);--w04:rgba(0,0,0,.05);--w06:rgba(0,0,0,.08);--w08:rgba(0,0,0,.07);--w10:rgba(0,0,0,.1);--w02:rgba(0,0,0,.03);--ctg-s-bg:rgba(0,0,0,.08);--ctg-s-col:rgba(0,0,0,.65);--ctg-z-bg:rgba(0,0,0,.05);--ctg-z-col:rgba(0,0,0,.5);--ckb-border:rgba(0,0,0,.18);--ckb-bg:rgba(255,255,255,.75);--rb-border:rgba(0,0,0,.1);--sx-bg:rgba(0,0,0,.07)}
+body.light::before{opacity:0}
+body.light .ci{opacity:1}
+body.light .cg{background:linear-gradient(to top,rgba(255,255,255,.95) 0%,rgba(255,255,255,.3) 30%,transparent 55%)}
+body.light .hdr h1{background:linear-gradient(135deg,#2C2A24 20%,#9A7B3A 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+body.light .rC{background:rgba(74,117,32,.18);color:#2E5A10;border-color:rgba(74,117,32,.3)}
+body.light .rU{background:rgba(154,123,58,.18);color:#5C4A1A;border-color:rgba(154,123,58,.3)}
+body.light .rR{background:rgba(165,88,48,.18);color:#8A3A15;border-color:rgba(165,88,48,.3)}
+body.light .fbn.sp{color:var(--green-lt)}
+body.light .fbn.cl{border-color:rgba(200,80,80,.3);background:rgba(200,80,80,.08);color:#A03030}
+body.light .ac.ck{border-color:rgba(74,117,32,.3);box-shadow:0 0 0 1px rgba(74,117,32,.12) inset}
+body.light .ac.ck .cn{color:var(--green)}
+body.light .ckb{border-color:rgba(0,0,0,.2);background:rgba(255,255,255,.8)}
+body.light .ckb.ck{border-color:var(--green);background:rgba(74,117,32,.25);color:var(--green)}
+body.light .spb{color:var(--green);background:rgba(74,117,32,.1);border-color:rgba(74,117,32,.2)}
+body.light .dt{border-left-color:var(--gold-dim);background:rgba(0,0,0,.03)}
+body.light .dst{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.06)}
+body.light .dd{color:rgba(44,42,36,.75)}
+body.light .ac{box-shadow:0 1px 4px rgba(0,0,0,.08)}
+body.light .pb{border-color:rgba(0,0,0,.06)}
+body.light .pb::after{background:radial-gradient(circle,rgba(154,123,58,.08) 0%,transparent 70%)}
+body.light .ctb.a{border-color:rgba(154,123,58,.5);background:rgba(154,123,58,.15);color:var(--gold)}
+body.light .fbn.on{border-color:rgba(154,123,58,.4);background:rgba(154,123,58,.12);color:var(--gold)}
+body.light .fo.on{border-color:rgba(154,123,58,.4);background:rgba(154,123,58,.12);color:var(--gold)}
+body.light .vtb.on{border-color:rgba(154,123,58,.4);background:rgba(154,123,58,.12);color:var(--gold)}
+body.light .sb input:focus{border-color:rgba(154,123,58,.4)}
+body.light .tmb{border-color:rgba(0,0,0,.1);background:rgba(0,0,0,.04)}
+body.light .ceh{color:rgba(0,0,0,.3)}
+.tmb{position:absolute;top:8px;right:0;width:36px;height:36px;border-radius:50%;border:1px solid var(--w06);background:var(--w03);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .25s;z-index:5}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' opacity='.012'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2H0V0h2v14h4v-4h2v4h4V0h2v14h4v-4h2v4h4V0h2v14h2V0h2v16H8v4H6v-4H2v4H0v-2h20z'/%3E%3C/g%3E%3C/svg%3E")}
+img{display:block}input,button{font-family:inherit}::-webkit-scrollbar{display:none}input::placeholder{color:var(--muted)}
+.ctn{max-width:540px;margin:0 auto;padding:0 14px 120px;position:relative;z-index:1}
+.hdr{text-align:center;padding:32px 0 18px;position:relative}
+.hdr-ey{font-size:10px;letter-spacing:6px;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px;font-weight:600;padding:0 44px}
+.hdr h1{font-family:'Playfair Display',serif;font-size:32px;font-weight:800;background:linear-gradient(135deg,#E8DCC8 20%,#C4A86A 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1;margin-bottom:6px}
+.hdr-m{font-size:13px;color:var(--dim)}
+.pb{background:var(--card);border-radius:var(--r);padding:16px 18px;margin-bottom:16px;border:1px solid var(--w04);position:relative;overflow:hidden}
+.pb::after{content:'';position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,rgba(196,168,106,.06) 0%,transparent 70%);pointer-events:none}
+.pr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.ps{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold)}
+.pp{font-size:13px;color:var(--dim);font-weight:600}
+.pt{height:5px;background:var(--w05);border-radius:3px;overflow:hidden;margin-bottom:12px}
+.pf{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.22,1,.36,1)}
+.ccs{display:flex;gap:6px;flex-wrap:wrap}
+.cci{font-size:10px;padding:4px 9px;border-radius:8px;background:var(--w03);color:var(--muted);border:1px solid var(--w03);font-weight:600}
+.sb{position:relative;margin-bottom:12px}
+.sb input{width:100%;padding:13px 16px 13px 42px;border-radius:14px;border:1px solid var(--w06);background:var(--w03);color:var(--text);font-size:14px;outline:none;transition:all .25s;font-weight:500}
+.sb input:focus{border-color:rgba(196,168,106,.35);background:var(--w05)}
+.si{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;opacity:.35}
+.sx{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:var(--sx-bg);border:none;color:#999;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center}
+.cts{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;margin-bottom:8px;scrollbar-width:none}
+.scts{margin-bottom:10px;margin-top:-2px}
+.scts .ctb{padding:6px 12px;font-size:11px;border-radius:10px}
+.ctb{padding:9px 15px;border-radius:12px;border:1px solid var(--w05);background:var(--w03);color:var(--dim);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .25s;flex-shrink:0}
+.ctb.a{border-color:rgba(196,168,106,.4);background:rgba(196,168,106,.12);color:var(--gold);box-shadow:0 0 20px rgba(196,168,106,.06)}
+.fb{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap}
+.fbn{padding:7px 13px;border-radius:10px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--w05);background:var(--w03);color:var(--dim);transition:all .2s}
+.fbn.on{border-color:rgba(196,168,106,.35);background:rgba(196,168,106,.1);color:var(--gold)}
+.fbn.sp{border-color:rgba(107,143,60,.4);background:rgba(107,143,60,.12);color:var(--green-lt)}
+.fbn.cl{border-color:rgba(200,80,80,.2);background:rgba(200,80,80,.05);color:#c87070}
+.fcn{margin-left:auto;font-size:11px;color:var(--muted);font-weight:500}
+.fp{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:14px;border:1px solid var(--w04);display:none}
+.fp.show{display:block;animation:si .25s ease}
+.fg{margin-bottom:12px}.fg:last-child{margin-bottom:0}
+.fgl{font-size:10px;color:var(--dim);margin-bottom:7px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px}
+.fos{display:flex;gap:6px;flex-wrap:wrap}
+.fo{padding:6px 13px;border-radius:9px;font-size:11px;cursor:pointer;border:1px solid var(--w05);background:transparent;color:var(--dim);font-weight:500;transition:all .2s}
+.fo.on{border-color:rgba(196,168,106,.35);background:rgba(196,168,106,.1);color:var(--gold);font-weight:600}
+.al{display:flex;flex-direction:column;gap:10px}
+.ac{background:var(--card);border-radius:var(--r);overflow:hidden;border:1px solid var(--w04);transition:all .3s ease;position:relative}
+.ac.ck{border-color:rgba(107,143,60,.2);box-shadow:0 0 0 1px rgba(107,143,60,.08) inset}
+.cv{position:relative;height:200px;overflow:hidden;cursor:pointer;background:var(--cv-bg)}
+.ci{width:100%;height:100%;object-fit:cover;transition:transform .4s ease,opacity .3s;opacity:.9}
+.cv:active .ci{transform:scale(1.03);opacity:.95}
+.cp{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:72px;background:var(--cp-bg);opacity:.5}
+.cg{position:absolute;bottom:0;left:0;right:0;height:100%;background:linear-gradient(to top,var(--overlay) 0%,var(--overlay-mid) 40%,transparent 100%);pointer-events:none}
+.ctb2{position:absolute;top:12px;right:12px;display:flex;gap:6px;z-index:2}
+.rb{font-size:9px;padding:4px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;backdrop-filter:blur(8px);border:1px solid var(--rb-border)}
+.rC{background:rgba(107,143,60,.35);color:#c8f090;border-color:rgba(107,143,60,.3)}
+.rU{background:rgba(196,168,106,.35);color:#f0e0a8;border-color:rgba(196,168,106,.3)}
+.rR{background:rgba(191,106,61,.4);color:#f8c090;border-color:rgba(191,106,61,.3)}
+.ckb{position:absolute;top:12px;left:12px;z-index:2;width:38px;height:38px;border-radius:10px;border:2px solid var(--ckb-border);background:var(--ckb-bg);backdrop-filter:blur(6px);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--green-lt);transition:all .3s cubic-bezier(.22,1,.36,1)}
+.ckb:active{transform:scale(.85)}
+.ckb.ck{border-color:var(--green);background:rgba(107,143,60,.35);animation:checkPop .4s cubic-bezier(.22,1,.36,1)}
+.cio{position:absolute;bottom:0;left:0;right:0;padding:14px 16px;z-index:2;cursor:pointer}
+.cn{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--name-col);margin-bottom:5px;line-height:1.2;text-shadow:var(--name-shadow)}
+.ac.ck .cn{color:var(--green-lt)}
+.cta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.ctg{font-size:9px;padding:3px 8px;border-radius:6px;font-weight:600}
+.ctg-s{background:var(--ctg-s-bg);color:var(--ctg-s-col);text-transform:uppercase;letter-spacing:.4px}
+.ctg-z{background:var(--ctg-z-bg);color:var(--ctg-z-col)}
+.ceh{position:absolute;bottom:14px;right:16px;z-index:2;font-size:11px;color:var(--dim);transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.ceh.o{transform:rotate(180deg)}
+.cd{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1);background:var(--card)}
+.cd.open{grid-template-rows:1fr}
+.cd-wrap{overflow:hidden}
+.cdi{padding:16px 18px 18px;opacity:0;transform:translateY(-8px);transition:opacity .35s ease .05s,transform .35s ease .05s}
+.cd.open .cdi{opacity:1;transform:translateY(0)}
+.ds{margin-bottom:14px}.ds:last-child{margin-bottom:0}
+.dl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);margin-bottom:6px}
+.dt{font-size:13px;line-height:1.6;color:var(--text);padding:10px 14px;background:var(--w02);border-radius:10px;border-left:3px solid var(--gold-dim)}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dst{padding:10px 12px;background:var(--w02);border-radius:10px;border:1px solid var(--w03)}
+.dsl{font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.dsv{font-size:13px;font-weight:600;color:var(--text)}
+.dd{font-size:13px;line-height:1.65;color:rgba(232,220,200,.75)}
+.spb{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--green-lt);font-weight:600;padding:6px 12px;background:rgba(107,143,60,.1);border-radius:8px;border:1px solid rgba(107,143,60,.15)}
+.em{text-align:center;padding:50px 20px}
+.emi{font-size:48px;margin-bottom:14px;opacity:.5}
+.emt{font-size:14px;color:var(--dim);margin-bottom:16px}
+.emb{padding:10px 20px;border-radius:10px;border:1px solid rgba(196,168,106,.25);background:rgba(196,168,106,.06);color:var(--gold);font-size:12px;font-weight:600;cursor:pointer}
+.ft{text-align:center;padding:36px 0 24px}
+.ftt{font-size:11px;color:var(--muted);line-height:1.8}
+.vt{display:flex;gap:4px;margin-left:auto;align-items:center}
+.vtb{width:32px;height:32px;border-radius:8px;border:1px solid var(--w06);background:var(--w03);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;padding:0}
+.vtb.on{border-color:rgba(196,168,106,.35);background:rgba(196,168,106,.1);color:var(--gold)}
+.al.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.al.grid .ac{border-radius:12px}
+.al.grid .cv{height:130px}
+.al.grid .cp{font-size:42px}
+.al.grid .cio{padding:8px 10px}
+.al.grid .cn{font-size:14px;margin-bottom:3px}
+.al.grid .cta{gap:4px}
+.al.grid .ctg{font-size:7px;padding:2px 5px}
+.al.grid .ctb2{top:6px;right:6px}
+.al.grid .rb{font-size:7px;padding:2px 7px}
+.al.grid .ckb{top:6px;left:6px;width:28px;height:28px;border-radius:7px;font-size:14px}
+.al.grid .ceh{display:none}
+.al.grid .cd{display:none}
+.ild{font-size:10px;color:var(--gold-dim);text-align:center;padding:4px 0 12px;animation:pulse 1.5s ease infinite}
+@keyframes si{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes checkPop{0%{transform:scale(.7)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+.ac{transition:border-color .3s ease,box-shadow .3s ease}
+.cv{transition:background .3s ease}
+</style>
+</head>
+<body>
+<div class="ctn" id="app"></div>
+<script>
+// ── ANIMAL DATABASE ──
+const A=[
+// ══ MAMMALS — BIG 5 ══
+{n:"African Elephant",c:"Mammal",s:"Big 5",sz:"Very Large",cl:"Grey",r:"Common",i:"🐘",wp:"African_bush_elephant",t:"Best seen at waterholes on sunny days. Over 600 in the park.",d:"Addo was established in 1931 to protect the last 11 elephants. Today over 600 roam the park. They consume 200-300 kg of plants daily. The park's elephants are known for being relaxed around vehicles.",w:"Up to 6,000 kg",l:"3-4 m shoulder",life:"60-70 years",act:"Diurnal",diet:"Herbivore — grasses, bark, roots, fruit"},
+{n:"Lion",c:"Mammal",s:"Big 5",sz:"Large",cl:"Tawny",r:"Uncommon",i:"🦁",wp:"Lion",t:"~17 in main park. Best early morning or sunset drives.",d:"Reintroduced in 2003 after 100+ year absence. Around 17 in the main area. Most active at night and early morning. Their return changed buffalo and prey species behaviour significantly.",w:"150-250 kg",l:"1.7-2.5 m",life:"10-14 years",act:"Mostly nocturnal",diet:"Carnivore — buffalo, zebra, antelope"},
+{n:"Leopard",c:"Mammal",s:"Big 5",sz:"Large",cl:"Spotted",r:"Rare",i:"🐆",wp:"African_leopard",t:"Very shy and secretive. Extremely lucky sighting.",d:"Present throughout the expanded park but extremely elusive. Solitary nocturnal hunters preferring thick bush. They cache kills in trees to protect from other predators. Seeing one at Addo is a rare privilege.",w:"60-90 kg",l:"1-1.9 m",life:"12-17 years",act:"Nocturnal",diet:"Carnivore — antelope, hyrax, birds"},
+{n:"Black Rhinoceros",c:"Mammal",s:"Big 5",sz:"Very Large",cl:"Grey",r:"Rare",i:"🦏",wp:"Black_rhinoceros",t:"~48 in park. Hide in thick bush. Active early morning.",d:"Over 48 critically endangered south-western black rhinos live here. Solitary browsers that rest in thick bush by day. Their hooked upper lip is designed for grasping branches. Addo's dense thicket provides excellent cover for them.",w:"800-1,400 kg",l:"3-3.75 m",life:"35-50 years",act:"Nocturnal/Crepuscular",diet:"Browser — shrubs, bushes, herbs"},
+{n:"Cape Buffalo",c:"Mammal",s:"Big 5",sz:"Very Large",cl:"Dark Brown",r:"Common",i:"🦬",wp:"African_buffalo",t:"400+ in park. More active during the day since lions arrived.",d:"Over 400 disease-free buffalo roam Addo. Since lion reintroduction they form tighter herds and are seen more during daylight. Old bulls can be aggressive. Look for cattle egrets perched on their backs.",w:"500-900 kg",l:"1.7-3.4 m",life:"15-25 years",act:"Day & night",diet:"Grazer — grasses"},
+// ══ MAMMALS — PREDATORS ══
+{n:"Spotted Hyena",c:"Mammal",s:"Predator",sz:"Large",cl:"Spotted",r:"Uncommon",i:"🐾",wp:"Spotted_hyena",t:"Reintroduced 2003. Often spotted during the day.",d:"Reintroduced alongside lions in 2003-04. Surprisingly often seen during daylight. Despite their reputation, they are very effective hunters. Females are dominant and larger than males.",w:"45-70 kg",l:"1.2-1.8 m",life:"12-25 years",act:"Mostly nocturnal",diet:"Carnivore/Scavenger"},
+{n:"Brown Hyena",c:"Mammal",s:"Predator",sz:"Large",cl:"Brown",r:"Rare",i:"🐾",wp:"Brown_hyena",t:"Very rare sighting. Nocturnal and shy.",d:"Much rarer than the spotted hyena and strictly nocturnal. Distinguished by its long, shaggy dark brown coat. Primarily a scavenger feeding on small mammals, insects, eggs, and fruit.",w:"35-50 kg",l:"1.1-1.4 m",life:"12-15 years",act:"Nocturnal",diet:"Omnivore/Scavenger"},
+{n:"Aardwolf",c:"Mammal",s:"Predator",sz:"Medium",cl:"Yellowish",r:"Rare",i:"🐾",wp:"Aardwolf",t:"Nocturnal insectivore. Very rare daytime sighting.",d:"Looks like a small hyena with vertical black stripes. Feeds almost exclusively on termites — up to 300,000 in one night using its sticky tongue. A daytime sighting is exceptionally rare and exciting.",w:"7-10 kg",l:"55-80 cm",life:"8-10 years",act:"Nocturnal",diet:"Insectivore — termites"},
+{n:"Caracal",c:"Mammal",s:"Predator",sz:"Medium",cl:"Reddish Brown",r:"Rare",i:"🐱",wp:"Caracal",t:"Nocturnal. Look for distinctive ear tufts.",d:"Recognized by its distinctive long black ear tufts. Can leap 3 metres to catch birds in flight. Solitary and nocturnal, making sightings rare. Their reddish coat provides excellent camouflage in the bush.",w:"8-19 kg",l:"60-90 cm",life:"12-16 years",act:"Nocturnal",diet:"Carnivore — birds, rodents, hyrax"},
+{n:"African Wildcat",c:"Mammal",s:"Predator",sz:"Small",cl:"Tabby",r:"Rare",i:"🐱",wp:"African_wildcat",t:"Ancestor of all domestic cats. Nocturnal.",d:"The ancestor of all domestic cats. Looks remarkably like a tabby house cat but has longer legs. A major conservation concern is hybridisation with domestic cats. Look for rich reddish-brown on the backs of the ears.",w:"3-6.5 kg",l:"45-75 cm",life:"11-16 years",act:"Nocturnal",diet:"Carnivore — rodents, birds"},
+{n:"Black-footed Cat",c:"Mammal",s:"Predator",sz:"Small",cl:"Spotted",r:"Rare",i:"🐱",wp:"Black-footed_cat",t:"Africa's smallest cat. Extremely rare.",d:"The smallest African wild cat, weighing just 1-2 kg. Despite their tiny size, they are fierce hunters with the highest kill rate of any cat — catching prey on 60% of hunts. Strictly nocturnal and incredibly shy.",w:"1-2.4 kg",l:"36-52 cm",life:"5-10 years",act:"Nocturnal",diet:"Carnivore — rodents, birds, insects"},
+{n:"Honey Badger",c:"Mammal",s:"Predator",sz:"Small",cl:"Black & White",r:"Uncommon",i:"🦡",wp:"Honey_badger",t:"Fearless and aggressive. Lucky sighting!",d:"Renowned as one of the most fearless animals in Africa. Their thick, loose skin protects from stings, quills, and snakebites. Known to fight off lions. A sighting is always a highlight of any safari.",w:"9-16 kg",l:"55-77 cm",life:"7-8 years",act:"Mostly nocturnal",diet:"Omnivore — honey, insects, snakes"},
+{n:"Black-backed Jackal",c:"Mammal",s:"Predator",sz:"Medium",cl:"Tawny",r:"Common",i:"🐕",wp:"Black-backed_jackal",t:"Often seen near waterholes. Listen for calls at dusk.",d:"Named for the dark saddle of black and silver fur on their backs. Opportunistic omnivores often seen at dusk with characteristic yapping calls. They mate for life and are devoted parents.",w:"6-13 kg",l:"60-90 cm",life:"7-14 years",act:"Crepuscular/Nocturnal",diet:"Omnivore — insects, fruit, small mammals"},
+{n:"Bat-eared Fox",c:"Mammal",s:"Predator",sz:"Small",cl:"Grey",r:"Uncommon",i:"🦊",wp:"Bat-eared_fox",t:"Distinctive large ears. Feeds on insects.",d:"Enormous ears (up to 13 cm) detect insects underground and radiate heat. Feed primarily on harvester termites and dung beetles. Social, usually found in family groups.",w:"3-5 kg",l:"46-66 cm",life:"6-13 years",act:"Mostly nocturnal",diet:"Insectivore — termites, beetles"},
+{n:"Cape Fox",c:"Mammal",s:"Predator",sz:"Small",cl:"Silver Grey",r:"Uncommon",i:"🦊",wp:"Cape_fox",t:"Nocturnal. South Africa's only true fox.",d:"South Africa's only true fox species, with grizzled silver-grey fur and a distinctive bushy tail. Nocturnal and solitary, they are rarely seen but more common than sighting frequency suggests. Very small and delicate.",w:"2.5-4 kg",l:"45-61 cm",life:"6-10 years",act:"Nocturnal",diet:"Omnivore — insects, rodents, fruit"},
+{n:"Suricate / Meerkat",c:"Mammal",s:"Predator",sz:"Small",cl:"Tawny",r:"Uncommon",i:"🐾",wp:"Meerkat",t:"Stand upright as sentinels. Social groups.",d:"Live in social 'mobs' of up to 30. Sentinels stand upright scanning for predators while others forage. Immune to certain venoms allowing them to eat scorpions. Highly entertaining to watch.",w:"0.6-1 kg",l:"25-35 cm",life:"5-15 years",act:"Diurnal",diet:"Omnivore — insects, scorpions, vertebrates"},
+{n:"Striped Polecat",c:"Mammal",s:"Predator",sz:"Small",cl:"Black & White",r:"Rare",i:"🦨",wp:"Striped_polecat",t:"Nocturnal. Sprays skunk-like odor when threatened.",d:"Also called the zorilla, this skunk-like mustelid sprays a foul-smelling secretion when threatened. Strictly nocturnal and solitary. Their bold black-and-white colouring is a warning to predators.",w:"0.6-1.4 kg",l:"28-38 cm",life:"5-6 years",act:"Nocturnal",diet:"Carnivore — insects, rodents, snakes"},
+{n:"Cape Clawless Otter",c:"Mammal",s:"Predator",sz:"Medium",cl:"Brown",r:"Rare",i:"🦦",wp:"African_clawless_otter",t:"Found near rivers and dams. Very shy.",d:"Africa's largest freshwater otter with distinctive white facial markings. Their fingers lack claws (hence the name), giving them excellent dexterity for catching crabs and frogs. Very shy and rarely seen.",w:"10-21 kg",l:"1.1-1.6 m",life:"10-15 years",act:"Crepuscular",diet:"Carnivore — crabs, fish, frogs"},
+{n:"Small Grey Mongoose",c:"Mammal",s:"Predator",sz:"Small",cl:"Grey",r:"Common",i:"🐾",wp:"Cape_gray_mongoose",t:"Diurnal. Often seen darting across roads.",d:"One of the most commonly seen small predators at Addo. Diurnal and often spotted darting across roads. Solitary hunters with a varied diet. Their grizzled grey coat provides camouflage in the scrub.",w:"0.5-1 kg",l:"25-34 cm",life:"8-10 years",act:"Diurnal",diet:"Carnivore — insects, rodents, reptiles"},
+{n:"Yellow Mongoose",c:"Mammal",s:"Predator",sz:"Small",cl:"Yellowish",r:"Common",i:"🐾",wp:"Yellow_mongoose",t:"Diurnal. Lives in communal burrows.",d:"Named for their yellowish-tawny fur. Highly social animals living in communal burrows often shared with ground squirrels and meerkats. They have a charming habit of standing up on their hind legs to survey their surroundings.",w:"0.4-0.9 kg",l:"23-33 cm",life:"12-15 years",act:"Diurnal",diet:"Omnivore — insects, small vertebrates"},
+{n:"Water Mongoose",c:"Mammal",s:"Predator",sz:"Small",cl:"Dark Brown",r:"Uncommon",i:"🐾",wp:"Marsh_mongoose",t:"Found near waterholes and dams.",d:"The largest mongoose in southern Africa, closely associated with water. They have partially webbed feet and hunt crabs, frogs, and fish along river banks and waterholes. Mainly nocturnal and solitary.",w:"2.5-5.5 kg",l:"44-62 cm",life:"10-17 years",act:"Nocturnal",diet:"Carnivore — crabs, frogs, fish"},
+{n:"Small-spotted Genet",c:"Mammal",s:"Predator",sz:"Small",cl:"Spotted",r:"Uncommon",i:"🐾",wp:"Common_genet",t:"Nocturnal. Cat-like appearance with long tail.",d:"Elegant, cat-like carnivore with a beautifully spotted coat and an extremely long banded tail. Strictly nocturnal, they are agile climbers often found near rest camps. Their large eyes give them excellent night vision.",w:"1.5-2.6 kg",l:"42-58 cm",life:"8-13 years",act:"Nocturnal",diet:"Carnivore — rodents, birds, insects"},
+{n:"Large-spotted Genet",c:"Mammal",s:"Predator",sz:"Small",cl:"Spotted",r:"Uncommon",i:"🐾",wp:"South_African_large-spotted_genet",t:"Nocturnal. Larger spots than small-spotted genet.",d:"Similar to the small-spotted genet but with larger, rusty-brown spots and a black-tipped tail (versus white-tipped). More associated with forested areas. Both species may occur around camps at night.",w:"1.5-3.2 kg",l:"44-60 cm",life:"8-13 years",act:"Nocturnal",diet:"Carnivore — rodents, invertebrates"},
+// ══ MAMMALS — PRIMATES ══
+{n:"Vervet Monkey",c:"Mammal",s:"Primate",sz:"Small",cl:"Grey",r:"Common",i:"🐒",wp:"Vervet_monkey",t:"Often around camp. Guard your food!",d:"Highly social primates often near rest camps. Notorious food thieves that can open zips and latches. Have complex alarm calls — different ones for different predators. Males have distinctive blue scrotal skin.",w:"3-5 kg",l:"40-60 cm",life:"12-24 years",act:"Diurnal",diet:"Omnivore — fruit, flowers, insects"},
+{n:"Chacma Baboon",c:"Mammal",s:"Primate",sz:"Medium",cl:"Grey-Brown",r:"Common",i:"🐒",wp:"Chacma_baboon",t:"Large troops. Keep car windows closed.",d:"One of the largest monkey species with complex social hierarchies. Males can be aggressive when habituated to humans. Keep car windows closed. Excellent swimmers and surprisingly good problem-solvers.",w:"15-31 kg",l:"50-115 cm",life:"20-30 years",act:"Diurnal",diet:"Omnivore — fruit, seeds, insects"},
+// ══ MAMMALS — ANTELOPE ══
+{n:"Greater Kudu",c:"Mammal",s:"Antelope",sz:"Large",cl:"Grey-Brown",r:"Common",i:"🦌",wp:"Greater_kudu",t:"Iconic spiral horns. SANParks logo animal.",d:"Males carry spectacular spiral horns up to 1.8 metres long. The kudu's silhouette forms the SANParks logo. They have 6-10 white body stripes and large ears. Excellent jumpers, easily clearing 2.5 metre fences despite their size.",w:"120-315 kg",l:"1.9-2.5 m",life:"7-23 years",act:"Crepuscular",diet:"Browser — leaves, herbs, fruit"},
+{n:"Eland",c:"Mammal",s:"Antelope",sz:"Very Large",cl:"Tawny",r:"Common",i:"🦌",wp:"Common_eland",t:"Africa's largest antelope. Often in herds.",d:"World's largest antelope with bulls up to 900 kg. Despite massive size, they can jump 2+ metres from standing. A clicking sound when walking comes from tendons slipping over leg bones. Both sexes carry spiralling horns.",w:"400-900 kg",l:"2-3.4 m",life:"15-20 years",act:"Crepuscular",diet:"Browser/Grazer"},
+{n:"Red Hartebeest",c:"Mammal",s:"Antelope",sz:"Large",cl:"Reddish Brown",r:"Common",i:"🦌",wp:"Red_hartebeest",t:"Distinctive heart-shaped horns. Open grasslands.",d:"Distinguished by elongated faces and uniquely shaped horns. One of the fastest antelope at 70 km/h. Prefer open grasslands and often graze alongside zebras. Males use termite mounds as lookout posts.",w:"120-200 kg",l:"1.5-2.5 m",life:"11-20 years",act:"Diurnal",diet:"Grazer — grasses"},
+{n:"Springbok",c:"Mammal",s:"Antelope",sz:"Medium",cl:"Tawny & White",r:"Common",i:"🦌",wp:"Springbok",t:"National animal of SA. Pronking display.",d:"South Africa's national animal, famous for 'pronking' — stiff-legged jumps up to 2 metres high. A back fold of white-haired skin opens during pronking, releasing a sweet scent. Can reach 88 km/h.",w:"30-44 kg",l:"1.2-1.5 m",life:"7-9 years",act:"Crepuscular",diet:"Mixed feeder"},
+{n:"Gemsbok",c:"Mammal",s:"Antelope",sz:"Large",cl:"Grey & Brown",r:"Common",i:"🦌",wp:"Gemsbok",t:"Striking face markings. Long straight horns.",d:"Powerful, horse-like antelope with dramatic black and white facial markings and horns up to 1.2 m. Both sexes carry horns. Can survive without drinking water. Horns are so sharp they've been known to kill lions.",w:"100-240 kg",l:"1.5-2.3 m",life:"18-20 years",act:"Crepuscular",diet:"Grazer/Browser"},
+{n:"Bushbuck",c:"Mammal",s:"Antelope",sz:"Medium",cl:"Reddish Brown",r:"Common",i:"🦌",wp:"Bushbuck",t:"Shy browser. Found in thicker vegetation.",d:"Shy, solitary antelope in thick bush and forest. Males have short spiralling horns and are darker than hornless females. Freeze when alarmed relying on camouflage. Can be surprisingly aggressive when cornered.",w:"25-80 kg",l:"1.1-1.5 m",life:"12-16 years",act:"Mostly nocturnal",diet:"Browser — leaves, herbs, fruit"},
+{n:"Common Duiker",c:"Mammal",s:"Antelope",sz:"Small",cl:"Grey-Brown",r:"Common",i:"🦌",wp:"Common_duiker",t:"Small, shy. Dives into bush when disturbed.",d:"The name 'duiker' comes from Afrikaans meaning 'diver', referring to their habit of diving into bush when startled. Small and solitary with a distinctive dark stripe down the face. Only males carry short, straight horns.",w:"12-25 kg",l:"80-115 cm",life:"8-11 years",act:"Nocturnal/Crepuscular",diet:"Browser — leaves, fruit, flowers"},
+{n:"Cape Grysbok",c:"Mammal",s:"Antelope",sz:"Small",cl:"Reddish Brown",r:"Uncommon",i:"🦌",wp:"Cape_grysbok",t:"Nocturnal. Endemic to southern Africa.",d:"A small, stocky antelope endemic to the Western and Eastern Cape. Reddish-brown coat flecked with white hairs ('grys' is Afrikaans for grey). Strictly nocturnal and very shy. Only males have short horns.",w:"8-12 kg",l:"54-70 cm",life:"6-8 years",act:"Nocturnal",diet:"Browser — leaves, fruit"},
+{n:"Steenbok",c:"Mammal",s:"Antelope",sz:"Small",cl:"Reddish Brown",r:"Common",i:"🦌",wp:"Steenbok",t:"Small, elegant. Large ears, short straight horns.",d:"One of the smallest and most elegant antelope, with large ears, large dark eyes, and a rufous coat. Only males carry short, upright horns. They bury their droppings — a behaviour unique among antelope.",w:"7-16 kg",l:"70-95 cm",life:"6-10 years",act:"Diurnal/Crepuscular",diet:"Browser/Grazer"},
+{n:"Klipspringer",c:"Mammal",s:"Antelope",sz:"Small",cl:"Grey-Brown",r:"Uncommon",i:"🦌",wp:"Klipspringer",t:"Rock climber. Found on rocky outcrops.",d:"The name means 'rock jumper' in Afrikaans. They walk on the tips of their hooves like tiny ballet dancers, giving superb grip on rocks. Their coarse, hollow hair provides insulation and cushioning. Found in the Zuurberg Mountains.",w:"8-18 kg",l:"75-115 cm",life:"10-15 years",act:"Diurnal",diet:"Browser — shrubs, herbs, fruit"},
+{n:"Mountain Reedbuck",c:"Mammal",s:"Antelope",sz:"Medium",cl:"Grey-Brown",r:"Uncommon",i:"🦌",wp:"Mountain_reedbuck",t:"Found in Zuurberg Mountains section.",d:"A medium-sized antelope found on grassy mountain slopes in the Zuurberg section. Has a distinctive white bushy tail that it flashes when alarmed. Only males carry short, forward-curving horns. Often seen in small groups.",w:"22-37 kg",l:"1-1.3 m",life:"8-10 years",act:"Crepuscular",diet:"Grazer — grasses"},
+{n:"Grey Rhebok",c:"Mammal",s:"Antelope",sz:"Medium",cl:"Grey",r:"Uncommon",i:"🦌",wp:"Grey_rhebok",t:"Endemic to SA. Mountain slopes.",d:"A graceful antelope endemic to South Africa with woolly grey fur and a long, narrow face. Males have short, straight, upright horns. Found on mountain slopes and plateaus. Males are territorial and will chase intruders.",w:"18-30 kg",l:"1-1.2 m",life:"8-10 years",act:"Diurnal",diet:"Browser/Grazer"},
+// ══ MAMMALS — HERBIVORES ══
+{n:"Burchell's Zebra",c:"Mammal",s:"Herbivore",sz:"Large",cl:"Black & White",r:"Common",i:"🦓",wp:"Plains_zebra",t:"Each has unique stripe pattern.",d:"Every zebra has a unique stripe pattern like a fingerprint. Stripes may confuse biting flies and help with temperature regulation. In Addo their ranges overlap with red hartebeest. Foals can run within an hour of birth.",w:"175-385 kg",l:"2-2.6 m",life:"20-30 years",act:"Diurnal",diet:"Grazer — grasses"},
+{n:"Mountain Zebra",c:"Mammal",s:"Herbivore",sz:"Large",cl:"Black & White",r:"Uncommon",i:"🦓",wp:"Cape_mountain_zebra",t:"Dewlap under throat. Zuurberg section.",d:"Distinguished from Burchell's by a dewlap (throat fold), no shadow stripes, and a grid-iron rump pattern. Nearly extinct in the 1950s with only 45 remaining. Found in the Zuurberg section of the park.",w:"230-380 kg",l:"2.1-2.6 m",life:"20-25 years",act:"Diurnal",diet:"Grazer — grasses"},
+{n:"Warthog",c:"Mammal",s:"Herbivore",sz:"Medium",cl:"Grey",r:"Common",i:"🐗",wp:"Common_warthog",t:"'Pumba'! Runs with tail straight up.",d:"Known as 'Pumba' from The Lion King. Run with tails held straight up. Kneel on front knees to graze. Back into burrows at night keeping tusks facing predators. Surprisingly fast at 48 km/h.",w:"50-100 kg",l:"90-150 cm",life:"7-18 years",act:"Diurnal",diet:"Grazer/Omnivore"},
+{n:"Bushpig",c:"Mammal",s:"Herbivore",sz:"Medium",cl:"Reddish Brown",r:"Rare",i:"🐗",wp:"Bushpig",t:"Nocturnal. Rarely seen during the day.",d:"A stocky, powerful pig with reddish-brown bristly hair and distinctive white facial whiskers. Strictly nocturnal and very secretive, making sightings extremely rare. They root through the soil searching for bulbs and tubers.",w:"55-100 kg",l:"1-1.7 m",life:"10-15 years",act:"Nocturnal",diet:"Omnivore — roots, bulbs, invertebrates"},
+{n:"Hippopotamus",c:"Mammal",s:"Herbivore",sz:"Very Large",cl:"Grey",r:"Rare",i:"🦛",wp:"Hippopotamus",t:"Only in rarely-visited Zuurberg section.",d:"Found only in the Sundays River within the Zuurberg Mountains section. Africa's third-largest land animal. They spend most of the day submerged and emerge at night to graze. Despite their bulk, they can run at 30 km/h.",w:"1,300-3,200 kg",l:"3.3-5 m",life:"40-50 years",act:"Nocturnal grazer",diet:"Grazer — grasses"},
+{n:"Rock Hyrax / Dassie",c:"Mammal",s:"Herbivore",sz:"Small",cl:"Brown",r:"Common",i:"🐾",wp:"Rock_hyrax",t:"Closest living relative to the elephant!",d:"Despite looking like a guinea pig, their closest living relative is the elephant! They share similar tooth structure, toenails, and even have small tusks. Poor at regulating temperature, so they sunbathe on rocks in groups.",w:"2-5 kg",l:"30-58 cm",life:"9-14 years",act:"Diurnal",diet:"Herbivore — grasses, leaves"},
+{n:"Porcupine",c:"Mammal",s:"Herbivore",sz:"Medium",cl:"Black & White",r:"Uncommon",i:"🦔",wp:"Cape_porcupine",t:"Nocturnal. Look for quills on the road.",d:"Africa's largest rodent with quills up to 50 cm long. When threatened, they rattle quills then charge backwards. Quills detach easily on contact but can't be shot. Look for scattered quills on roads.",w:"10-24 kg",l:"60-93 cm",life:"12-15 years",act:"Nocturnal",diet:"Herbivore — roots, bark, fruit"},
+// ══ MAMMALS — SMALL MAMMALS ══
+{n:"Aardvark / Antbear",c:"Mammal",s:"Small Mammal",sz:"Medium",cl:"Pink-Grey",r:"Rare",i:"🐾",wp:"Aardvark",t:"Nocturnal. Bucket-list sighting. Look for burrows.",d:"One of Africa's most bizarre-looking mammals with a pig-like snout, rabbit-like ears, and kangaroo-like tail. Strictly nocturnal and rarely seen. Uses its powerful claws to break open termite mounds. Their abandoned burrows provide shelter for many other species.",w:"40-82 kg",l:"1-1.6 m",life:"18-23 years",act:"Nocturnal",diet:"Insectivore — ants, termites"},
+{n:"Cape Hare",c:"Mammal",s:"Small Mammal",sz:"Small",cl:"Brown",r:"Common",i:"🐇",wp:"Cape_hare",t:"Nocturnal. Seen in headlights on night drives.",d:"A medium-sized hare often spotted in headlights on night drives. They are solitary and rely on speed (up to 70 km/h) to escape predators. Unlike rabbits, hare leverets are born fully furred with open eyes.",w:"1.4-2.5 kg",l:"42-60 cm",life:"5-7 years",act:"Nocturnal",diet:"Herbivore — grasses, herbs"},
+{n:"Scrub Hare",c:"Mammal",s:"Small Mammal",sz:"Small",cl:"Grey-Brown",r:"Common",i:"🐇",wp:"Scrub_hare",t:"Larger than Cape hare. Nocturnal.",d:"Slightly larger than the Cape hare with grizzled grey-brown fur. They lie up in scrub and long grass during the day and feed at night. Often seen on roads after dark. They freeze when startled before bolting.",w:"1.5-4.5 kg",l:"43-65 cm",life:"6-8 years",act:"Nocturnal",diet:"Herbivore — grasses, herbs"},
+{n:"Cape Springhare",c:"Mammal",s:"Small Mammal",sz:"Small",cl:"Brown",r:"Uncommon",i:"🐾",wp:"South_African_springhare",t:"Nocturnal. Kangaroo-like hopping.",d:"Resembles a miniature kangaroo with large hind legs, long bushy tail, and big eyes. Moves by hopping and can leap up to 2 metres. Strictly nocturnal, spending the day in burrows. An extraordinary-looking creature.",w:"2.5-4 kg",l:"35-45 cm",life:"8-15 years",act:"Nocturnal",diet:"Herbivore — grasses, roots"},
+{n:"Striped Weasel",c:"Mammal",s:"Predator",sz:"Small",cl:"Black & White",r:"Rare",i:"🐾",wp:"African_striped_weasel",t:"Africa's smallest carnivore. Extremely rare sighting.",d:"One of Africa's smallest carnivores with a snake-like, sinuous body built for hunting in rodent burrows. Black fur with distinctive white stripes down the back and a white tail. Sprays a foul-smelling secretion like a skunk when threatened. Strictly nocturnal and incredibly elusive.",w:"225-380 g",l:"25-35 cm",life:"5-6 years",act:"Nocturnal",diet:"Carnivore — rodents, birds"},
+{n:"Large Grey Mongoose",c:"Mammal",s:"Predator",sz:"Medium",cl:"Grey",r:"Uncommon",i:"🐾",wp:"Egyptian_mongoose",t:"Larger than small grey mongoose. Thicket dweller.",d:"Also known as the Egyptian mongoose and the largest mongoose in the region. Distinguished from the small grey mongoose by its larger size, shaggier coat, and black-tipped tail. Often found in thick bush near water. Solitary and more secretive than its smaller cousin.",w:"2.5-4 kg",l:"50-65 cm",life:"10-12 years",act:"Diurnal",diet:"Omnivore — insects, rodents, snakes, fruit"},
+{n:"Tree Dassie",c:"Mammal",s:"Herbivore",sz:"Small",cl:"Brown",r:"Rare",i:"🐾",wp:"Southern_tree_hyrax",t:"Nocturnal. Eerie screaming call at night.",d:"Unlike its rock-dwelling cousin, the tree dassie lives in forest canopies and is strictly nocturnal. Famous for its blood-curdling screaming call heard after dark. Has a creamy-white dorsal scent gland patch. Clumsy on the ground but agile in trees. Very rarely seen but often heard in the Alexandria Forest.",w:"2-5 kg",l:"40-55 cm",life:"10-14 years",act:"Nocturnal",diet:"Herbivore — leaves, shoots, fruit"},
+{n:"Smith's Red Rock Rabbit",c:"Mammal",s:"Small Mammal",sz:"Small",cl:"Reddish Brown",r:"Rare",i:"🐇",wp:"Smith%27s_red_rock_hare",t:"Nocturnal. Rocky outcrops in Zuurberg section.",d:"Despite being called a hare, this is actually a rabbit — the smallest of southern Africa's rock rabbits. Reddish-brown fur with a grizzled appearance and short ears. Strictly nocturnal, sheltering under rock slabs by day. Associates closely with rock hyraxes, benefiting from their alertness.",w:"1.5-2 kg",l:"39-57 cm",life:"3-5 years",act:"Nocturnal",diet:"Herbivore — grasses, herbs, shrubs"},
+// ══ BIRDS — RAPTORS ══
+{n:"Secretary Bird",c:"Bird",s:"Raptor",sz:"Large",cl:"Grey & Black",r:"Uncommon",i:"🦅",wp:"Secretarybird",t:"Walks through grassland stomping on snakes.",d:"Hunts on foot, stomping snakes to death with kicks delivering 5x its body weight in force. Stands 1.3 m tall with crane-like legs and eagle-like body. Walks 20-30 km per day while hunting.",w:"3.5-4.3 kg",l:"1.1-1.5 m tall",life:"10-15 years",act:"Diurnal",diet:"Carnivore — snakes, lizards, insects"},
+{n:"African Fish Eagle",c:"Bird",s:"Raptor",sz:"Large",cl:"Brown & White",r:"Uncommon",i:"🦅",wp:"African_fish_eagle",t:"Iconic call of Africa. Near dams and rivers.",d:"Its haunting yelping call is the quintessential sound of wild Africa. Pairs mate for life and often call in duet. They snatch fish from the surface with their talons, catching fish up to 2 kg.",w:"2-3.6 kg",l:"63-75 cm",life:"12-24 years",act:"Diurnal",diet:"Piscivore — mainly fish"},
+{n:"Martial Eagle",c:"Bird",s:"Raptor",sz:"Large",cl:"Dark Brown",r:"Rare",i:"🦅",wp:"Martial_eagle",t:"Africa's largest eagle. Powerful hunter.",d:"Africa's largest and most powerful eagle with 2.6 m wingspan. Can spot prey from 6 km away. Strong enough to knock an adult off their feet. Now vulnerable to extinction across their range.",w:"3-6.2 kg",l:"78-96 cm",life:"14-25 years",act:"Diurnal",diet:"Carnivore — gamebirds, hyrax, antelope"},
+{n:"Verreaux's Eagle",c:"Bird",s:"Raptor",sz:"Large",cl:"Black",r:"Rare",i:"🦅",wp:"Verreaux%27s_eagle",t:"Also called Black Eagle. Rocky mountain areas.",d:"A magnificent jet-black eagle also known as the Black Eagle. Found in rocky mountain areas of the Zuurberg section. Pairs mate for life and use the same nest for decades. Feeds primarily on hyrax (dassies).",w:"3-5.8 kg",l:"75-96 cm",life:"16+ years",act:"Diurnal",diet:"Carnivore — mainly hyrax"},
+{n:"Jackal Buzzard",c:"Bird",s:"Raptor",sz:"Medium",cl:"Dark Brown & Red",r:"Common",i:"🦅",wp:"Jackal_buzzard",t:"Endemic to southern Africa. Soars over mountains.",d:"Named for its jackal-like call, this handsome raptor is endemic to southern Africa. Dark above with a rich chestnut breast and barred belly. Often seen soaring over mountain slopes in the Zuurberg section.",w:"0.9-1.5 kg",l:"44-53 cm",life:"10-15 years",act:"Diurnal",diet:"Carnivore — rodents, snakes, insects"},
+{n:"Peregrine Falcon",c:"Bird",s:"Raptor",sz:"Medium",cl:"Grey & White",r:"Rare",i:"🦅",wp:"Peregrine_falcon",t:"Fastest animal on Earth at 389 km/h.",d:"The fastest animal on Earth, reaching speeds of 389 km/h in its hunting dive (stoop). Found near cliffs in the mountain sections. Their dramatic high-speed stoops to catch birds mid-flight are among nature's most thrilling spectacles.",w:"0.6-1.5 kg",l:"34-50 cm",life:"10-17 years",act:"Diurnal",diet:"Carnivore — birds caught in flight"},
+{n:"Pale Chanting Goshawk",c:"Bird",s:"Raptor",sz:"Medium",cl:"Grey",r:"Common",i:"🦅",wp:"Pale_chanting_goshawk",t:"Often perches on roadside poles.",d:"An elegant grey raptor frequently seen perched on fence posts and roadside poles. Named for their melodious dawn calls during breeding season. They sometimes follow honey badgers to catch fleeing prey.",w:"0.5-1 kg",l:"48-63 cm",life:"10-15 years",act:"Diurnal",diet:"Carnivore — lizards, rodents, insects"},
+{n:"Crowned Eagle",c:"Bird",s:"Raptor",sz:"Large",cl:"Dark Brown",r:"Rare",i:"🦅",wp:"Crowned_eagle",t:"Powerful forest eagle. Alexandria Forest.",d:"Africa's most powerful eagle relative to its size, capable of taking prey up to 30 kg. Found in the Alexandria Forest section. Has a distinctive crown of feathers and bold barring on the chest. Their undulating display flight with loud calls is spectacular.",w:"3-4.7 kg",l:"80-99 cm",life:"14-25 years",act:"Diurnal",diet:"Carnivore — monkeys, hyrax, small antelope"},
+{n:"Black Sparrowhawk",c:"Bird",s:"Raptor",sz:"Large",cl:"Black & White",r:"Uncommon",i:"🦅",wp:"Black_sparrowhawk",t:"Largest African sparrowhawk. Forest hunter.",d:"The largest sparrowhawk in Africa with striking black upperparts and variable white or black breast. A powerful forest predator that hunts birds up to the size of doves and francolins. Increasingly adapting to urban areas but still a thrilling sighting in the wild.",w:"0.5-1.1 kg",l:"46-58 cm",life:"10-15 years",act:"Diurnal",diet:"Carnivore — birds"},
+// ══ BIRDS — OWLS ══
+{n:"Spotted Eagle-Owl",c:"Bird",s:"Owl",sz:"Medium",cl:"Brown",r:"Uncommon",i:"🦉",wp:"Spotted_eagle-owl",t:"Most commonly seen owl. Night drives.",d:"Most frequently encountered owl at Addo, often seen on night drives sitting on fence posts or roads. Distinctive ear tufts and bright yellow eyes. Often nest on the ground or cliff ledges.",w:"480-850 g",l:"43-50 cm",life:"10-20 years",act:"Nocturnal",diet:"Carnivore — insects, rodents"},
+{n:"Cape Eagle-Owl",c:"Bird",s:"Owl",sz:"Large",cl:"Brown",r:"Rare",i:"🦉",wp:"Cape_eagle-owl",t:"Large owl of rocky areas. Distinctive orange eyes.",d:"A large owl with prominent ear tufts and vivid orange eyes. Prefers rocky terrain and mountainous areas. Larger and bolder than the spotted eagle-owl. Their deep booming call is heard at dusk and dawn.",w:"0.9-1.8 kg",l:"48-55 cm",life:"10+ years",act:"Nocturnal",diet:"Carnivore — mammals, birds, reptiles"},
+{n:"Common Barn Owl",c:"Bird",s:"Owl",sz:"Medium",cl:"White & Brown",r:"Uncommon",i:"🦉",wp:"Barn_owl",t:"Heart-shaped face. Near buildings at night.",d:"Instantly recognizable by its white, heart-shaped face. One of the world's most widespread birds. Often found near farm buildings and rest camps. They hunt using their incredibly acute hearing to locate prey in complete darkness.",w:"250-480 g",l:"33-39 cm",life:"4-15 years",act:"Nocturnal",diet:"Carnivore — rodents, shrews"},
+{n:"Verreaux's Eagle-Owl",c:"Bird",s:"Owl",sz:"Very Large",cl:"Grey",r:"Rare",i:"🦉",wp:"Verreaux%27s_eagle-owl",t:"Africa's largest owl. Distinctive pink eyelids.",d:"The largest owl in Africa with an impressive wingspan of up to 1.4 metres. Identified by distinctive pink eyelids and ear tufts. Powerful enough to take prey up to the size of vervet monkeys. Their deep booming call carries far through the night.",w:"1.5-3.1 kg",l:"58-66 cm",life:"15-20 years",act:"Nocturnal",diet:"Carnivore — hedgehogs, hares, birds"},
+{n:"African Wood Owl",c:"Bird",s:"Owl",sz:"Medium",cl:"Brown",r:"Uncommon",i:"🦉",wp:"African_wood_owl",t:"Forest owl. Listen for 'hu-hu, hu-hu' duet.",d:"A stocky, dark-eyed forest owl found in the Alexandria Forest section. Pairs duet with a rhythmic 'hu-hu, hu-hu' call. Unlike most owls, they have dark brown rather than yellow or orange eyes. Roost in dense foliage during the day.",w:"240-350 g",l:"30-36 cm",life:"10-15 years",act:"Nocturnal",diet:"Carnivore — insects, rodents, frogs"},
+{n:"African Scops Owl",c:"Bird",s:"Owl",sz:"Small",cl:"Grey-Brown",r:"Uncommon",i:"🦉",wp:"African_scops_owl",t:"Tiny owl. Purring 'prrp' call at night.",d:"One of the smallest owls in Africa, only 17 cm long. Master of camouflage — stretches itself thin against a branch to look like a broken stump. Its soft purring 'prrp' call repeated every 5-8 seconds is a characteristic sound of warm African evenings.",w:"45-100 g",l:"15-17 cm",life:"6-10 years",act:"Nocturnal",diet:"Insectivore — moths, beetles, spiders"},
+// ══ BIRDS — WATERBIRDS ══
+{n:"African Penguin",c:"Bird",s:"Waterbird",sz:"Medium",cl:"Black & White",r:"Common",i:"🐧",wp:"African_penguin",t:"Bird Island colony. Endangered species.",d:"Also called jackass penguin for its donkey-like braying call. Bird and St Croix Islands host the second largest breeding colony. Endangered with declining populations. Can swim at 20 km/h and dive 100+ metres.",w:"2.2-3.5 kg",l:"60-70 cm",life:"10-27 years",act:"Diurnal",diet:"Piscivore — sardines, anchovies"},
+{n:"Cape Gannet",c:"Bird",s:"Waterbird",sz:"Large",cl:"White",r:"Common",i:"🐦",wp:"Cape_gannet",t:"120,000+ on Bird Island. World's largest colony.",d:"Bird Island hosts the world's largest colony of 120,000+ birds. Spectacular divers, plunging from 30 metres at up to 100 km/h. Air sacs in their face and chest cushion the impact like bubble wrap.",w:"2.3-3.6 kg",l:"85-94 cm",life:"17-20 years",act:"Diurnal",diet:"Piscivore — fish, squid"},
+{n:"Greater Flamingo",c:"Bird",s:"Waterbird",sz:"Large",cl:"Pink",r:"Uncommon",i:"🦩",wp:"Greater_flamingo",t:"Shallow pans and dams.",d:"The taller and paler of the two flamingo species at Addo. Pink colouring comes from carotenoid pigments in their food. They filter-feed by holding their bill upside-down in the water.",w:"2-4 kg",l:"1.1-1.5 m tall",life:"20-30 years",act:"Diurnal",diet:"Filter feeder — algae, crustaceans"},
+{n:"Goliath Heron",c:"Bird",s:"Waterbird",sz:"Very Large",cl:"Grey & Brown",r:"Rare",i:"🐦",wp:"Goliath_heron",t:"World's largest heron. Impressive wingspan.",d:"The world's largest living heron with a wingspan up to 2.3 metres. A patient, solitary hunter that stands motionless in shallow water waiting to spear fish. Seeing one at Addo is a memorable experience.",w:"4-5 kg",l:"1.2-1.5 m tall",life:"15-25 years",act:"Diurnal",diet:"Piscivore — fish, frogs"},
+{n:"Grey Heron",c:"Bird",s:"Waterbird",sz:"Large",cl:"Grey",r:"Common",i:"🐦",wp:"Grey_heron",t:"Common at waterholes. Patient hunter.",d:"A familiar and elegant wading bird commonly seen at Addo's waterholes. They stand perfectly still for long periods before striking at fish, frogs, or other prey with lightning speed.",w:"1-2 kg",l:"84-102 cm",life:"15-25 years",act:"Diurnal",diet:"Carnivore — fish, frogs, rodents"},
+{n:"Hamerkop",c:"Bird",s:"Waterbird",sz:"Medium",cl:"Brown",r:"Common",i:"🐦",wp:"Hamerkop",t:"Hammer-shaped head. Builds enormous nests.",d:"Gets its name from Afrikaans for 'hammerhead'. Builds enormous domed nests up to 2 metres wide using 8,000+ sticks — the largest of any bird. African folklore says destroying their nest brings bad luck.",w:"400-500 g",l:"50-56 cm",life:"Up to 20 years",act:"Diurnal/Crepuscular",diet:"Carnivore — frogs, fish, insects"},
+{n:"Hadada Ibis",c:"Bird",s:"Waterbird",sz:"Medium",cl:"Grey-Green",r:"Common",i:"🐦",wp:"Hadada_ibis",t:"Loud 'ha-da-da' call at dawn and dusk.",d:"Named for their loud 'haa-da-da' call — one of the most recognisable sounds in southern Africa, especially at dawn. Have iridescent green and purple shoulder patches. Probe soft ground for earthworms.",w:"1-1.5 kg",l:"65-76 cm",life:"16-20 years",act:"Diurnal",diet:"Omnivore — earthworms, insects"},
+{n:"Egyptian Goose",c:"Bird",s:"Waterbird",sz:"Large",cl:"Brown & White",r:"Common",i:"🦆",wp:"Egyptian_goose",t:"Very common. Distinctive eye patches.",d:"One of the most common waterbirds in southern Africa with distinctive dark brown eye patches. Noisy and aggressive, especially during breeding. Despite the name 'goose', they are actually more closely related to shelducks.",w:"1.5-2.3 kg",l:"63-73 cm",life:"15-25 years",act:"Diurnal",diet:"Omnivore — grasses, seeds, insects"},
+{n:"African Spoonbill",c:"Bird",s:"Waterbird",sz:"Large",cl:"White",r:"Uncommon",i:"🐦",wp:"African_spoonbill",t:"Spoon-shaped bill. Sweeps through shallow water.",d:"An elegant white wading bird with a distinctive spoon-shaped bill and bare red face. They feed by sweeping their bill from side to side through shallow water, snapping shut when they detect prey by touch.",w:"1.3-2 kg",l:"90 cm",life:"15+ years",act:"Diurnal",diet:"Carnivore — fish, invertebrates"},
+{n:"Lesser Flamingo",c:"Bird",s:"Waterbird",sz:"Large",cl:"Pink",r:"Rare",i:"🦩",wp:"Lesser_flamingo",t:"Smaller and pinker than Greater Flamingo.",d:"The smaller and more vibrantly pink of Addo's two flamingo species. Has a distinctive dark red bill compared to the Greater Flamingo's pink bill with black tip. Feeds on microscopic blue-green algae using a highly specialized filtering system in its bill. Often seen in large flocks.",w:"1.2-2.7 kg",l:"80-90 cm",life:"20-40 years",act:"Diurnal",diet:"Filter feeder — algae, diatoms"},
+{n:"Cattle Egret",c:"Bird",s:"Waterbird",sz:"Medium",cl:"White",r:"Common",i:"🐦",wp:"Cattle_egret",t:"Follows large animals to catch disturbed insects.",d:"Almost always seen near large mammals, especially buffalo and elephants, feeding on insects disturbed by their feet. Develops orange-buff plumage on head and breast during breeding season. One of the most successful bird species in the world, having naturally colonised every continent.",w:"300-400 g",l:"46-56 cm",life:"15-20 years",act:"Diurnal",diet:"Insectivore — grasshoppers, flies, frogs"},
+{n:"African Sacred Ibis",c:"Bird",s:"Waterbird",sz:"Large",cl:"White & Black",r:"Common",i:"🐦",wp:"African_sacred_ibis",t:"Revered in ancient Egypt. Distinctive curved bill.",d:"Worshipped in ancient Egypt and associated with Thoth, the god of wisdom. White plumage with a bare black head and distinctive long, curved bill used for probing mud. Often seen in groups near waterholes. The ornamental plumes on the lower back are black.",w:"1.5 kg",l:"65-89 cm",life:"15-20 years",act:"Diurnal",diet:"Omnivore — insects, frogs, fish"},
+{n:"Blacksmith Lapwing",c:"Bird",s:"Waterbird",sz:"Medium",cl:"Black & White",r:"Common",i:"🐦",wp:"Blacksmith_lapwing",t:"Named for metallic 'tink-tink' call like hammer on anvil.",d:"Named for its distinctive metallic call that sounds like a blacksmith striking an anvil. Bold black, white, and grey plumage makes it unmistakable. Very vocal and aggressive when defending its nest, dive-bombing intruders including large mammals and humans.",w:"150-200 g",l:"28-31 cm",life:"10-15 years",act:"Diurnal",diet:"Omnivore — insects, worms, molluscs"},
+// ══ BIRDS — GROUND BIRDS ══
+{n:"Common Ostrich",c:"Bird",s:"Ground Bird",sz:"Very Large",cl:"Black & White",r:"Common",i:"🐦",wp:"Common_ostrich",t:"World's largest bird. Runs 70 km/h.",d:"World's largest living bird at 2.7 m tall. Fastest two-legged animal at 70 km/h. Eyes are the largest of any land vertebrate. One egg equals ~24 chicken eggs. Males incubate at night.",w:"63-145 kg",l:"1.7-2.8 m tall",life:"40-45 years",act:"Diurnal",diet:"Omnivore — plants, seeds, insects"},
+{n:"Blue Crane",c:"Bird",s:"Ground Bird",sz:"Large",cl:"Blue-Grey",r:"Uncommon",i:"🐦",wp:"Blue_crane",t:"South Africa's national bird.",d:"South Africa's national bird with silvery-blue plumage and long trailing wing feathers. Beautiful courtship dancing displays. Near-endemic to South Africa and classified as Vulnerable.",w:"3.6-6.2 kg",l:"1-1.2 m tall",life:"25-30 years",act:"Diurnal",diet:"Omnivore — seeds, insects"},
+{n:"Kori Bustard",c:"Bird",s:"Ground Bird",sz:"Very Large",cl:"Brown & Grey",r:"Uncommon",i:"🐦",wp:"Kori_bustard",t:"World's heaviest flying bird.",d:"World's heaviest flying bird with males up to 19 kg. Males inflate their throat like a balloon during courtship. Reluctant fliers who prefer to walk. Eat almost anything including venomous snakes.",w:"5-19 kg",l:"1.2-1.5 m",life:"20-28 years",act:"Diurnal",diet:"Omnivore — insects, seeds, snakes"},
+{n:"Helmeted Guineafowl",c:"Bird",s:"Ground Bird",sz:"Medium",cl:"Dark Grey",r:"Common",i:"🐦",wp:"Helmeted_guineafowl",t:"Noisy flocks. Polka-dotted plumage.",d:"Travel in noisy flocks with white polka-dotted plumage and a bony helmet on top. Bare blue and red facial skin. Roost in trees at night. Excellent alarm callers that alert other animals to predators.",w:"1.1-1.6 kg",l:"53-63 cm",life:"10-15 years",act:"Diurnal",diet:"Omnivore — seeds, insects"},
+// ══ BIRDS — KINGFISHERS, HORNBILLS, SUNBIRDS ══
+{n:"Malachite Kingfisher",c:"Bird",s:"Kingfisher",sz:"Small",cl:"Blue & Orange",r:"Uncommon",i:"🐦",wp:"Malachite_kingfisher",t:"Tiny gem. Brilliant blue and orange.",d:"One of Africa's most beautiful small birds at only 13 cm with brilliant ultramarine-blue upperparts and rich orange underparts. A tiny jewel perched on reeds. Dive head-first for small fish.",w:"12-19 g",l:"13 cm",life:"6-7 years",act:"Diurnal",diet:"Piscivore — small fish, insects"},
+{n:"Pied Kingfisher",c:"Bird",s:"Kingfisher",sz:"Small",cl:"Black & White",r:"Common",i:"🐦",wp:"Pied_kingfisher",t:"Hovers over water before diving.",d:"The world's largest hovering bird — they can hover motionless over water before plunging in to catch fish. Black-and-white plumage makes them easy to identify. Common at dams and waterholes throughout the park.",w:"68-110 g",l:"25 cm",life:"4-6 years",act:"Diurnal",diet:"Piscivore — fish, crustaceans"},
+{n:"Giant Kingfisher",c:"Bird",s:"Kingfisher",sz:"Medium",cl:"Black & White",r:"Uncommon",i:"🐦",wp:"Giant_kingfisher",t:"Africa's largest kingfisher. Near rivers.",d:"Africa's largest kingfisher with bold black and white spotted plumage and a distinctive chestnut breast (male) or belly (female). Perches on branches overhanging rivers and dams before diving for fish and crabs.",w:"225-425 g",l:"42-46 cm",life:"8-12 years",act:"Diurnal",diet:"Piscivore — fish, crabs"},
+{n:"Crowned Hornbill",c:"Bird",s:"Hornbill",sz:"Medium",cl:"Brown & White",r:"Common",i:"🐦",wp:"African_crowned_hornbill",t:"Alexandria Forest. Distinctive red bill.",d:"A forest hornbill with a distinctive red bill and casque. Found in the Alexandria Forest section. During breeding, the female seals herself inside a tree cavity, leaving only a narrow slit through which the male feeds her.",w:"180-320 g",l:"50-54 cm",life:"15-20 years",act:"Diurnal",diet:"Omnivore — insects, fruit"},
+{n:"Brown-hooded Kingfisher",c:"Bird",s:"Kingfisher",sz:"Small",cl:"Brown & Blue",r:"Common",i:"🐦",wp:"Brown-hooded_kingfisher",t:"Woodland kingfisher. Doesn't need water to fish!",d:"Unlike most kingfishers, this species rarely catches fish — it hunts insects, lizards, and small reptiles in dry woodland. Brown head with a striking red bill and blue wings visible in flight. One of the most commonly heard kingfishers, with a loud descending whistle.",w:"35-55 g",l:"19-21 cm",life:"8-12 years",act:"Diurnal",diet:"Insectivore — insects, lizards"},
+{n:"Black-collared Barbet",c:"Bird",s:"Forest Bird",sz:"Small",cl:"Red & Black",r:"Common",i:"🐦",wp:"Black-collared_barbet",t:"Pairs duet with synchronised calling.",d:"A chunky, colourful bird with a bright red face bordered by a black collar. Famous for their duet — pairs face each other, bob their heads in synchrony, and call together so perfectly it sounds like one bird. Common around rest camps where fruiting trees attract them.",w:"35-55 g",l:"19-20 cm",life:"10-15 years",act:"Diurnal",diet:"Omnivore — fruit, insects"},
+{n:"Knysna Turaco",c:"Bird",s:"Forest Bird",sz:"Medium",cl:"Green",r:"Uncommon",i:"🐦",wp:"Knysna_turaco",t:"Brilliant green. Red wings in flight.",d:"Stunning emerald-green bird with prominent crest. Red wing feathers visible only in flight. The green and red pigments are unique — the only truly green and red bird pigments. Listen for 'kok-kok-kok' in Alexandria Forest.",w:"260-380 g",l:"40-42 cm",life:"Up to 30 years",act:"Diurnal",diet:"Frugivore — fruit, flowers"},
+{n:"Narina Trogon",c:"Bird",s:"Forest Bird",sz:"Medium",cl:"Green & Red",r:"Rare",i:"🐦",wp:"Narina_trogon",t:"Stunningly beautiful forest bird. Very elusive.",d:"One of Africa's most beautiful birds with brilliant metallic green upperparts and a vivid crimson breast. Named by Le Vaillant after his Khoikhoi companion Narina. Extremely shy forest dweller — a sighting is a real treasure.",w:"55-78 g",l:"29-34 cm",life:"8-10 years",act:"Diurnal",diet:"Insectivore — insects, caterpillars"},
+{n:"Malachite Sunbird",c:"Bird",s:"Sunbird",sz:"Small",cl:"Metallic Green",r:"Common",i:"🐦",wp:"Malachite_sunbird",t:"Brilliant iridescent green. Long curved bill.",d:"The male is a dazzling metallic emerald green with elongated central tail feathers. They hover hummingbird-like while feeding on nectar with their long, curved bill. Associated with protea and aloe flowers.",w:"8-15 g",l:"25 cm (male)",life:"8-12 years",act:"Diurnal",diet:"Nectarivore — nectar, insects"},
+{n:"Southern Double-collared Sunbird",c:"Bird",s:"Sunbird",sz:"Small",cl:"Green & Red",r:"Common",i:"🐦",wp:"Southern_double-collared_sunbird",t:"Colorful tiny bird. Feeds on nectar.",d:"A tiny, jewel-like bird with metallic green upperparts and a narrow red chest band bordered by blue above and below. They play a vital role in pollinating indigenous plants. Very active and vocal.",w:"7-10 g",l:"12 cm",life:"8-12 years",act:"Diurnal",diet:"Nectarivore — nectar, insects"},
+// ══ BIRDS — PASSERINES ══
+{n:"Fork-tailed Drongo",c:"Bird",s:"Passerine",sz:"Small",cl:"Black",r:"Common",i:"🐦",wp:"Fork-tailed_drongo",t:"Expert mimic. Tricks other animals for food.",d:"One of nature's greatest con artists. Mimics alarm calls of other species to steal their food. Uses 50+ different alarm calls. Despite this, other birds tolerate them because their genuine alarms provide early warning.",w:"40-55 g",l:"25 cm",life:"10-15 years",act:"Diurnal",diet:"Insectivore — insects, stolen food"},
+{n:"Cape Weaver",c:"Bird",s:"Passerine",sz:"Small",cl:"Yellow",r:"Common",i:"🐦",wp:"Cape_weaver",t:"Builds intricate hanging nests.",d:"Males build elaborate woven nests from grass and reed strips, hanging them from branches over water. Females inspect nests and reject imperfect ones, which the male then tears apart and rebuilds. Colonial breeders.",w:"32-46 g",l:"17 cm",life:"10-15 years",act:"Diurnal",diet:"Omnivore — seeds, insects, nectar"},
+{n:"Cape Robin-Chat",c:"Bird",s:"Passerine",sz:"Small",cl:"Grey & Orange",r:"Common",i:"🐦",wp:"Cape_robin-chat",t:"Beautiful song. Common in gardens and thicket.",d:"One of South Africa's finest songsters with a rich, melodious voice often heard at dawn and dusk. Grey above with a distinctive orange breast and white eyebrow stripe. Very confiding around rest camps.",w:"25-34 g",l:"16-18 cm",life:"10+ years",act:"Diurnal",diet:"Omnivore — insects, fruit, earthworms"},
+{n:"Bokmakierie",c:"Bird",s:"Passerine",sz:"Small",cl:"Green & Yellow",r:"Common",i:"🐦",wp:"Bokmakierie",t:"Pairs duet together. Named after its call.",d:"A striking bush shrike with bright green upperparts and a yellow throat with a black necklace. Named for their distinctive call — pairs duet together with one calling 'bok' and the other answering 'makierie'.",w:"60-75 g",l:"22-23 cm",life:"10+ years",act:"Diurnal",diet:"Omnivore — insects, fruit, small vertebrates"},
+{n:"African Hoopoe",c:"Bird",s:"Passerine",sz:"Small",cl:"Cinnamon & Black",r:"Common",i:"🐦",wp:"African_hoopoe",t:"Distinctive erectile crest. Probes ground.",d:"An unmistakable bird with rich cinnamon plumage, bold black-and-white striped wings, and a long crest that fans open when excited. They probe the ground with their long, decurved bill searching for grubs and insects.",w:"40-90 g",l:"25-29 cm",life:"10 years",act:"Diurnal",diet:"Insectivore — grubs, beetles, crickets"},
+{n:"Southern Red Bishop",c:"Bird",s:"Passerine",sz:"Small",cl:"Red & Black",r:"Common",i:"🐦",wp:"Southern_red_bishop",t:"Breeding males are vivid red and black.",d:"In breeding plumage, males are one of Africa's most conspicuous birds — blazing red and black with puffed-out plumage. They display by hovering bee-like over reed beds. Non-breeding males are drab brown and easily overlooked.",w:"15-27 g",l:"13-14 cm",life:"8-12 years",act:"Diurnal",diet:"Granivore — seeds, insects"},
+{n:"Pin-tailed Whydah",c:"Bird",s:"Passerine",sz:"Small",cl:"Black & White",r:"Common",i:"🐦",wp:"Pin-tailed_whydah",t:"Males grow spectacular long tail in breeding season.",d:"Breeding males are extraordinary — black and white with tail feathers up to 3 times their body length. They are brood parasites, laying their eggs in the nests of common waxbills. Males display with bouncing flight over territories.",w:"12-18 g",l:"12 cm (+20 cm tail)",life:"5-8 years",act:"Diurnal",diet:"Granivore — seeds"},
+{n:"Cape Sugarbird",c:"Bird",s:"Passerine",sz:"Medium",cl:"Brown & Yellow",r:"Uncommon",i:"🐦",wp:"Cape_sugarbird",t:"Near-endemic to South Africa. Long tail feathers.",d:"A near-endemic species closely associated with protea flowers, feeding on their nectar and insects. Males have spectacularly long tail feathers up to 34 cm. Their chattering song is often heard from the top of protea bushes. An important pollinator of fynbos plants.",w:"26-46 g",l:"23-44 cm (male)",life:"10-15 years",act:"Diurnal",diet:"Nectarivore — nectar, insects"},
+{n:"African Paradise-Flycatcher",c:"Bird",s:"Passerine",sz:"Small",cl:"Rufous & Blue",r:"Common",i:"🐦",wp:"African_paradise_flycatcher",t:"Stunning long tail streamers. Summer visitor.",d:"One of Africa's most beautiful birds — males have striking blue-grey heads with an eye-ring, rufous wings and back, and long ribbon-like tail streamers that double their length. A summer breeding visitor to Addo. Catches insects on the wing with acrobatic aerial displays.",w:"12-15 g",l:"17 cm (+17 cm tail)",life:"5-10 years",act:"Diurnal",diet:"Insectivore — flying insects"},
+{n:"Cape Starling",c:"Bird",s:"Passerine",sz:"Small",cl:"Iridescent Blue-Green",r:"Common",i:"🐦",wp:"Cape_starling",t:"Glossy iridescent plumage. Common around camp.",d:"One of the most strikingly beautiful common birds at Addo with iridescent blue-green plumage that shimmers in sunlight and bright orange eyes. Gregarious and bold, often seen around rest camps and picnic areas. Their melodious warbling song is a pleasant background to any bush stay.",w:"60-110 g",l:"25-27 cm",life:"10-15 years",act:"Diurnal",diet:"Omnivore — insects, fruit, nectar"},
+// ══ REPTILES ══
+{n:"Leopard Tortoise",c:"Reptile",s:"Tortoise",sz:"Medium",cl:"Yellow & Black",r:"Common",i:"🐢",wp:"Leopard_tortoise",t:"Largest tortoise in Addo. 'Domkrag' was famous.",d:"Named for its leopard-like spotted shell. The famous park tortoise 'Domkrag' (Afrikaans for 'car jack') used to try lifting cars — his shell is on display at the Interpretive Centre. Can live over 100 years.",w:"Up to 40 kg",l:"Up to 70 cm shell",life:"80-100+ years",act:"Diurnal",diet:"Herbivore — grasses, succulents"},
+{n:"Angulate Tortoise",c:"Reptile",s:"Tortoise",sz:"Small",cl:"Brown",r:"Common",i:"🐢",wp:"Angulate_tortoise",t:"Smaller tortoise. Common on paths.",d:"A small tortoise with a distinctively flared and angular shell margin. Common on paths and roads, especially after rain. Males are aggressive towards each other during breeding season, ramming and attempting to flip rivals.",w:"0.3-0.6 kg",l:"15-20 cm shell",life:"30+ years",act:"Diurnal",diet:"Herbivore — grasses, succulents"},
+{n:"Puff Adder",c:"Reptile",s:"Snake",sz:"Medium",cl:"Brown & Yellow",r:"Uncommon",i:"🐍",wp:"Puff_adder",t:"Venomous! Watch your step on paths.",d:"Responsible for more snakebite fatalities in Africa than any other species — because it relies on camouflage rather than fleeing and is easily stepped on. Named for the loud hissing sound when threatened.",w:"3-6 kg",l:"70-110 cm",life:"10-15 years",act:"Nocturnal/Crepuscular",diet:"Carnivore — rodents, birds"},
+{n:"Cape Cobra",c:"Reptile",s:"Snake",sz:"Large",cl:"Yellow-Brown",r:"Rare",i:"🐍",wp:"Cape_cobra",t:"Highly venomous. Various colour forms.",d:"One of Africa's most dangerous snakes with potent neurotoxic venom. Comes in colour forms from bright yellow to dark brown. When threatened, it raises its forebody and spreads a broad hood. Fast-moving and diurnal.",w:"1-3 kg",l:"1.2-1.8 m",life:"12-20 years",act:"Diurnal",diet:"Carnivore — rodents, birds, other snakes"},
+{n:"Boomslang",c:"Reptile",s:"Snake",sz:"Medium",cl:"Green / Brown",r:"Rare",i:"🐍",wp:"Boomslang",t:"Venomous tree snake. Large eyes. Shy.",d:"A highly venomous back-fanged tree snake. Males are typically bright green, females brown or grey. They have enormous eyes relative to their head. Despite potent venom, they are very shy and bites are extremely rare.",w:"0.2-0.5 kg",l:"1-1.6 m",life:"8-15 years",act:"Diurnal",diet:"Carnivore — chameleons, birds, eggs"},
+{n:"Mole Snake",c:"Reptile",s:"Snake",sz:"Large",cl:"Brown / Black",r:"Uncommon",i:"🐍",wp:"Mole_snake",t:"Non-venomous constrictor. Can be aggressive.",d:"A large, powerful non-venomous constrictor. Adults can be uniform brown, grey, or nearly black. They specialize in hunting mole-rats in their burrows. Can be defensive and will bite if cornered, though they pose no serious danger.",w:"1-3 kg",l:"1-2 m",life:"15-20 years",act:"Diurnal",diet:"Carnivore — mole-rats, rodents"},
+{n:"Brown House Snake",c:"Reptile",s:"Snake",sz:"Medium",cl:"Brown",r:"Common",i:"🐍",wp:"Brown_house_snake",t:"Harmless. Often found near buildings.",d:"A common, completely harmless snake often found around rest camp buildings where it hunts mice and geckos. Glossy brown with pale cream lines through the eyes. One of the most beneficial snakes to have around.",w:"0.1-0.4 kg",l:"60-120 cm",life:"15-20 years",act:"Nocturnal",diet:"Carnivore — rodents, lizards"},
+{n:"Nile Crocodile",c:"Reptile",s:"Crocodile",sz:"Very Large",cl:"Dark Green",r:"Rare",i:"🐊",wp:"Nile_crocodile",t:"Sundays River. Very rarely encountered.",d:"Africa's largest reptile reaching 6 metres. Found in the Sundays River section. Strongest bite of any living animal. Can stay submerged 2 hours. Despite their reputation, females are attentive mothers.",w:"225-750 kg",l:"3.5-6 m",life:"45-80 years",act:"Variable",diet:"Carnivore — fish, mammals"},
+{n:"White-throated Monitor",c:"Reptile",s:"Lizard",sz:"Large",cl:"Grey & Brown",r:"Uncommon",i:"🦎",wp:"Rock_monitor",t:"Large monitor lizard. Often near water.",d:"The largest lizard you're likely to see at Addo — up to 2 metres long. Related to the Komodo dragon. They have a forked tongue used to smell their surroundings. Powerful hunters that eat everything from insects to small mammals.",w:"6-15 kg",l:"1-2 m",life:"12-15 years",act:"Diurnal",diet:"Carnivore — insects, crabs, birds, eggs"},
+{n:"Flap-necked Chameleon",c:"Reptile",s:"Lizard",sz:"Small",cl:"Green",r:"Uncommon",i:"🦎",wp:"Flap-necked_chameleon",t:"Color-changing. Slow, deliberate movement.",d:"Famous for colour changes, mainly for communication not camouflage. Eyes move independently giving 360° vision. Tongue can be twice body length, fired at prey in 0.07 seconds.",w:"25-50 g",l:"15-25 cm",life:"3-5 years",act:"Diurnal",diet:"Insectivore — flies, grasshoppers"},
+{n:"Southern Rock Agama",c:"Reptile",s:"Lizard",sz:"Small",cl:"Blue & Brown",r:"Common",i:"🦎",wp:"Southern_rock_agama",t:"Males have bright blue heads in breeding season.",d:"During breeding season males develop strikingly bright blue heads. Commonly seen basking on rocks and walls around camp. Territorial males do push-ups as dominance displays.",w:"20-40 g",l:"20-25 cm",life:"5-8 years",act:"Diurnal",diet:"Insectivore — ants, beetles"},
+{n:"Rainbow Skink",c:"Reptile",s:"Lizard",sz:"Small",cl:"Iridescent",r:"Common",i:"🦎",wp:"Trachylepis_margaritifera",t:"Iridescent scales in sunlight. Very quick.",d:"A small, fast lizard whose scales shimmer with rainbow iridescence in sunlight. Extremely common around rest camps, basking on walls and rocks. They are lightning-fast and can shed their tail to escape predators.",w:"5-12 g",l:"15-20 cm",life:"3-5 years",act:"Diurnal",diet:"Insectivore — ants, termites, spiders"},
+// ══ AMPHIBIANS ══
+{n:"Clicking Stream Frog",c:"Amphibian",s:"Frog",sz:"Small",cl:"Brown",r:"Common",i:"🐸",wp:"Strongylopus_grayii",t:"Clicking call near streams.",d:"A small frog named for its distinctive clicking call heard near streams and dams. Brown with a dark mask through the eye. One of the first frogs to call after winter rains. Common but easily overlooked.",w:"2-5 g",l:"3-4.5 cm",life:"3-5 years",act:"Nocturnal",diet:"Insectivore — small insects"},
+{n:"Common River Frog",c:"Amphibian",s:"Frog",sz:"Small",cl:"Green & Brown",r:"Common",i:"🐸",wp:"Amietia_delalandii",t:"Near permanent water. Loud chorus at night.",d:"Found along permanent water sources. They produce a loud chorus at night, especially after rain. Green and brown mottled skin provides excellent camouflage among riverside vegetation.",w:"10-30 g",l:"4-8 cm",life:"5-8 years",act:"Nocturnal",diet:"Insectivore — insects, spiders"},
+{n:"Painted Reed Frog",c:"Amphibian",s:"Frog",sz:"Small",cl:"Multicolored",r:"Common",i:"🐸",wp:"Hyperolius_marmoratus",t:"Tiny, brightly patterned. Reeds near water.",d:"One of the most variable frogs in southern Africa — individuals can be striped, spotted, or plain in white, brown, yellow, orange, and pink. At only 3 cm, incredibly tiny. Their whistling chorus is a sound of African evenings.",w:"1-3 g",l:"2-3 cm",life:"3-4 years",act:"Nocturnal",diet:"Insectivore — small flying insects"},
+{n:"Raucous Toad",c:"Amphibian",s:"Toad",sz:"Small",cl:"Brown",r:"Common",i:"🐸",wp:"Sclerophrys_capensis",t:"Loud quacking chorus after rain.",d:"A stocky toad with warty brown skin. Named for the raucous, duck-like quacking chorus produced by males after rain. Found throughout the park near any form of standing water. Can tolerate drier conditions than most frogs.",w:"20-60 g",l:"6-10 cm",life:"10+ years",act:"Nocturnal",diet:"Insectivore — beetles, ants, termites"},
+// ══ MARINE ══
+{n:"Southern Right Whale",c:"Marine",s:"Whale",sz:"Very Large",cl:"Dark Grey",r:"Uncommon",i:"🐋",wp:"Southern_right_whale",t:"Part of the Big 7. Algoa Bay, June-November.",d:"Part of Addo's Big 7. Visit Algoa Bay between June-November to calve and mate. Weigh up to 80 tonnes. Identified by unique callosity head patterns. Named because they were the 'right' whale to hunt — they float when killed.",w:"40-80 tonnes",l:"13-18 m",life:"70+ years",act:"Variable",diet:"Filter feeder — krill"},
+{n:"Great White Shark",c:"Marine",s:"Shark",sz:"Very Large",cl:"Grey & White",r:"Rare",i:"🦈",wp:"Great_white_shark",t:"Part of the Big 7. Marine section.",d:"The other Big 7 member. Patrols waters around Bird and St Croix Islands attracted by seals. Can detect one drop of blood in 100 litres. Breaches — launching entirely out of water — when hunting seals.",w:"680-1,100 kg",l:"4-6 m",life:"30-70 years",act:"Variable",diet:"Carnivore — seals, fish"},
+{n:"Cape Fur Seal",c:"Marine",s:"Seal",sz:"Large",cl:"Brown",r:"Common",i:"🦭",wp:"Brown_fur_seal",t:"Seal Island colony.",d:"Seal Island hosts a colony within Addo's marine section. Males up to 350 kg maintain harems of 50 females during breeding. Dive 200+ metres and hold breath 7+ minutes. Their presence attracts great white sharks.",w:"60-350 kg",l:"1.5-2.3 m",life:"15-25 years",act:"Variable",diet:"Piscivore — fish, squid"},
+// ══ INSECT ══
+{n:"Flightless Dung Beetle",c:"Insect",s:"Beetle",sz:"Small",cl:"Black",r:"Common",i:"🪲",wp:"Circellium_bacchus",t:"Endemic! Has right-of-way on roads. Do NOT run over them.",d:"Addo's most famous tiny resident. This large flightless dung beetle is endemic to the Eastern Cape. They roll elephant dung into balls for food and nesting. Have official right-of-way on all roads — running over one carries a fine. Critical for nutrient recycling.",w:"10-15 g",l:"3-4 cm",life:"2-3 years",act:"Diurnal",diet:"Coprophage — elephant dung"},
+];
+
+const CC={Mammal:{bg:"#D4A574"},Bird:{bg:"#7FB3B8"},Reptile:{bg:"#A8B86A"},Amphibian:{bg:"#7BAA6E"},Marine:{bg:"#6A8FBF"},Insect:{bg:"#C4A86A"}};
+const CI={Mammal:"🐾",Bird:"🐦",Reptile:"🦎",Amphibian:"🐸",Marine:"🌊",Insect:"🪲"};
+const CATS=[...new Set(A.map(x=>x.c))];
+const SIZES=["Small","Medium","Large","Very Large"];
+
+let ck={},sr="",ac="All",sc="All",sf="All",rf="All",shf=false,sco=false,ex=null,vw="list";
+let tm="dark";
+try{const t=localStorage.getItem("addo-theme");if(t)tm=t}catch(e){}
+function applyTheme(){document.body.classList.toggle('light',tm==='light');try{document.querySelector('meta[name="theme-color"]').content=tm==='light'?'#F5F0E8':'#141208'}catch(e){}}
+applyTheme();
+let imgCache={};
+
+// Load saved state & image cache
+try{const d=localStorage.getItem("addo-v5");if(d)ck=JSON.parse(d)}catch(e){}
+try{const d=localStorage.getItem("addo-imgs-v2");if(d)imgCache=JSON.parse(d)}catch(e){}
+
+function sv(){try{localStorage.setItem("addo-v5",JSON.stringify(ck))}catch(e){}}
+function svImgs(){try{localStorage.setItem("addo-imgs-v2",JSON.stringify(imgCache))}catch(e){}}
+function rc(r){return r==="Common"?"#6B8F3C":r==="Uncommon"?"#C4A86A":"#BF6A3D"}
+function e(s){return s.replace(/&/g,'&amp;').replace(/'/g,'&#39;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+// ── LOAD IMAGES FROM WIKIPEDIA API ──
+let imgLoading=false, imgLoaded=false;
+async function loadImages(){
+  if(imgLoading||imgLoaded)return;
+  // Check if we already have all cached
+  const missing=A.filter(a=>a.wp&&!imgCache[a.wp]);
+  if(missing.length===0){imgLoaded=true;return}
+  imgLoading=true;
+  R(); // show loading indicator
+
+  // Batch load in groups of 50 (API limit)
+  for(let i=0;i<missing.length;i+=50){
+    const batch=missing.slice(i,i+50);
+    const titles=batch.map(a=>a.wp).join('|');
+    try{
+      const resp=await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${titles}&prop=pageimages&format=json&pithumbsize=640&origin=*&redirects=1`);
+      const data=await resp.json();
+      if(data.query&&data.query.pages){
+        Object.values(data.query.pages).forEach(p=>{
+          if(p.thumbnail&&p.thumbnail.source){
+            // Map back by title (handle redirects)
+            const key=p.title.replace(/ /g,'_');
+            imgCache[key]=p.thumbnail.source;
+            // Also try original title match
+            batch.forEach(a=>{
+              if(!imgCache[a.wp]){
+                const normTitle=a.wp.replace(/_/g,' ');
+                if(p.title===normTitle||p.title.toLowerCase()===normTitle.toLowerCase()){
+                  imgCache[a.wp]=p.thumbnail.source;
+                }
+              }
+            });
+          }
+        });
+        // Handle redirects mapping
+        if(data.query.redirects){
+          data.query.redirects.forEach(rd=>{
+            const fromKey=rd.from.replace(/ /g,'_');
+            const toKey=rd.to.replace(/ /g,'_');
+            if(imgCache[toKey]&&!imgCache[fromKey]){
+              imgCache[fromKey]=imgCache[toKey];
+            }
+          });
+        }
+        if(data.query.normalized){
+          data.query.normalized.forEach(n=>{
+            const fromKey=n.from.replace(/ /g,'_');
+            const toKey=n.to.replace(/ /g,'_');
+            if(imgCache[toKey]&&!imgCache[fromKey]){
+              imgCache[fromKey]=imgCache[toKey];
+            }
+          });
+        }
+      }
+    }catch(err){console.log('Image load error:',err)}
+    svImgs();
+    R(); // re-render with new images
+  }
+  imgLoading=false;
+  imgLoaded=true;
+  R();
+}
+
+function R(){
+const fl=A.filter(a=>{
+  if(ac!=="All"&&a.c!==ac)return false;
+  if(sc!=="All"&&a.s!==sc)return false;
+  if(sf!=="All"&&a.sz!==sf)return false;
+  if(rf!=="All"&&a.r!==rf)return false;
+  if(sco&&!ck[a.n])return false;
+  if(sr){const q=sr.toLowerCase();return a.n.toLowerCase().includes(q)||a.s.toLowerCase().includes(q)||a.c.toLowerCase().includes(q)||a.cl.toLowerCase().includes(q)}
+  return true;
+});
+const tc=Object.keys(ck).length,pr=tc/A.length*100;
+const hf=sf!=="All"||rf!=="All"||sc!=="All"||sco||sr;
+
+let h=`<div class="hdr"><button class="tmb" id="tmb">${tm==='dark'?'\u2600\uFE0F':'\uD83C\uDF19'}</button><div class="hdr-ey">Addo Elephant National Park</div><h1>Wildlife Checklist</h1><div class="hdr-m">${A.length} species \u2022 Tap to spot</div></div>`;
+
+if(imgLoading){h+=`<div class="ild">\uD83D\uDCF7 Loading photos\u2026</div>`}
+
+h+=`<div class="pb"><div class="pr"><span class="ps">${tc} / ${A.length}</span><span class="pp">${pr.toFixed(1)}% spotted</span></div><div class="pt"><div class="pf" style="width:${pr}%;background:${pr>50?'linear-gradient(90deg,#6B8F3C,#A8CC5A)':'linear-gradient(90deg,#C4A86A,#D4B87A)'}"></div></div><div class="ccs">`;
+CATS.forEach(cat=>{const ct=A.filter(a=>a.c===cat&&ck[a.n]).length,tot=A.filter(a=>a.c===cat).length,clr=CC[cat].bg;h+=`<div class="cci" style="${ct>0?`background:${clr}28;color:${clr};border-color:${clr}40`:''}">${CI[cat]} ${ct}/${tot}</div>`});
+h+=`</div></div>`;
+
+h+=`<div class="sb"><span class="si">\uD83D\uDD0D</span><input type="text" placeholder="Search by name, color, type..." value="${e(sr)}" id="sinp">${sr?'<button class="sx" id="scl">\u2715</button>':''}</div>`;
+
+h+=`<div class="cts"><div class="ctb ${ac==='All'?'a':''}" data-cat="All">All (${A.length})</div>`;
+CATS.forEach(cat=>{const clr=CC[cat].bg;h+=`<div class="ctb ${ac===cat?'a':''}" data-cat="${cat}" style="${ac===cat?`border-color:${clr}80;background:${clr}20;color:${clr}`:''}">${CI[cat]} ${cat} (${A.filter(a=>a.c===cat).length})</div>`});
+h+=`</div>`;
+
+// Subcategory chips — show when a specific category is selected or when "All" with subcategories
+const scSource=ac==='All'?A:A.filter(a=>a.c===ac);
+const subs=[...new Set(scSource.map(x=>x.s))];
+if(subs.length>1){
+h+=`<div class="cts scts"><div class="ctb sc ${sc==='All'?'a':''}" data-sc="All">All</div>`;
+subs.forEach(sub=>{const cnt=scSource.filter(a=>a.s===sub).length;const clr=ac!=='All'?CC[ac].bg:'var(--gold)';h+=`<div class="ctb sc ${sc===sub?'a':''}" data-sc="${sub}" style="${sc===sub?`border-color:${clr}80;background:${clr}20;color:${clr}`:''}">${sub} (${cnt})</div>`});
+h+=`</div>`;
+}
+
+h+=`<div class="fb"><div class="fbn ${hf?'on':''}" id="ftg">\u2699 Filters${hf?' \u25CF':''}</div><div class="fbn ${sco?'sp':''}" id="spt">${sco?'\u2713 Spotted':'\u2610 Spotted'}</div>`;
+if(hf)h+=`<div class="fbn cl" id="cla">Clear</div>`;
+h+=`<span class="fcn">${fl.length} shown</span><div class="vt"><button class="vtb ${vw==='list'?'on':''}" id="vl" title="List view">☰</button><button class="vtb ${vw==='grid'?'on':''}" id="vg" title="Grid view">▦</button></div></div>`;
+
+h+=`<div class="fp ${shf?'show':''}"><div class="fg"><div class="fgl">Size</div><div class="fos">`;
+["All",...SIZES].forEach(s=>{h+=`<div class="fo ${sf===s?'on':''}" data-sz="${s}">${s}</div>`});
+h+=`</div></div><div class="fg"><div class="fgl">Rarity</div><div class="fos">`;
+["All","Common","Uncommon","Rare"].forEach(r=>{const clr=rc(r);h+=`<div class="fo ${rf===r?'on':''}" data-rf="${r}" style="${rf===r&&r!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${r}</div>`});
+h+=`</div></div></div>`;
+
+h+=`<div class="al${vw==='grid'?' grid':''}">`;
+if(!fl.length)h+=`<div class="em"><div class="emi">\uD83D\uDD2D</div><div class="emt">No animals match your filters</div><div class="emb" id="eclr">Clear filters</div></div>`;
+
+fl.forEach((a,i)=>{
+const ic=!!ck[a.n],ie=ex===a.n,clr=CC[a.c].bg,rcl=rc(a.r);
+const nm=e(a.n);
+const imgUrl=a.wp&&imgCache[a.wp]?imgCache[a.wp]:null;
+const rCls=a.r==="Common"?"rC":a.r==="Uncommon"?"rU":"rR";
+h+=`<div class="ac ${ic?'ck':''}">`;
+h+=`<div class="cv" data-exp="${nm}">`;
+if(imgUrl){h+=`<img class="ci" src="${imgUrl}" alt="${nm}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`}
+h+=`<div class="cp" style="${imgUrl?'display:none':''}">${a.i}</div>`;
+h+=`<div class="cg"></div>`;
+h+=`<div class="ctb2"><span class="rb ${rCls}">${a.r}</span></div>`;
+h+=`<div class="ckb ${ic?'ck':''}" data-chk="${nm}">${ic?'\u2713':''}</div>`;
+h+=`<div class="cio"><div class="cn">${a.n}</div><div class="cta"><span class="ctg ctg-s" style="background:${clr}30;color:${clr}">${a.s}</span><span class="ctg ctg-z">${a.sz} \u2022 ${a.cl}</span></div></div>`;
+h+=`<span class="ceh ${ie?'o':''}">\u25BC</span>`;
+h+=`</div>`;
+h+=`<div class="cd ${ie?'open':''}"><div class="cd-wrap"><div class="cdi">`;
+h+=`<div class="ds"><div class="dl">\uD83D\uDCA1 Safari Tip</div><div class="dt">${a.t}</div></div>`;
+if(a.d){h+=`<div class="ds"><div class="dl">\uD83D\uDCD6 About</div><div class="dd">${a.d}</div></div>`}
+if(a.w||a.l||a.life||a.act||a.diet){
+h+=`<div class="ds"><div class="dl">\uD83D\uDCCA Quick Facts</div><div class="dg">`;
+if(a.w)h+=`<div class="dst"><div class="dsl">\u2696\uFE0F Weight</div><div class="dsv">${a.w}</div></div>`;
+if(a.l)h+=`<div class="dst"><div class="dsl">\uD83D\uDCCF Size</div><div class="dsv">${a.l}</div></div>`;
+if(a.life)h+=`<div class="dst"><div class="dsl">\u23F3 Lifespan</div><div class="dsv">${a.life}</div></div>`;
+if(a.act)h+=`<div class="dst"><div class="dsl">\uD83D\uDD52 Activity</div><div class="dsv">${a.act}</div></div>`;
+h+=`</div>`;
+if(a.diet)h+=`<div style="margin-top:8px"><div class="dst"><div class="dsl">\uD83C\uDF3F Diet</div><div class="dsv">${a.diet}</div></div></div>`;
+h+=`</div>`}
+if(ic&&ck[a.n])h+=`<div class="ds"><div class="spb">\u2713 Spotted on ${new Date(ck[a.n]).toLocaleDateString()}</div></div>`;
+h+=`</div></div></div></div>`;
+});
+
+h+=`</div>`;
+
+const hadFocus=document.activeElement&&document.activeElement.id==='sinp';
+const cursorPos=hadFocus?document.activeElement.selectionStart:null;
+document.getElementById('app').innerHTML=h;
+
+// Events
+document.getElementById('sinp').addEventListener('input',function(){sr=this.value;R()});
+if(hadFocus){const inp=document.getElementById('sinp');inp.focus();if(cursorPos!==null)inp.setSelectionRange(cursorPos,cursorPos)}
+const scl=document.getElementById('scl');if(scl)scl.onclick=()=>{sr='';R()};
+document.getElementById('ftg').onclick=()=>{shf=!shf;R()};
+document.getElementById('spt').onclick=()=>{sco=!sco;R()};
+document.getElementById('vl').onclick=()=>{vw='list';ex=null;R()};
+document.getElementById('vg').onclick=()=>{vw='grid';ex=null;R()};
+document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}R()};
+const cla=document.getElementById('cla');if(cla)cla.onclick=()=>{sr='';sc='All';sf='All';rf='All';sco=false;R()};
+const eclr=document.getElementById('eclr');if(eclr)eclr.onclick=()=>{sr='';sc='All';sf='All';rf='All';sco=false;R()};
+document.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{ac=el.dataset.cat;sc='All';R()});
+document.querySelectorAll('[data-sc]').forEach(el=>el.onclick=()=>{sc=el.dataset.sc;R()});
+document.querySelectorAll('[data-sz]').forEach(el=>el.onclick=()=>{sf=el.dataset.sz;R()});
+document.querySelectorAll('[data-rf]').forEach(el=>el.onclick=()=>{rf=el.dataset.rf;R()});
+document.querySelectorAll('[data-chk]').forEach(el=>el.onclick=function(ev){
+  ev.stopPropagation();const nm=this.dataset.chk;
+  if(ck[nm])delete ck[nm];else ck[nm]=new Date().toISOString();
+  sv();R();
+});
+document.querySelectorAll('[data-exp]').forEach(el=>el.onclick=function(ev){
+  if(ev.target.closest('[data-chk]'))return;
+  if(vw==='grid'){
+    const nm=this.dataset.exp;
+    if(ck[nm])delete ck[nm];else ck[nm]=new Date().toISOString();
+    sv();R();return;
+  }
+  const nm=this.dataset.exp;
+  ex=ex===nm?null:nm;R();
+});
+}
+
+R();
+loadImages();
+</script>
+</body>
+</html>
