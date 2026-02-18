@@ -425,12 +425,14 @@ h+=`<div class="pt"><div class="pf" style="width:${pr}%;background:${pr>50?'line
 h+=`<div class="pb-detail" id="pbDetail" style="display:none">`;
 const totalClr2=pr>50?'#6B8F3C':'var(--gold)';
 const totalComplete2=tc===A.length&&A.length>0;
-h+=`<div class="park-card-rings" style="margin-bottom:12px">`;
-h+=`<div class="park-card-ring${totalComplete2?' complete':''}"><div class="dash-ring-svg">${svgRing(tc,A.length,48,totalClr2)}<div class="dash-ring-icon" style="font-size:13px">${tc}/${A.length}</div></div><div class="dash-ring-label">Total</div></div>`;
-CATS.forEach(cat=>{const ct=A.filter(a=>a.c===cat&&parkCk[a._id]).length,tot=A.filter(a=>a.c===cat).length;if(!tot)return;const clr=CC[cat].bg;const catComp=ct===tot&&tot>0;h+=`<div class="park-card-ring${catComp?' complete':''}"><div class="dash-ring-svg">${svgRing(ct,tot,48,clr)}<div class="dash-ring-icon" style="font-size:14px">${CI[cat]}</div></div><div class="dash-ring-label">${ct}/${tot}</div></div>`});
+h+=`<div class="pb-section-label">By Type</div>`;
+h+=`<div class="pb-rings">`;
+h+=`<div class="pb-ring${totalComplete2?' complete':''}"><div class="dash-ring-svg">${svgRing(tc,A.length,56,totalClr2)}<div class="dash-ring-icon" style="font-size:13px">${tc}/${A.length}</div></div><div class="dash-ring-label">Total</div></div>`;
+CATS.forEach(cat=>{const ct=A.filter(a=>a.c===cat&&parkCk[a._id]).length,tot=A.filter(a=>a.c===cat).length;if(!tot)return;const clr=CC[cat].bg;const catComp=ct===tot&&tot>0;h+=`<div class="pb-ring${catComp?' complete':''}"><div class="dash-ring-svg">${svgRing(ct,tot,56,clr)}<div class="dash-ring-icon" style="font-size:14px">${CI[cat]}</div></div><div class="dash-ring-label">${ct}/${tot}</div></div>`});
 h+=`</div>`;
-h+=`<div class="pb-rarity">`;
-["Common","Uncommon","Rare"].forEach(r=>{const tot=A.filter(a=>a.r===r).length,sp=A.filter(a=>a.r===r&&parkCk[a._id]).length;if(!tot)return;const clr=rc(r);h+=`<div class="pb-rarity-row"><span class="pb-rarity-label" style="color:${clr}">${r}</span><span class="pb-rarity-val">${sp}/${tot}</span></div>`});
+h+=`<div class="pb-section-label">By Rarity</div>`;
+h+=`<div class="pb-rings">`;
+["Common","Uncommon","Rare"].forEach(r=>{const tot=A.filter(a=>a.r===r).length,sp=A.filter(a=>a.r===r&&parkCk[a._id]).length;if(!tot)return;const clr=rc(r);const rComp=sp===tot&&tot>0;h+=`<div class="pb-ring pb-ring-lg${rComp?' complete':''}"><div class="dash-ring-svg">${svgRing(sp,tot,80,clr)}<div class="dash-ring-icon" style="font-size:10px;font-weight:700;color:${clr}">${r}</div></div><div class="dash-ring-label">${sp}/${tot}</div></div>`});
 h+=`</div></div></div>`;
 
 h+=`<div class="sb"><span class="si">\uD83D\uDD0D</span><input type="text" placeholder="Search by name, color, type..." value="${e(sr)}" id="sinp">${sr?'<button class="sx" id="scl">\u2715</button>':''}</div>`;
@@ -643,12 +645,14 @@ h+=`<div class="pt"><div class="pf" style="width:${browsepr}%;background:${brows
 h+=`<div class="pb-detail" id="pbDetail" style="display:none">`;
 const bTotalClr=browsepr>50?'#6B8F3C':'var(--gold)';
 const bTotalComp=spottedCount===adjusted.length&&adjusted.length>0;
-h+=`<div class="park-card-rings" style="margin-bottom:12px">`;
-h+=`<div class="park-card-ring${bTotalComp?' complete':''}"><div class="dash-ring-svg">${svgRing(spottedCount,adjusted.length,48,bTotalClr)}<div class="dash-ring-icon" style="font-size:13px">${spottedCount}/${adjusted.length}</div></div><div class="dash-ring-label">Total</div></div>`;
-CATS.forEach(cat=>{const tot=adjusted.filter(a=>a.c===cat).length;if(!tot)return;const ct=adjusted.filter(a=>a.c===cat&&uniqueSpotted.has(a._id)).length;const clr=CC[cat]?CC[cat].bg:'#888';const catComp=ct===tot&&tot>0;h+=`<div class="park-card-ring${catComp?' complete':''}"><div class="dash-ring-svg">${svgRing(ct,tot,48,clr)}<div class="dash-ring-icon" style="font-size:14px">${CI[cat]||''}</div></div><div class="dash-ring-label">${ct}/${tot}</div></div>`});
+h+=`<div class="pb-section-label">By Type</div>`;
+h+=`<div class="pb-rings">`;
+h+=`<div class="pb-ring${bTotalComp?' complete':''}"><div class="dash-ring-svg">${svgRing(spottedCount,adjusted.length,56,bTotalClr)}<div class="dash-ring-icon" style="font-size:13px">${spottedCount}/${adjusted.length}</div></div><div class="dash-ring-label">Total</div></div>`;
+CATS.forEach(cat=>{const tot=adjusted.filter(a=>a.c===cat).length;if(!tot)return;const ct=adjusted.filter(a=>a.c===cat&&uniqueSpotted.has(a._id)).length;const clr=CC[cat]?CC[cat].bg:'#888';const catComp=ct===tot&&tot>0;h+=`<div class="pb-ring${catComp?' complete':''}"><div class="dash-ring-svg">${svgRing(ct,tot,56,clr)}<div class="dash-ring-icon" style="font-size:14px">${CI[cat]||''}</div></div><div class="dash-ring-label">${ct}/${tot}</div></div>`});
 h+=`</div>`;
-h+=`<div class="pb-rarity">`;
-["Common","Uncommon","Rare"].forEach(r=>{const tot=adjusted.filter(a=>a.r===r).length,sp=adjusted.filter(a=>a.r===r&&uniqueSpotted.has(a._id)).length;if(!tot)return;const clr=rc(r);h+=`<div class="pb-rarity-row"><span class="pb-rarity-label" style="color:${clr}">${r}</span><span class="pb-rarity-val">${sp}/${tot}</span></div>`});
+h+=`<div class="pb-section-label">By Rarity</div>`;
+h+=`<div class="pb-rings">`;
+["Common","Uncommon","Rare"].forEach(r=>{const tot=adjusted.filter(a=>a.r===r).length,sp=adjusted.filter(a=>a.r===r&&uniqueSpotted.has(a._id)).length;if(!tot)return;const clr=rc(r);const rComp=sp===tot&&tot>0;h+=`<div class="pb-ring pb-ring-lg${rComp?' complete':''}"><div class="dash-ring-svg">${svgRing(sp,tot,80,clr)}<div class="dash-ring-icon" style="font-size:10px;font-weight:700;color:${clr}">${r}</div></div><div class="dash-ring-label">${sp}/${tot}</div></div>`});
 h+=`</div></div></div>`;
 
 h+=`<div class="sb"><span class="si">\uD83D\uDD0D</span><input type="text" placeholder="Search by name, color, type..." value="${e(sr)}" id="sinp">${sr?'<button class="sx" id="scl">\u2715</button>':''}</div>`;

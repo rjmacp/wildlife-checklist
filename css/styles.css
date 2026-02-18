@@ -49,10 +49,15 @@ img{display:block}input,button{font-family:inherit}::-webkit-scrollbar{display:n
 .pb-exp{cursor:pointer}
 .pb-arrow{font-size:10px;margin-left:4px;display:inline-block;color:var(--dim);transition:transform .2s}
 .pb-detail{padding-top:12px;border-top:1px solid var(--w04);margin-top:12px}
-.pb-rarity{display:flex;gap:12px;flex-wrap:wrap}
-.pb-rarity-row{display:flex;align-items:center;gap:6px}
-.pb-rarity-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
-.pb-rarity-val{font-size:11px;font-weight:600;color:var(--dim)}
+.pb-section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin-bottom:8px;margin-top:14px}
+.pb-section-label:first-child{margin-top:0}
+.pb-rings{display:flex;justify-content:space-around;gap:4px;overflow-x:auto;scrollbar-width:none;margin-top:4px}
+.pb-rings::-webkit-scrollbar{display:none}
+.pb-ring{flex:0 0 auto;text-align:center}
+.pb-ring .dash-ring-svg{width:56px;height:56px;margin:0 auto 3px}
+.pb-ring .dash-ring-label{font-size:9px;color:var(--dim);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.pb-ring.complete .dash-ring-label{color:var(--gold)}
+.pb-ring-lg .dash-ring-svg{width:80px;height:80px}
 .ccs{display:flex;gap:6px;flex-wrap:wrap}
 .cci{font-size:10px;padding:4px 9px;border-radius:8px;background:var(--w03);color:var(--muted);border:1px solid var(--w03);font-weight:600}
 .sb{position:relative;margin-bottom:12px}
