@@ -307,7 +307,7 @@ function renderHome(){
       const icon=CI[cat]||'';
       const complete=sp===tot&&tot>0;
       h+=`<div class="dash-ring${complete?' complete':''}">`;
-      h+=`<div class="dash-ring-svg">${svgRing(sp,tot,64,clr)}<div class="dash-ring-icon">${icon}</div></div>`;
+      h+=`<div class="dash-ring-svg">${svgRing(sp,tot,52,clr)}<div class="dash-ring-icon">${icon}</div></div>`;
       h+=`<div class="dash-ring-count">${sp}/${tot}</div>`;
       h+=`<div class="dash-ring-label">${cat}</div>`;
       h+=`</div>`;
@@ -435,7 +435,7 @@ h+=`</div>`;
 
 h+=`<div class="fb"><div class="fbn ${hf?'on':''}" id="ftg">\u2699 Filters${hf?' \u25CF':''}</div><div class="fbn ${sco?'sp':''}" id="spt">${sco?'\u2713 Spotted':'\u2610 Spotted'}</div>`;
 if(hf)h+=`<div class="fbn cl" id="cla">Clear</div>`;
-h+=`<span class="fcn">${fl.length} shown</span><div class="vt"><button class="vtb ${vw==='list'?'on':''}" id="vl" title="List view">☰</button><button class="vtb ${vw==='grid'?'on':''}" id="vg" title="Grid view">▦</button></div></div>`;
+h+=`<span class="fcn">${fl.length} shown</span><div class="vt"><button class="vtb ${vw==='list'?'on':''}" id="vl" title="List view">☰</button><button class="vtb ${vw==='grid'?'on':''}" id="vg" title="Grid view">⊞</button></div></div>`;
 
 h+=`<div class="fp ${shf?'show':''}"><div class="fg"><div class="fgl">Size</div><div class="fos">`;
 ["All",...SIZES].forEach(s=>{h+=`<div class="fo ${sf===s?'on':''}" data-sz="${s}">${s}</div>`});
@@ -630,7 +630,7 @@ h+=`</div>`;
 
 h+=`<div class="fb"><div class="fbn ${hf?'on':''}" id="ftg">\u2699 Filters${hf?' \u25CF':''}</div><div class="fbn ${sco?'sp':''}" id="spt">${sco?'\u2713 Spotted':'\u2610 Spotted'}</div>`;
 if(hf)h+=`<div class="fbn cl" id="cla">Clear</div>`;
-h+=`<span class="fcn">${fl.length} shown</span><div class="vt"><button class="vtb ${vw==='list'?'on':''}" id="vl" title="List view">\u2630</button><button class="vtb ${vw==='grid'?'on':''}" id="vg" title="Grid view">\u25A6</button></div></div>`;
+h+=`<span class="fcn">${fl.length} shown</span><div class="vt"><button class="vtb ${vw==='list'?'on':''}" id="vl" title="List view">\u2630</button><button class="vtb ${vw==='grid'?'on':''}" id="vg" title="Grid view">⊞</button></div></div>`;
 
 h+=`<div class="fp ${shf?'show':''}"><div class="fg"><div class="fgl">Size</div><div class="fos">`;
 ["All",...SIZES].forEach(s=>{h+=`<div class="fo ${sf===s?'on':''}" data-sz="${s}">${s}</div>`});
