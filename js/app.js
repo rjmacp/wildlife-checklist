@@ -812,18 +812,7 @@ function renderAnimal(animalId){
   h+=`<span class="ctg ctg-s" style="background:${clr}20;color:${clr}">${e(a.s)}</span>`;
   h+=`<span class="ctg ctg-z">${e(a.sz)}</span>`;
   h+=`<span class="ctg ctg-z">${e(a.cl)}</span>`;
-  parks.forEach(p=>{
-    const rCls=p.rarity==='Common'?'rC':p.rarity==='Uncommon'?'rU':'rR';
-    const shortName=p.parkName.split(' ')[0];
-    h+=`<span class="rb ${rCls}">${e(p.rarity)} @ ${e(shortName)}</span>`;
-  });
   h+=`</div>`;
-
-  // Conservation status
-  if(a.cs){
-    const csCls=csClass(a.cs);
-    h+=`<div class="ap-cs"><span class="ap-cs-label">IUCN Status</span><span class="ap-cs-val ap-cs-${csCls}">${e(a.cs)}</span></div>`;
-  }
 
   // Spotted status (prominent)
   const anySpotted=parks.some(p=>ck[p.parkId]&&ck[p.parkId][animalId]);
@@ -855,6 +844,12 @@ function renderAnimal(animalId){
     h+=`</div>`;
     if(a.diet)h+=`<div style="margin-top:8px"><div class="dst"><div class="dsl">\uD83C\uDF3F Diet</div><div class="dsv">${a.diet}</div></div></div>`;
     h+=`</div>`;
+  }
+
+  // Conservation status
+  if(a.cs){
+    const csCls=csClass(a.cs);
+    h+=`<div class="ap-cs"><span class="ap-cs-label">IUCN Status</span><span class="ap-cs-val ap-cs-${csCls}">${e(a.cs)}</span></div>`;
   }
 
   // Wikipedia excerpt
