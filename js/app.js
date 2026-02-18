@@ -437,11 +437,13 @@ subs.forEach(sub=>{const cnt=scSource.filter(a=>a.s===sub).length;const clr=ac!=
 h+=`</div>`;
 }
 
-h+=`<div class="fb"><div class="fbn ${hf?'on':''}" id="ftg">\u2699 Filters${hf?' \u25CF':''}</div><div class="fbn ${sco?'sp':''}" id="spt">${sco==='spotted'?'\u2713 Spotted':sco==='unspotted'?'\u2610 Not Spotted':'\u{1F441} All'}</div>`;
+h+=`<div class="fb"><div class="fbn ${hf?'on':''}" id="ftg">\u2699 Filters${hf?' \u25CF':''}</div>`;
 if(hf)h+=`<div class="fbn cl" id="cla">Clear</div>`;
 h+=`<span class="fcn">${fl.length} shown</span><div class="vt"><button class="vtb ${vw==='list'?'on':''}" id="vl" title="List view">☰</button><button class="vtb ${vw==='grid'?'on':''}" id="vg" title="Grid view">⊞</button></div></div>`;
 
-h+=`<div class="fp ${shf?'show':''}"><div class="fg"><div class="fgl">Size</div><div class="fos">`;
+h+=`<div class="fp ${shf?'show':''}"><div class="fg"><div class="fgl">Spotted</div><div class="fos">`;
+["All","Spotted","Not Spotted"].forEach(s=>{const v=s==='All'?false:s==='Spotted'?'spotted':'unspotted';const clr=s==='Spotted'?'#6B8F3C':s==='Not Spotted'?'#C86428':'';h+=`<div class="fo ${sco===v?'on':''}" data-sp="${v}" style="${sco===v&&v?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${s}</div>`});
+h+=`</div></div><div class="fg"><div class="fgl">Size</div><div class="fos">`;
 ["All",...SIZES].forEach(s=>{const clr=szc(s);h+=`<div class="fo ${sf===s?'on':''}" data-sz="${s}" style="${sf===s&&s!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${s}</div>`});
 h+=`</div></div><div class="fg"><div class="fgl">Rarity</div><div class="fos">`;
 ["All","Common","Uncommon","Rare"].forEach(r=>{const clr=rc(r);h+=`<div class="fo ${rf===r?'on':''}" data-rf="${r}" style="${rf===r&&r!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${r}</div>`});
@@ -509,7 +511,7 @@ document.getElementById('sinp').addEventListener('input',function(){sr=this.valu
 if(hadFocus){const inp=document.getElementById('sinp');inp.focus();if(cursorPos!==null)inp.setSelectionRange(cursorPos,cursorPos)}
 const scl=document.getElementById('scl');if(scl)scl.onclick=()=>{sr='';R()};
 document.getElementById('ftg').onclick=()=>{shf=!shf;R()};
-document.getElementById('spt').onclick=()=>{sco=sco===false?'spotted':sco==='spotted'?'unspotted':false;R()};
+document.querySelectorAll('[data-sp]').forEach(el=>el.onclick=()=>{const v=el.dataset.sp;sco=v==='false'?false:v;R()});
 document.getElementById('vl').onclick=()=>{vw='list';ex=null;R()};
 document.getElementById('vg').onclick=()=>{vw='grid';ex=null;R()};
 document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}R()};
@@ -623,11 +625,6 @@ let h=`<div class="hdr"><button class="back-btn" id="backBtn">\u2190</button><bu
 
 if(imgLoading){h+=`<div class="ild">\uD83D\uDCF7 Loading photos\u2026</div>`}
 
-// Park filter row
-h+=`<div class="park-filter"><div class="ctb ${pf==='All'?'a':''}" data-pf="All">All</div>`;
-PARKS.forEach(p=>{h+=`<div class="ctb ${pf===p.id?'a':''}" data-pf="${p.id}">${p.icon} ${e(p.name.split(' ')[0])}</div>`});
-h+=`</div>`;
-
 h+=`<div class="pb"><div class="pr"><span class="ps">${spottedCount} / ${adjusted.length}</span><span class="pp">spotted</span></div><div class="pt"><div class="pf" style="width:${adjusted.length?spottedCount/adjusted.length*100:0}%;background:${spottedCount/adjusted.length*100>50?'linear-gradient(90deg,#6B8F3C,#A8CC5A)':'linear-gradient(90deg,#C4A86A,#D4B87A)'}"></div></div></div>`;
 
 h+=`<div class="sb"><span class="si">\uD83D\uDD0D</span><input type="text" placeholder="Search by name, color, type..." value="${e(sr)}" id="sinp">${sr?'<button class="sx" id="scl">\u2715</button>':''}</div>`;
@@ -644,11 +641,13 @@ subs.forEach(sub=>{const cnt=scSource.filter(a=>a.s===sub).length;const clr=ac!=
 h+=`</div>`;
 }
 
-h+=`<div class="fb"><div class="fbn ${hf?'on':''}" id="ftg">\u2699 Filters${hf?' \u25CF':''}</div><div class="fbn ${sco?'sp':''}" id="spt">${sco==='spotted'?'\u2713 Spotted':sco==='unspotted'?'\u2610 Not Spotted':'\u{1F441} All'}</div>`;
+h+=`<div class="fb"><div class="fbn ${hf?'on':''}" id="ftg">\u2699 Filters${hf?' \u25CF':''}</div>`;
 if(hf)h+=`<div class="fbn cl" id="cla">Clear</div>`;
 h+=`<span class="fcn">${fl.length} shown</span><div class="vt"><button class="vtb ${vw==='list'?'on':''}" id="vl" title="List view">\u2630</button><button class="vtb ${vw==='grid'?'on':''}" id="vg" title="Grid view">⊞</button></div></div>`;
 
-h+=`<div class="fp ${shf?'show':''}"><div class="fg"><div class="fgl">Size</div><div class="fos">`;
+h+=`<div class="fp ${shf?'show':''}"><div class="fg"><div class="fgl">Spotted</div><div class="fos">`;
+["All","Spotted","Not Spotted"].forEach(s=>{const v=s==='All'?false:s==='Spotted'?'spotted':'unspotted';const clr=s==='Spotted'?'#6B8F3C':s==='Not Spotted'?'#C86428':'';h+=`<div class="fo ${sco===v?'on':''}" data-sp="${v}" style="${sco===v&&v?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${s}</div>`});
+h+=`</div></div><div class="fg"><div class="fgl">Size</div><div class="fos">`;
 ["All",...SIZES].forEach(s=>{const clr=szc(s);h+=`<div class="fo ${sf===s?'on':''}" data-sz="${s}" style="${sf===s&&s!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${s}</div>`});
 h+=`</div></div><div class="fg"><div class="fgl">Rarity</div><div class="fos">`;
 ["All","Common","Uncommon","Rare"].forEach(r=>{const clr=rc(r);h+=`<div class="fo ${rf===r?'on':''}" data-rf="${r}" style="${rf===r&&r!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${r}</div>`});
@@ -725,7 +724,7 @@ document.getElementById('sinp').addEventListener('input',function(){sr=this.valu
 if(hadFocus){const inp=document.getElementById('sinp');inp.focus();if(cursorPos!==null)inp.setSelectionRange(cursorPos,cursorPos)}
 const scl=document.getElementById('scl');if(scl)scl.onclick=()=>{sr='';R()};
 document.getElementById('ftg').onclick=()=>{shf=!shf;R()};
-document.getElementById('spt').onclick=()=>{sco=sco===false?'spotted':sco==='spotted'?'unspotted':false;R()};
+document.querySelectorAll('[data-sp]').forEach(el=>el.onclick=()=>{const v=el.dataset.sp;sco=v==='false'?false:v;R()});
 document.getElementById('vl').onclick=()=>{vw='list';ex=null;R()};
 document.getElementById('vg').onclick=()=>{vw='grid';ex=null;R()};
 document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}R()};
@@ -737,7 +736,6 @@ document.querySelectorAll('[data-sc]').forEach(el=>el.onclick=()=>{sc=el.dataset
 document.querySelectorAll('[data-sz]').forEach(el=>el.onclick=()=>{sf=el.dataset.sz;R()});
 document.querySelectorAll('[data-rf]').forEach(el=>el.onclick=()=>{rf=el.dataset.rf;R()});
 document.querySelectorAll('[data-cf]').forEach(el=>el.onclick=()=>{cf=el.dataset.cf;R()});
-document.querySelectorAll('[data-pf]').forEach(el=>el.onclick=()=>{pf=el.dataset.pf;ac='All';sc='All';R()});
 document.querySelectorAll('[data-nav]').forEach(el=>el.onclick=function(ev){
   ev.stopPropagation();
   const parkId=this.dataset.nav;
