@@ -2,7 +2,7 @@ import type { ResolvedAnimal, BrowseAnimal } from '../types/animals';
 import type { SortMode, ChecklistData } from '../types/state';
 import { ANIMALS } from '../data/animals';
 import { PARKS } from '../data/parks';
-import { SIZE_ORDER, CONSERVATION_ORDER, RARITY_ORDER } from '../data/constants';
+import { SIZE_ORDER, CONSERVATION_ORDER, RARITY_ORDER, CATEGORY_ORDER } from '../data/constants';
 
 function getCrossParkLatestDate(
   animalId: string,
@@ -28,6 +28,12 @@ export function sortAnimals<T extends ResolvedAnimal | BrowseAnimal>(
   const sorted = [...arr];
   sorted.sort((a, b) => {
     switch (sortMode) {
+      case 'type':
+        return (
+          (CATEGORY_ORDER[a.category] ?? 9) - (CATEGORY_ORDER[b.category] ?? 9) ||
+          a.subcategory.localeCompare(b.subcategory) ||
+          a.name.localeCompare(b.name)
+        );
       case 'az':
         return a.name.localeCompare(b.name);
       case 'za':

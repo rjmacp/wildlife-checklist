@@ -40,3 +40,12 @@ export const RARITY_ORDER: Record<string, number> = {
   Uncommon: 1,
   Common: 2,
 };
+
+export const CATEGORY_ORDER: Record<string, number> = {
+  Mammal: 0,
+  Bird: 1,
+  Reptile: 2,
+  Amphibian: 3,
+  Marine: 4,
+  Insect: 5,
+};

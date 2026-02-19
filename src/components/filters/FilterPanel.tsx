@@ -79,10 +79,10 @@ export default function FilterPanel(props: Props) {
         <button className={`fbn${hasActiveFilters ? ' on' : ''}`} onClick={onToggleFilters}>
           ⚙ Filters{hasActiveFilters ? ' ●' : ''}
         </button>
-        <button className={`fbn${sort !== 'az' ? ' on' : ''}`} onClick={onToggleSort}>
-          ↕ Sort{sort !== 'az' ? ' ●' : ''}
+        <button className={`fbn${sort !== 'type' ? ' on' : ''}`} onClick={onToggleSort}>
+          ↕ Sort{sort !== 'type' ? ' ●' : ''}
         </button>
-        {(hasActiveFilters || sort !== 'az') && (
+        {(hasActiveFilters || sort !== 'type') && (
           <button className="fbn cl" onClick={onClear}>
             Clear
           </button>
@@ -188,6 +188,7 @@ export default function FilterPanel(props: Props) {
           <div className="fos">
             {(
               [
+                ['type', 'Type'],
                 ['az', 'Name A–Z'],
                 ['za', 'Name Z–A'],
                 ['rarity', 'Rarity'],

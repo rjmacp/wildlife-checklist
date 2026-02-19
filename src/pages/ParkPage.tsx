@@ -7,7 +7,7 @@ import CategoryTabs from '../components/filters/CategoryTabs';
 import FilterPanel from '../components/filters/FilterPanel';
 import ProgressBar from '../components/progress/ProgressBar';
 import AnimalList from '../components/checklist/AnimalList';
-import { PARKS, ANIMALS } from '../data';
+import { PARKS, ANIMALS, CATEGORY_COLORS } from '../data';
 import { useChecklist } from '../hooks/useChecklist';
 import { useFilters } from '../hooks/useFilters';
 import { useWikipediaImages } from '../hooks/useWikipediaImages';
@@ -193,26 +193,41 @@ export default function ParkPage() {
       />
 
       {showSubcategoryTabs && (
-        <div className="scts" role="tablist">
+        <div className="cts scts" role="tablist">
           <button
-            className={`sctb${filters.subcategory === 'All' ? ' a' : ''}`}
+            className={`ctb sc${filters.subcategory === 'All' ? ' a' : ''}`}
             onClick={() => handleSubcategorySelect('All')}
             role="tab"
             aria-selected={filters.subcategory === 'All'}
           >
             All
           </button>
-          {subcategories.map((sub) => (
-            <button
-              key={sub}
-              className={`sctb${filters.subcategory === sub ? ' a' : ''}`}
-              onClick={() => handleSubcategorySelect(sub)}
-              role="tab"
-              aria-selected={filters.subcategory === sub}
-            >
-              {sub}
-            </button>
-          ))}
+          {subcategories.map((sub) => {
+            const cnt = species.filter((s) => {
+              if (filters.category !== 'All' && s.category !== filters.category) return false;
+              return s.subcategory === sub;
+            }).length;
+            const clr =
+              filters.category !== 'All'
+                ? (CATEGORY_COLORS[filters.category as Category]?.bg ?? 'var(--gold)')
+                : 'var(--gold)';
+            return (
+              <button
+                key={sub}
+                className={`ctb sc${filters.subcategory === sub ? ' a' : ''}`}
+                onClick={() => handleSubcategorySelect(sub)}
+                role="tab"
+                aria-selected={filters.subcategory === sub}
+                style={
+                  filters.subcategory === sub
+                    ? { borderColor: `${clr}80`, background: `${clr}20`, color: clr }
+                    : undefined
+                }
+              >
+                {sub} ({cnt})
+              </button>
+            );
+          })}
         </div>
       )}
 

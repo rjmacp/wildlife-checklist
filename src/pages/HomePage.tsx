@@ -108,7 +108,7 @@ export default function HomePage() {
         <>
           {/* Stats strip */}
           <div className="dash-stats">
-            <div className="dash-stat">
+            <div className="dash-stat" style={{ cursor: 'pointer' }} onClick={() => navigate('/browse', { state: { spotted: 'spotted' } })}>
               <div className="dash-stat-val">{uniqueSpotted.size}</div>
               <div className="dash-stat-label">Species Spotted</div>
             </div>
@@ -129,7 +129,7 @@ export default function HomePage() {
                 if (!animal) return null;
                 const img = animal.wikipediaSlug ? getImage(animal.wikipediaSlug) : null;
                 return (
-                  <div key={r.animalId} className="dash-recent-item">
+                  <div key={r.animalId} className="dash-recent-item" onClick={() => navigate(`/animal/${r.animalId}`)}>
                     {img ? (
                       <img
                         className="dash-recent-img"

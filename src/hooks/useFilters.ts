@@ -25,7 +25,7 @@ const DEFAULT_FILTERS: FilterState = {
   rarity: 'All',
   conservation: 'All',
   spotted: false,
-  sort: 'az',
+  sort: 'type',
   viewMode: 'list',
   showFilters: false,
   showSort: false,

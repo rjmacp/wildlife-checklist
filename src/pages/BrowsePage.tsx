@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { PARKS } from '../data/parks';
 import { ANIMALS } from '../data/animals';
 import { CATEGORY_COLORS } from '../data/constants';
@@ -45,8 +46,13 @@ function buildAllSpecies(): BrowseAnimal[] {
 }
 
 export default function BrowsePage() {
-  const { checklist, getUniqueSpotted, getCrossParkSightings } = useChecklist();
-  const { filters, setFilter, clearFilters, hasActiveFilters } = useFilters();
+  const location = useLocation();
+  const navState = location.state as { spotted?: string; category?: string } | null;
+  const { checklist, getUniqueSpotted, getCrossParkSightings, toggleSpotting } = useChecklist();
+  const { filters, setFilter, clearFilters, hasActiveFilters } = useFilters({
+    spotted: navState?.spotted === 'spotted' ? 'spotted' : false,
+    category: navState?.category ?? 'All',
+  });
 
   const allSpecies = useMemo(() => buildAllSpecies(), []);
 
@@ -132,8 +138,6 @@ export default function BrowsePage() {
 
   const slugs = useMemo(() => parkFiltered.map((a) => a.wikipediaSlug).filter(Boolean), [parkFiltered]);
   const { getImage } = useWikipediaImages(slugs);
-
-  const { toggleSpotting } = useChecklist();
 
   return (
     <Container>
