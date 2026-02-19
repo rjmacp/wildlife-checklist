@@ -503,10 +503,9 @@ if(imgUrl){h+=`<img class="ci" src="${imgUrl}" alt="${nm}" loading="lazy" onerro
 h+=`<div class="cp" style="${imgUrl?'display:none':''}">${a.i}</div>`;
 h+=`<div class="cg"></div>`;
 if(imgUrl){h+=`<button class="cv-expand" data-lb="${a._id}">\u26F6</button>`}
-h+=`<div class="ctb2"><span class="rb ${rCls}">${a.r}</span></div>`;
 h+=`<div class="ckb ${ic?'ck':''}" data-chk="${a._id}">${ic?'\u2713':''}</div>`;
 const csC=ANIMALS[a._id]?csClass(ANIMALS[a._id].cs):'dd';
-h+=`<div class="cio"><div class="cn">${a.n}</div><div class="cta"><span class="ctg ctg-s" style="background:${clr}30;color:${clr}">${a.s}</span><span class="ctg ctg-z">${a.sz} \u2022 ${a.cl}</span>${ANIMALS[a._id]&&ANIMALS[a._id].cs?`<span class="ctg ap-cs-pill ap-cs-${csC}">${ANIMALS[a._id].cs}</span>`:''}</div></div>`;
+h+=`<div class="cio"><div class="cn">${a.n}</div><div class="cta"><span class="ctg ctg-s" style="background:${clr}30;color:${clr}">${a.s}</span><span class="rb ${rCls}">${a.r}</span><span class="ctg ctg-z">${a.sz} \u2022 ${a.cl}</span>${ANIMALS[a._id]&&ANIMALS[a._id].cs?`<span class="ctg ap-cs-pill ap-cs-${csC}">${ANIMALS[a._id].cs}</span>`:''}</div></div>`;
 h+=`<span class="ceh ${ie?'o':''}">\u25BC</span>`;
 h+=`</div>`;
 h+=`<div class="cd ${ie?'open':''}"><div class="cd-wrap"><div class="cdi">`;
@@ -731,9 +730,8 @@ if(imgUrl){h+=`<img class="ci" src="${imgUrl}" alt="${nm}" loading="lazy" onerro
 h+=`<div class="cp" style="${imgUrl?'display:none':''}">${a.i}</div>`;
 h+=`<div class="cg"></div>`;
 if(imgUrl){h+=`<button class="cv-expand" data-lb="${a._id}">\u26F6</button>`}
-h+=`<div class="ctb2"><span class="rb ${rCls}">${a.r}</span></div>`;
 const csC2=ANIMALS[a._id]?csClass(ANIMALS[a._id].cs):'dd';
-h+=`<div class="cio"><div class="cn">${a.n}</div><div class="cta"><span class="ctg ctg-s" style="background:${clr}30;color:${clr}">${a.s}</span><span class="ctg ctg-z">${a.sz} \u2022 ${a.cl}</span>${ANIMALS[a._id]&&ANIMALS[a._id].cs?`<span class="ctg ap-cs-pill ap-cs-${csC2}">${ANIMALS[a._id].cs}</span>`:''}</div></div>`;
+h+=`<div class="cio"><div class="cn">${a.n}</div><div class="cta"><span class="ctg ctg-s" style="background:${clr}30;color:${clr}">${a.s}</span><span class="rb ${rCls}">${a.r}</span><span class="ctg ctg-z">${a.sz} \u2022 ${a.cl}</span>${ANIMALS[a._id]&&ANIMALS[a._id].cs?`<span class="ctg ap-cs-pill ap-cs-${csC2}">${ANIMALS[a._id].cs}</span>`:''}</div></div>`;
 h+=`<span class="ceh ${ie?'o':''}">\u25BC</span>`;
 h+=`</div>`;
 h+=`<div class="cd ${ie?'open':''}"><div class="cd-wrap"><div class="cdi">`;
