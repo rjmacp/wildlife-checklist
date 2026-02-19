@@ -325,7 +325,7 @@ function renderHome(){
       const clr=CC[cat]?CC[cat].bg:'var(--gold)';
       const icon=CI[cat]||'';
       const complete=sp===tot&&tot>0;
-      h+=`<div class="dash-ring${complete?' complete':''}">`;
+      h+=`<div class="dash-ring${complete?' complete':''}" data-catlink="${cat}" style="cursor:pointer">`;
       h+=`<div class="dash-ring-svg">${svgRing(sp,tot,52,clr)}<div class="dash-ring-icon">${icon}</div></div>`;
       h+=`<div class="dash-ring-count">${sp}/${tot}</div>`;
       h+=`<div class="dash-ring-label">${cat}</div>`;
@@ -399,6 +399,7 @@ function renderHome(){
   document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}R()};
   document.getElementById('browseBtn').onclick=()=>{navigate('browse')};
   document.getElementById('statSpotted').onclick=()=>{sco='spotted';navigate('browse')};
+  document.querySelectorAll('[data-catlink]').forEach(el=>el.onclick=()=>{sco='spotted';ac=el.dataset.catlink;navigate('browse')});
   document.querySelectorAll('[data-park]').forEach(el=>el.onclick=()=>{navigate('park/'+el.dataset.park)});
   document.querySelectorAll('[data-animal]').forEach(el=>el.onclick=()=>{navigate('animal/'+el.dataset.animal)});
   document.querySelectorAll('[data-dlb]').forEach(el=>el.onclick=function(ev){
@@ -1025,8 +1026,8 @@ window.addEventListener('hashchange',function(ev){
   // Reset filters when navigating to a new page
   const route=getRoute();
   if(route.page==='browse'){
-    const keepSco=sco;
-    sr="";ac="All";sc="All";sf="All";rf="All";cf="All";shf=false;sco=keepSco;srt="az";shs=false;ex=null;
+    const keepSco=sco,keepAc=ac;
+    sr="";ac=keepAc;sc="All";sf="All";rf="All";cf="All";shf=false;sco=keepSco;srt="az";shs=false;ex=null;
     imgLoaded=false;
   }
   R();
