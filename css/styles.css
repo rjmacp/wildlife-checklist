@@ -27,7 +27,7 @@ body.light .vtb.on{border-color:rgba(154,123,58,.4);background:rgba(154,123,58,.
 body.light .sb input:focus{border-color:rgba(154,123,58,.4)}
 body.light .tmb{border-color:rgba(0,0,0,.1);background:rgba(0,0,0,.04)}
 body.light .ceh{color:rgba(255,255,255,.7)}
-.tmb{position:absolute;top:8px;right:0;width:36px;height:36px;border-radius:50%;border:1px solid var(--w06);background:var(--w03);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .25s;z-index:5}
+.tmb{position:absolute;top:8px;right:0;width:36px;height:36px;border-radius:50%;border:1px solid var(--w10);background:var(--w05);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text);transition:all .25s;z-index:5}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
@@ -244,6 +244,22 @@ body.light .dash-xp-img{box-shadow:0 1px 3px rgba(0,0,0,.08)}
 body.light .lb-overlay{background:rgba(245,240,232,.95)}
 body.light .lb-close{border-color:rgba(0,0,0,.15);background:rgba(0,0,0,.08);color:var(--text)}
 body.light .lb-name{color:var(--text)}
+/* ── SETTINGS DROPDOWN ── */
+.stg-overlay{position:fixed;inset:0;z-index:999;display:none}
+.stg-overlay.show{display:block}
+.stg-modal{position:fixed;top:52px;right:14px;background:var(--card);border-radius:12px;border:1px solid var(--w06);width:200px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:1000;animation:si .2s ease}
+@media(min-width:568px){.stg-modal{right:calc((100vw - 540px)/2)}}
+.stg-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--w06)}
+.stg-title{font-size:12px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+.stg-close{width:24px;height:24px;border-radius:6px;border:1px solid var(--w06);background:var(--w03);color:var(--dim);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.stg-body{padding:12px 14px}
+.stg-row{display:flex;align-items:center;justify-content:space-between}
+.stg-label{font-size:12px;font-weight:600;color:var(--text)}
+.stg-toggle{display:flex;gap:3px;background:var(--w04);border-radius:8px;padding:2px}
+.stg-opt{padding:6px 12px;border-radius:6px;border:none;background:transparent;color:var(--dim);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s}
+.stg-opt.on{background:var(--gold);color:#fff;box-shadow:0 2px 6px rgba(196,168,106,.3)}
+body.light .stg-modal{box-shadow:0 8px 32px rgba(0,0,0,.12)}
+body.light .stg-close{border-color:rgba(0,0,0,.1);background:rgba(0,0,0,.04);color:var(--text)}
 /* ── EXPAND ICON (CHECKLIST CARDS) ── */
 .cv-expand{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.35);backdrop-filter:blur(6px);color:rgba(255,255,255,.8);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;transition:all .2s;padding:0;line-height:1}
 .cv-expand:active{transform:scale(.85)}

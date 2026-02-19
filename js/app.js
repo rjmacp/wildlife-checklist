@@ -7,6 +7,18 @@ function applyTheme(){document.body.classList.toggle('light',tm==='light');try{d
 applyTheme();
 let imgCache={};
 
+// ── SETTINGS MODAL ──
+function openSettings(){
+  const o=document.getElementById('stgOverlay');o.classList.add('show');
+  document.querySelectorAll('.stg-opt').forEach(b=>{b.classList.toggle('on',b.dataset.theme===tm)});
+}
+function closeSettings(){document.getElementById('stgOverlay').classList.remove('show')}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('stgClose').onclick=closeSettings;
+  document.getElementById('stgOverlay').onclick=function(ev){if(ev.target===this)closeSettings()};
+  document.querySelectorAll('.stg-opt').forEach(b=>b.onclick=()=>{tm=b.dataset.theme;applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}document.querySelectorAll('.stg-opt').forEach(x=>x.classList.toggle('on',x.dataset.theme===tm));R()});
+});
+
 // ── LIGHTBOX ──
 function hiResUrl(url){
   if(!url)return url;
@@ -15,6 +27,7 @@ function hiResUrl(url){
 function openLightbox(imgUrl,name,emoji,rarity){
   const overlay=document.getElementById('lbOverlay');
   const img=document.getElementById('lbImg');
+  img.src='';
   const hiSrc=hiResUrl(imgUrl);
   img.src=hiSrc;
   img.onerror=function(){if(this.src!==imgUrl){this.src=imgUrl}};
@@ -244,7 +257,7 @@ function renderHome(){
     else subtitle=`${uniqueSpotted.size} species spotted across ${parksVisited} park${parksVisited!==1?'s':''}`;
   }
 
-  let h=`<div class="hdr"><button class="tmb" id="tmb">${tm==='dark'?'\u2600\uFE0F':'\uD83C\uDF19'}</button><div class="hdr-ey">South Africa</div><h1>Wildlife Checklist</h1><div class="hdr-m">${subtitle}</div></div>`;
+  let h=`<div class="hdr"><button class="tmb" id="stgBtn">\u2699</button><div class="hdr-ey">South Africa</div><h1>Wildlife Checklist</h1><div class="hdr-m">${subtitle}</div></div>`;
 
   if(hasSightings){
     // ── Stats Strip ──
@@ -404,7 +417,7 @@ function renderHome(){
   document.getElementById('app').innerHTML=h;
 
   // Events
-  document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}R()};
+  document.getElementById('stgBtn').onclick=openSettings;
   document.getElementById('browseBtn').onclick=()=>{navigate('browse')};
   document.getElementById('statSpotted').onclick=()=>{sco='spotted';navigate('browse')};
   document.getElementById('statTotal').onclick=()=>{sco='spotted';navigate('browse')};
@@ -444,7 +457,7 @@ sortList(fl,parkCk,null);
 const tc=Object.keys(parkCk).length,pr=tc/A.length*100;
 const hf=sf!=="All"||rf!=="All"||cf!=="All"||sc!=="All"||sco||sr;
 
-let h=`<div class="hdr"><button class="back-btn" id="backBtn">\u2190</button><button class="tmb" id="tmb">${tm==='dark'?'\u2600\uFE0F':'\uD83C\uDF19'}</button><div class="hdr-ey">${e(park.name)}</div><h1>${e(park.subtitle)}</h1><div class="hdr-m">${A.length} species \u2022 Tap to spot</div></div>`;
+let h=`<div class="hdr"><button class="back-btn" id="backBtn">\u2190</button><button class="tmb" id="stgBtn">\u2699</button><div class="hdr-ey">${e(park.name)}</div><h1>${e(park.subtitle)}</h1><div class="hdr-m">${A.length} species \u2022 Tap to spot</div></div>`;
 
 
 h+=`<div class="pb pb-exp" id="pbToggle">`;
@@ -560,7 +573,7 @@ document.querySelectorAll('[data-sp]').forEach(el=>el.onclick=()=>{const v=el.da
 document.querySelectorAll('[data-srt]').forEach(el=>el.onclick=()=>{srt=el.dataset.srt;R()});
 document.getElementById('vl').onclick=()=>{vw='list';ex=null;R()};
 document.getElementById('vg').onclick=()=>{vw='grid';ex=null;R()};
-document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}R()};
+document.getElementById('stgBtn').onclick=openSettings;
 document.getElementById('backBtn').onclick=()=>{navigate('home')};
 const cla=document.getElementById('cla');if(cla)cla.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;srt='az';R()};
 const eclr=document.getElementById('eclr');if(eclr)eclr.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;srt='az';R()};
@@ -668,7 +681,7 @@ const spottedCount=pf!=='All'
   ?(ck[pf]?Object.keys(ck[pf]).filter(id=>adjusted.some(a=>a._id===id)).length:0)
   :uniqueSpotted.size;
 
-let h=`<div class="hdr"><button class="back-btn" id="backBtn">\u2190</button><button class="tmb" id="tmb">${tm==='dark'?'\u2600\uFE0F':'\uD83C\uDF19'}</button><div class="hdr-ey">All Parks</div><h1>All Species</h1><div class="hdr-m">${A.length} species across ${PARKS.length} parks</div></div>`;
+let h=`<div class="hdr"><button class="back-btn" id="backBtn">\u2190</button><button class="tmb" id="stgBtn">\u2699</button><div class="hdr-ey">All Parks</div><h1>All Species</h1><div class="hdr-m">${A.length} species across ${PARKS.length} parks</div></div>`;
 
 
 const browsepr=adjusted.length?spottedCount/adjusted.length*100:0;
@@ -793,7 +806,7 @@ document.querySelectorAll('[data-sp]').forEach(el=>el.onclick=()=>{const v=el.da
 document.querySelectorAll('[data-srt]').forEach(el=>el.onclick=()=>{srt=el.dataset.srt;R()});
 document.getElementById('vl').onclick=()=>{vw='list';ex=null;R()};
 document.getElementById('vg').onclick=()=>{vw='grid';ex=null;R()};
-document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}R()};
+document.getElementById('stgBtn').onclick=openSettings;
 document.getElementById('backBtn').onclick=()=>{navigate('home')};
 const cla=document.getElementById('cla');if(cla)cla.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;srt='az';R()};
 const eclr=document.getElementById('eclr');if(eclr)eclr.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;srt='az';R()};
@@ -875,7 +888,7 @@ function renderAnimal(animalId){
   const clr=CC[a.c]?CC[a.c].bg:'#888';
   const catIcon=CI[a.c]||'';
 
-  let h=`<div class="hdr"><button class="back-btn" id="backBtn">\u2190</button><button class="tmb" id="tmb">${tm==='dark'?'\u2600\uFE0F':'\uD83C\uDF19'}</button><div class="hdr-ey">${e(a.c)}</div><h1>${e(a.n)}</h1><div class="hdr-m">${a.i} ${e(a.s)}</div></div>`;
+  let h=`<div class="hdr"><button class="back-btn" id="backBtn">\u2190</button><button class="tmb" id="stgBtn">\u2699</button><div class="hdr-ey">${e(a.c)}</div><h1>${e(a.n)}</h1><div class="hdr-m">${a.i} ${e(a.s)}</div></div>`;
 
   // Hero image
   h+=`<div class="ap-hero">`;
@@ -960,7 +973,7 @@ function renderAnimal(animalId){
 
   // Events
   document.getElementById('backBtn').onclick=()=>{navigate(prevRoute||'home')};
-  document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}renderAnimal(animalId)};
+  document.getElementById('stgBtn').onclick=openSettings;
   const heroLb=document.querySelector('[data-hero-lb]');
   if(heroLb){
     heroLb.onclick=()=>{
@@ -1046,7 +1059,10 @@ document.getElementById('lbOverlay').onclick=function(ev){
   if(ev.target===this||ev.target.classList.contains('lb-content'))closeLightbox();
 };
 document.addEventListener('keydown',function(ev){
-  if(ev.key==='Escape'&&document.getElementById('lbOverlay').classList.contains('open'))closeLightbox();
+  if(ev.key==='Escape'){
+    if(document.getElementById('lbOverlay').classList.contains('open'))closeLightbox();
+    if(document.getElementById('stgOverlay').classList.contains('show'))closeSettings();
+  }
 });
 
 R();
