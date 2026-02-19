@@ -3,7 +3,6 @@ import type { ParkPresence } from '../../types/animals';
 import { PARKS } from '../../data/parks';
 
 interface ParkPickerState {
-  animalName: string;
   parks: ParkPresence[];
   spottedParkIds: Set<string>;
   onToggle: (parkId: string) => void;
@@ -13,13 +12,12 @@ interface ParkPickerState {
 let openParkPickerFn: ((state: ParkPickerState) => void) | null = null;
 
 export function openParkPicker(
-  animalName: string,
   parks: ParkPresence[],
   spottedParkIds: Set<string>,
   onToggle: (parkId: string) => void,
   anchorRect?: DOMRect,
 ) {
-  openParkPickerFn?.({ animalName, parks, spottedParkIds, onToggle, anchorRect });
+  openParkPickerFn?.({ parks, spottedParkIds, onToggle, anchorRect });
 }
 
 const parkIconMap = Object.fromEntries(PARKS.map((p) => [p.id, p.icon]));
@@ -95,71 +93,42 @@ export default function ParkPicker() {
     [state],
   );
 
-  const { wildEntry, parkEntries } = useMemo(() => {
-    if (!state) return { wildEntry: null, parkEntries: [] };
-    const wild = state.parks.find((p) => p.parkId === 'wild') ?? null;
+  // Put "In the Wild" first, then the rest
+  const orderedParks = useMemo(() => {
+    if (!state) return [];
+    const wild = state.parks.filter((p) => p.parkId === 'wild');
     const rest = state.parks.filter((p) => p.parkId !== 'wild');
-    return { wildEntry: wild, parkEntries: rest };
+    return [...wild, ...rest];
   }, [state]);
 
   const show = state !== null;
-  const wildSpotted = state?.spottedParkIds.has('wild') ?? false;
 
   return (
     <>
-      {/* Invisible backdrop to catch outside clicks */}
       {show && <div className="pp-backdrop" onClick={close} />}
       <div
         ref={popoverRef}
         className={`pp-pop${show ? ' show' : ''}`}
         style={show ? { top: pos.top, left: pos.left } : undefined}
       >
-        {state && (
-          <>
-            <div className="pp-hdr">
-              <span className="pp-title">{state.animalName}</span>
-            </div>
-
-            {/* "Spotted" row — like "Liked Songs" */}
-            {wildEntry && (
-              <div
-                className={`pp-hero${wildSpotted ? ' spotted' : ''}`}
-                onClick={() => handleToggle('wild')}
-              >
-                <div className={`pp-hero-check${wildSpotted ? ' spotted' : ''}`}>
-                  {wildSpotted ? '✓' : ''}
-                </div>
-                <div className="pp-hero-info">
-                  <span className="pp-hero-label">Spotted</span>
-                  <span className="pp-hero-sub">In the Wild</span>
-                </div>
+        {state && orderedParks.map((p) => {
+          const spotted = state.spottedParkIds.has(p.parkId);
+          return (
+            <div
+              key={p.parkId}
+              className={`pp-row${spotted ? ' spotted' : ''}`}
+              onClick={() => handleToggle(p.parkId)}
+            >
+              <span className="pp-row-icon">{parkIconMap[p.parkId] ?? '🏞️'}</span>
+              <span className="pp-park-name">
+                {p.parkId === 'wild' ? 'In the Wild' : p.parkName}
+              </span>
+              <div className={`pp-btn${spotted ? ' spotted' : ''}`}>
+                {spotted ? '✓' : ''}
               </div>
-            )}
-
-            {/* Park rows */}
-            {parkEntries.length > 0 && (
-              <>
-                <div className="pp-divider" />
-                {parkEntries.map((p) => {
-                  const spotted = state.spottedParkIds.has(p.parkId);
-                  return (
-                    <div
-                      key={p.parkId}
-                      className={`pp-row${spotted ? ' spotted' : ''}`}
-                      onClick={() => handleToggle(p.parkId)}
-                    >
-                      <span className="pp-row-icon">{parkIconMap[p.parkId] ?? '🏞️'}</span>
-                      <span className="pp-park-name">{p.parkName}</span>
-                      <div className={`pp-btn${spotted ? ' spotted' : ''}`}>
-                        {spotted ? '✓' : ''}
-                      </div>
-                    </div>
-                  );
-                })}
-              </>
-            )}
-          </>
-        )}
+            </div>
+          );
+        })}
       </div>
     </>
   );

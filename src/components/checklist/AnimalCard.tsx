@@ -197,7 +197,7 @@ export default function AnimalCard({
             {browseMode && browseAnimal._parks && (
               <div className="ds">
                 <div className="dl">🏞️ Available In</div>
-                {browseAnimal._parks.map((p) => (
+                {browseAnimal._parks.filter((p) => p.parkId !== 'wild').map((p) => (
                   <div className="xp-row" key={p.parkId}>
                     {p.parkName} — {p.rarity}
                   </div>

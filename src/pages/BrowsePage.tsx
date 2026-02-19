@@ -253,7 +253,7 @@ export default function BrowsePage() {
             const spottedParkIds = new Set(sightings.map((s) => s.parkId));
             const btn = (e.target as HTMLElement).closest('.ckb') as HTMLElement | null;
             const rect = btn?.getBoundingClientRect();
-            openParkPicker(animal.name, animal._parks, spottedParkIds, (parkId) => {
+            openParkPicker(animal._parks, spottedParkIds, (parkId) => {
               toggleSpotting(parkId, id);
             }, rect ?? undefined);
           }

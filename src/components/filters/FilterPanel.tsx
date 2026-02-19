@@ -189,15 +189,25 @@ export default function FilterPanel(props: Props) {
             {(
               [
                 ['type', 'Type'],
-                ['az', 'Name A–Z'],
-                ['za', 'Name Z–A'],
+                ['az', 'Name'],
                 ['rarity', 'Rarity'],
                 ['size', 'Size'],
                 ['conservation', 'Conservation'],
                 ['recent', 'Recently Spotted'],
               ] as const
             ).map(([v, l]) => (
-              <FilterOption key={v} label={l} active={sort === v} onClick={() => onSetSort(v)} />
+              <FilterOption
+                key={v}
+                label={v === 'az' && sort === 'za' ? 'Name ↓' : v === 'az' && sort === 'az' ? 'Name ↑' : l}
+                active={v === 'az' ? sort === 'az' || sort === 'za' : sort === v}
+                onClick={() => {
+                  if (v === 'az') {
+                    onSetSort(sort === 'az' ? 'za' : 'az');
+                  } else {
+                    onSetSort(v);
+                  }
+                }}
+              />
             ))}
           </div>
         </div>
