@@ -1,6 +1,6 @@
 // ── STATE ──
-let ck={},sr="",ac="All",sc="All",sf="All",rf="All",cf="All",shf=false,sco=false,ex=null,vw="list";
-let tm="dark",currentPark=null,A=[],pf="All";
+let ck={},sr="",ac="All",sc="All",sf="All",rf="All",cf="All",shf=false,sco=false,ex=null,vw="list",srt="az",shs=false;
+let tm="light",currentPark=null,A=[],pf="All";
 let prevRoute=null,wikiCache={};
 try{const t=localStorage.getItem("addo-theme");if(t)tm=t}catch(e){}
 function applyTheme(){document.body.classList.toggle('light',tm==='light');try{document.querySelector('meta[name="theme-color"]').content=tm==='light'?'#F5F0E8':'#141208'}catch(e){}}
@@ -66,6 +66,23 @@ function rc(r){return r==="Common"?"#6B8F3C":r==="Uncommon"?"#C4A86A":"#BF6A3D"}
 function szc(s){return s==="Small"?"#5B9BD5":s==="Medium"?"#6B8F3C":s==="Large"?"#C4A86A":"#BF6A3D"}
 function csc(c){return c==="Least Concern"?"#6B8F3C":c==="Near Threatened"?"#B4A03C":c==="Vulnerable"?"#C8A028":c==="Endangered"?"#C86428":"#C83232"}
 function e(s){return s.replace(/&/g,'&amp;').replace(/'/g,'&#39;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+const SZ_ORD={"Very Large":0,"Large":1,"Medium":2,"Small":3};
+const CS_ORD={"Critically Endangered":0,"Endangered":1,"Vulnerable":2,"Near Threatened":3,"Least Concern":4};
+const RA_ORD={"Rare":0,"Uncommon":1,"Common":2};
+function sortList(arr,parkCk,uniqueSpotted){
+arr.sort((a,b)=>{
+if(srt==='az')return a.n.localeCompare(b.n);
+if(srt==='za')return b.n.localeCompare(a.n);
+if(srt==='rarity')return(RA_ORD[a.r]||9)-(RA_ORD[b.r]||9)||a.n.localeCompare(b.n);
+if(srt==='size')return(SZ_ORD[a.sz]||9)-(SZ_ORD[b.sz]||9)||a.n.localeCompare(b.n);
+if(srt==='conservation'){const ca=ANIMALS[a._id]?CS_ORD[ANIMALS[a._id].cs]:9,cb=ANIMALS[b._id]?CS_ORD[ANIMALS[b._id].cs]:9;return(ca===undefined?9:ca)-(cb===undefined?9:cb)||a.n.localeCompare(b.n)}
+if(srt==='recent'){
+const da=parkCk?parkCk[a._id]:null,db=parkCk?parkCk[b._id]:null;
+const ua=uniqueSpotted&&!da?getCrossParkSightings(a._id).reduce((l,s)=>!l||new Date(s.date)>new Date(l)?s.date:l,null):da;
+const ub=uniqueSpotted&&!db?getCrossParkSightings(b._id).reduce((l,s)=>!l||new Date(s.date)>new Date(l)?s.date:l,null):db;
+if(ua&&!ub)return -1;if(!ua&&ub)return 1;if(ua&&ub)return new Date(ub)-new Date(ua);return a.n.localeCompare(b.n)}
+return 0;
+});return arr}
 
 // ── BUILD PARK SPECIES ──
 function buildParkSpecies(park){
@@ -412,6 +429,7 @@ const fl=A.filter(a=>{
   return true;
 });
 const parkCk=ck[park.id]||{};
+sortList(fl,parkCk,null);
 const tc=Object.keys(parkCk).length,pr=tc/A.length*100;
 const hf=sf!=="All"||rf!=="All"||cf!=="All"||sc!=="All"||sco||sr;
 
@@ -450,7 +468,8 @@ h+=`</div>`;
 }
 
 h+=`<div class="fb"><div class="fbn ${hf?'on':''}" id="ftg">\u2699 Filters${hf?' \u25CF':''}</div>`;
-if(hf)h+=`<div class="fbn cl" id="cla">Clear</div>`;
+h+=`<div class="fbn ${srt!=='az'?'on':''}" id="stg">\u2195 Sort${srt!=='az'?' \u25CF':''}</div>`;
+if(hf||srt!=='az')h+=`<div class="fbn cl" id="cla">Clear</div>`;
 h+=`<span class="fcn">${fl.length} shown</span><div class="vt"><button class="vtb ${vw==='list'?'on':''}" id="vl" title="List view">☰</button><button class="vtb ${vw==='grid'?'on':''}" id="vg" title="Grid view">⊞</button></div></div>`;
 
 h+=`<div class="fp ${shf?'show':''}"><div class="fg"><div class="fgl">Spotted</div><div class="fos">`;
@@ -461,6 +480,9 @@ h+=`</div></div><div class="fg"><div class="fgl">Rarity</div><div class="fos">`;
 ["All","Common","Uncommon","Rare"].forEach(r=>{const clr=rc(r);h+=`<div class="fo ${rf===r?'on':''}" data-rf="${r}" style="${rf===r&&r!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${r}</div>`});
 h+=`</div></div><div class="fg"><div class="fgl">Conservation</div><div class="fos">`;
 ["All","Least Concern","Near Threatened","Vulnerable","Endangered","Critically Endangered"].forEach(c=>{const clr=csc(c);h+=`<div class="fo ${cf===c?'on':''}" data-cf="${c}" style="${cf===c&&c!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${c==='Critically Endangered'?'Critical':c}</div>`});
+h+=`</div></div></div>`;
+h+=`<div class="fp ${shs?'show':''}"><div class="fg"><div class="fgl">Sort by</div><div class="fos">`;
+[["az","Name A\u2013Z"],["za","Name Z\u2013A"],["rarity","Rarity"],["size","Size"],["conservation","Conservation"],["recent","Recently Spotted"]].forEach(([v,l])=>{h+=`<div class="fo ${srt===v?'on':''}" data-srt="${v}">${l}</div>`});
 h+=`</div></div></div>`;
 
 h+=`<div class="al${vw==='grid'?' grid':''}">`;
@@ -522,15 +544,17 @@ document.getElementById('app').innerHTML=h;
 document.getElementById('sinp').addEventListener('input',function(){sr=this.value;R()});
 if(hadFocus){const inp=document.getElementById('sinp');inp.focus();if(cursorPos!==null)inp.setSelectionRange(cursorPos,cursorPos)}
 const scl=document.getElementById('scl');if(scl)scl.onclick=()=>{sr='';R()};
-document.getElementById('ftg').onclick=()=>{shf=!shf;R()};
+document.getElementById('ftg').onclick=()=>{shf=!shf;shs=false;R()};
+document.getElementById('stg').onclick=()=>{shs=!shs;shf=false;R()};
 document.getElementById('pbToggle').onclick=()=>{const d=document.getElementById('pbDetail'),a=document.getElementById('pbArrow');if(d.style.display==='none'){d.style.display='';a.textContent='\u25B2'}else{d.style.display='none';a.textContent='\u25BC'}};
 document.querySelectorAll('[data-sp]').forEach(el=>el.onclick=()=>{const v=el.dataset.sp;sco=v==='false'?false:v;R()});
+document.querySelectorAll('[data-srt]').forEach(el=>el.onclick=()=>{srt=el.dataset.srt;R()});
 document.getElementById('vl').onclick=()=>{vw='list';ex=null;R()};
 document.getElementById('vg').onclick=()=>{vw='grid';ex=null;R()};
 document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}R()};
 document.getElementById('backBtn').onclick=()=>{navigate('home')};
-const cla=document.getElementById('cla');if(cla)cla.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;R()};
-const eclr=document.getElementById('eclr');if(eclr)eclr.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;R()};
+const cla=document.getElementById('cla');if(cla)cla.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;srt='az';R()};
+const eclr=document.getElementById('eclr');if(eclr)eclr.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;srt='az';R()};
 document.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{ac=el.dataset.cat;sc='All';R()});
 document.querySelectorAll('[data-sc]').forEach(el=>el.onclick=()=>{sc=el.dataset.sc;R()});
 document.querySelectorAll('[data-sz]').forEach(el=>el.onclick=()=>{sf=el.dataset.sz;R()});
@@ -629,6 +653,7 @@ const fl=adjusted.filter(a=>{
   if(sr){const q=sr.toLowerCase();return a.n.toLowerCase().includes(q)||a.s.toLowerCase().includes(q)||a.c.toLowerCase().includes(q)||a.cl.toLowerCase().includes(q)}
   return true;
 });
+sortList(fl,pf!=='All'?ck[pf]||{}:null,uniqueSpotted);
 const hf=sf!=="All"||rf!=="All"||cf!=="All"||sc!=="All"||sco||sr;
 const spottedCount=pf!=='All'
   ?(ck[pf]?Object.keys(ck[pf]).filter(id=>adjusted.some(a=>a._id===id)).length:0)
@@ -670,7 +695,8 @@ h+=`</div>`;
 }
 
 h+=`<div class="fb"><div class="fbn ${hf?'on':''}" id="ftg">\u2699 Filters${hf?' \u25CF':''}</div>`;
-if(hf)h+=`<div class="fbn cl" id="cla">Clear</div>`;
+h+=`<div class="fbn ${srt!=='az'?'on':''}" id="stg">\u2195 Sort${srt!=='az'?' \u25CF':''}</div>`;
+if(hf||srt!=='az')h+=`<div class="fbn cl" id="cla">Clear</div>`;
 h+=`<span class="fcn">${fl.length} shown</span><div class="vt"><button class="vtb ${vw==='list'?'on':''}" id="vl" title="List view">\u2630</button><button class="vtb ${vw==='grid'?'on':''}" id="vg" title="Grid view">⊞</button></div></div>`;
 
 h+=`<div class="fp ${shf?'show':''}"><div class="fg"><div class="fgl">Spotted</div><div class="fos">`;
@@ -681,6 +707,9 @@ h+=`</div></div><div class="fg"><div class="fgl">Rarity</div><div class="fos">`;
 ["All","Common","Uncommon","Rare"].forEach(r=>{const clr=rc(r);h+=`<div class="fo ${rf===r?'on':''}" data-rf="${r}" style="${rf===r&&r!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${r}</div>`});
 h+=`</div></div><div class="fg"><div class="fgl">Conservation</div><div class="fos">`;
 ["All","Least Concern","Near Threatened","Vulnerable","Endangered","Critically Endangered"].forEach(c=>{const clr=csc(c);h+=`<div class="fo ${cf===c?'on':''}" data-cf="${c}" style="${cf===c&&c!=='All'?`border-color:${clr}60;background:${clr}18;color:${clr}`:''}">${c==='Critically Endangered'?'Critical':c}</div>`});
+h+=`</div></div></div>`;
+h+=`<div class="fp ${shs?'show':''}"><div class="fg"><div class="fgl">Sort by</div><div class="fos">`;
+[["az","Name A\u2013Z"],["za","Name Z\u2013A"],["rarity","Rarity"],["size","Size"],["conservation","Conservation"],["recent","Recently Spotted"]].forEach(([v,l])=>{h+=`<div class="fo ${srt===v?'on':''}" data-srt="${v}">${l}</div>`});
 h+=`</div></div></div>`;
 
 h+=`<div class="al${vw==='grid'?' grid':''}">`;
@@ -750,15 +779,17 @@ document.getElementById('app').innerHTML=h;
 document.getElementById('sinp').addEventListener('input',function(){sr=this.value;R()});
 if(hadFocus){const inp=document.getElementById('sinp');inp.focus();if(cursorPos!==null)inp.setSelectionRange(cursorPos,cursorPos)}
 const scl=document.getElementById('scl');if(scl)scl.onclick=()=>{sr='';R()};
-document.getElementById('ftg').onclick=()=>{shf=!shf;R()};
+document.getElementById('ftg').onclick=()=>{shf=!shf;shs=false;R()};
+document.getElementById('stg').onclick=()=>{shs=!shs;shf=false;R()};
 document.getElementById('pbToggle').onclick=()=>{const d=document.getElementById('pbDetail'),a=document.getElementById('pbArrow');if(d.style.display==='none'){d.style.display='';a.textContent='\u25B2'}else{d.style.display='none';a.textContent='\u25BC'}};
 document.querySelectorAll('[data-sp]').forEach(el=>el.onclick=()=>{const v=el.dataset.sp;sco=v==='false'?false:v;R()});
+document.querySelectorAll('[data-srt]').forEach(el=>el.onclick=()=>{srt=el.dataset.srt;R()});
 document.getElementById('vl').onclick=()=>{vw='list';ex=null;R()};
 document.getElementById('vg').onclick=()=>{vw='grid';ex=null;R()};
 document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}R()};
 document.getElementById('backBtn').onclick=()=>{navigate('home')};
-const cla=document.getElementById('cla');if(cla)cla.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;R()};
-const eclr=document.getElementById('eclr');if(eclr)eclr.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;R()};
+const cla=document.getElementById('cla');if(cla)cla.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;srt='az';R()};
+const eclr=document.getElementById('eclr');if(eclr)eclr.onclick=()=>{sr='';sc='All';sf='All';rf='All';cf='All';sco=false;srt='az';R()};
 document.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>{ac=el.dataset.cat;sc='All';R()});
 document.querySelectorAll('[data-sc]').forEach(el=>el.onclick=()=>{sc=el.dataset.sc;R()});
 document.querySelectorAll('[data-sz]').forEach(el=>el.onclick=()=>{sf=el.dataset.sz;R()});
