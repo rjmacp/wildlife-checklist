@@ -319,7 +319,15 @@ function renderHome(){
   h+=`<div class="dash-section"><div class="dash-section-title">All Species</div>`;
   const cats=Object.keys(catMap).filter(c=>catMap[c].total.size>0);
   if(cats.length>0){
+    const totalSp=uniqueSpotted.size,totalAll=totalSpecies.size;
+    const totalClr=totalAll&&totalSp/totalAll>0.5?'#6B8F3C':'var(--gold)';
+    const totalComp=totalSp===totalAll&&totalAll>0;
     h+=`<div class="dash-rings">`;
+    h+=`<div class="dash-ring${totalComp?' complete':''}" id="statTotal" style="cursor:pointer">`;
+    h+=`<div class="dash-ring-svg">${svgRing(totalSp,totalAll,52,totalClr)}<div class="dash-ring-icon" style="font-size:11px">${totalSp}/${totalAll}</div></div>`;
+    h+=`<div class="dash-ring-count"></div>`;
+    h+=`<div class="dash-ring-label">Total</div>`;
+    h+=`</div>`;
     cats.forEach(cat=>{
       const sp=catMap[cat].spotted.size,tot=catMap[cat].total.size;
       const clr=CC[cat]?CC[cat].bg:'var(--gold)';
@@ -399,6 +407,7 @@ function renderHome(){
   document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}R()};
   document.getElementById('browseBtn').onclick=()=>{navigate('browse')};
   document.getElementById('statSpotted').onclick=()=>{sco='spotted';navigate('browse')};
+  document.getElementById('statTotal').onclick=()=>{sco='spotted';navigate('browse')};
   document.querySelectorAll('[data-catlink]').forEach(el=>el.onclick=()=>{sco='spotted';ac=el.dataset.catlink;navigate('browse')});
   document.querySelectorAll('[data-park]').forEach(el=>el.onclick=()=>{navigate('park/'+el.dataset.park)});
   document.querySelectorAll('[data-animal]').forEach(el=>el.onclick=()=>{navigate('animal/'+el.dataset.animal)});
