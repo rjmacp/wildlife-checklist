@@ -164,9 +164,9 @@ body.light .back-btn{border-color:rgba(0,0,0,.1);background:rgba(0,0,0,.04)}
 .park-prog-bar{height:4px;background:var(--w05);border-radius:3px;overflow:hidden}
 .park-prog-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.22,1,.36,1)}
 .park-card-top{display:flex;gap:16px;align-items:center;margin-bottom:12px}
-.park-card-rings{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.park-card-rings{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
 .park-card-rings::-webkit-scrollbar{display:none}
-.park-card-ring{flex-shrink:0;text-align:center;min-width:48px}
+.park-card-ring{flex:1 1 0;min-width:0;text-align:center}
 .park-card-ring .dash-ring-svg{width:48px;height:48px;margin:0 auto 3px}
 .park-card-ring .dash-ring-label{font-size:8px;color:var(--dim);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
 .park-card-ring.complete .dash-ring-label{color:var(--gold)}
@@ -199,8 +199,9 @@ body.light .xp-tooltip{box-shadow:0 4px 16px rgba(0,0,0,.1)}
 .dash-recent-name{font-size:11px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dash-recent-park{font-size:9px;color:var(--gold);font-weight:600;margin-top:2px}
 .dash-recent-time{font-size:9px;color:var(--muted);margin-top:1px}
-.dash-rings{display:flex;gap:6px;padding-bottom:6px;flex-wrap:wrap}
-.dash-ring{flex:1 1 0;min-width:0;text-align:center;background:var(--card);border-radius:var(--r);padding:10px 4px;border:1px solid var(--w04);transition:box-shadow .3s}
+.dash-rings{display:flex;gap:6px;padding-bottom:6px;overflow-x:auto;scrollbar-width:none}
+.dash-rings::-webkit-scrollbar{display:none}
+.dash-ring{flex:1 1 0;min-width:68px;text-align:center;background:var(--card);border-radius:var(--r);padding:10px 4px;border:1px solid var(--w04);transition:box-shadow .3s}
 .dash-ring.complete{box-shadow:0 0 12px rgba(196,168,106,.3),0 0 4px rgba(196,168,106,.15);border-color:rgba(196,168,106,.4)}
 .dash-ring-svg{position:relative;width:52px;height:52px;margin:0 auto 4px}
 .dash-ring-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:17px}
@@ -228,7 +229,7 @@ body.light .dash-ring{box-shadow:0 1px 4px rgba(0,0,0,.08)}
 body.light .dash-ring.complete{box-shadow:0 0 12px rgba(154,123,58,.2),0 0 4px rgba(154,123,58,.1);border-color:rgba(154,123,58,.35)}
 body.light .dash-recent-img{box-shadow:0 1px 3px rgba(0,0,0,.08)}
 body.light .dash-xp-img{box-shadow:0 1px 3px rgba(0,0,0,.08)}
-@media(max-width:400px){.dash-stat{min-width:0;flex:1 1 0}.dash-stats{flex-wrap:nowrap}}
+@media(max-width:400px){.dash-stat{min-width:0;flex:1 1 0}.dash-stats{flex-wrap:nowrap}.park-card{padding:14px 14px}.park-card-top{gap:12px}.park-icon{width:50px;height:50px;font-size:34px;border-radius:12px}.park-name{font-size:16px}.park-card-rings{gap:6px}.park-card-ring .dash-ring-svg{width:42px;height:42px}.dash-ring-svg{width:46px;height:46px}.dash-ring-icon{font-size:15px}}
 /* ── LIGHTBOX OVERLAY ── */
 .lb-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease}
 .lb-overlay.open{opacity:1;visibility:visible}
