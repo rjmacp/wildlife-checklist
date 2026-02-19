@@ -938,14 +938,6 @@ function renderAnimal(animalId){
   // Wikipedia excerpt
   h+=`<div class="ap-section"><div class="ap-section-title">\uD83C\uDF10 Wikipedia</div><div id="wikiContent"><div class="ap-wiki-loading">Loading excerpt\u2026</div></div></div>`;
 
-  // Safari Tips (per park)
-  if(parks.length>0){
-    h+=`<div class="ap-section"><div class="ap-section-title">\uD83D\uDCA1 Safari Tips</div>`;
-    parks.forEach(p=>{
-      h+=`<div class="ap-tip"><div class="ap-tip-park">${p.parkIcon} ${e(p.parkName)}</div><div class="dt">${e(p.tip)}</div></div>`;
-    });
-    h+=`</div>`;
-  }
 
   // Available In (park links)
   h+=`<div class="ap-section"><div class="ap-section-title">\uD83C\uDFDE\uFE0F Available In</div>`;
