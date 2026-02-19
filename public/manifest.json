@@ -1,0 +1,16 @@
+{
+  "name": "Safari Spotter - Wildlife Checklist",
+  "short_name": "Safari Spotter",
+  "description": "Track your wildlife sightings across South African parks",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#141208",
+  "theme_color": "#141208",
+  "icons": [
+    {
+      "src": "icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

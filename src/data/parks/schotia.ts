@@ -1,0 +1,82 @@
+import type { Park } from '../../types/animals';
+
+export const PARK_SCHOTIA: Park = {
+  id: 'schotia',
+  name: 'Schotia Private Game Reserve',
+  subtitle: 'Big 5 — Afternoon & Night Safari',
+  icon: '🦁',
+  species: [
+    // Big 5
+    { id: 'lion', rarity: 'Common', tip: "Schotia's lions are frequently seen on the evening drive. The smaller reserve means very reliable sightings." },
+    { id: 'african-elephant', rarity: 'Common', tip: 'Move between Schotia and greater Addo area. Best seen near waterholes in the afternoon.' },
+    { id: 'white-rhinoceros', rarity: 'Uncommon', tip: 'Schotia has white rhino (not black like Addo). Favor open grassland. Rangers know their grazing spots.' },
+    { id: 'cape-buffalo', rarity: 'Common', tip: 'Relatively small, habituated herds. Often found in dense bush near water at dusk.' },
+    { id: 'leopard', rarity: 'Rare', tip: 'Present but seldom seen — thick valley bushveld provides excellent cover. Night drive with spotlights offers best chance.' },
+    // Large Mammals
+    { id: 'hippopotamus', rarity: 'Common', tip: 'A Schotia highlight — excellent viewing at the dam near the lodge from elevated vantage points.' },
+    { id: 'south-african-giraffe', rarity: 'Common', tip: 'Signature Schotia species — Addo has no giraffe. Seen on virtually every drive, browsing acacia and spekboomveld.' },
+    { id: 'burchells-zebra', rarity: 'Common', tip: 'Abundant throughout. Often in mixed herds with wildebeest. Very relaxed around vehicles.' },
+    { id: 'blue-wildebeest', rarity: 'Common', tip: 'Good numbers on open grasslands, often alongside zebra. Not present in Addo proper.' },
+    { id: 'warthog', rarity: 'Common', tip: 'Seen on every daytime drive. Very relaxed, often trotting with tails up. Piglets common in spring.' },
+    // Antelope
+    { id: 'greater-kudu', rarity: 'Common', tip: 'Abundant in the valley bushveld. Males with large spiralling horns frequently spotted browsing at thicket edges.' },
+    { id: 'eland', rarity: 'Uncommon', tip: 'Present but shyer than other species. Morning drive offers better chances in cooler hours.' },
+    { id: 'gemsbok', rarity: 'Uncommon', tip: 'Less common than at Addo. Favors drier, open sections of the reserve.' },
+    { id: 'red-hartebeest', rarity: 'Common', tip: 'Found on open plains in herds of 5-15. Watch for their distinctive rocking-horse gallop.' },
+    { id: 'springbok', rarity: 'Common', tip: 'Abundant on open grassland. Often seen pronking in cooler morning hours.' },
+    { id: 'impala', rarity: 'Common', tip: 'Very abundant — seen on every drive. Alarm calls often betray lion or leopard presence nearby.' },
+    { id: 'bushbuck', rarity: 'Common', tip: 'Frequently seen in thicker bush and riverine areas. More easily spotted in early morning.' },
+    { id: 'common-duiker', rarity: 'Uncommon', tip: 'Solitary and shy. Best seen on the night drive when they freeze in the spotlight.' },
+    { id: 'steenbok', rarity: 'Uncommon', tip: 'Small and easily overlooked. Often seen as pairs — one of the few monogamous antelope.' },
+    { id: 'waterbuck', rarity: 'Uncommon', tip: 'Found near dams and water features. Recognizable by the white ring on the rump. Not present at Addo.' },
+    { id: 'nyala', rarity: 'Uncommon', tip: 'Present in thicker bush areas. Males strikingly different from females. Best seen near water in late afternoon.' },
+    // Predators
+    { id: 'spotted-hyena', rarity: 'Uncommon', tip: 'Sometimes heard calling at night during boma dinner. Night drive provides the best viewing opportunity.' },
+    { id: 'brown-hyena', rarity: 'Rare', tip: 'Occasionally spotted on night drives. Much rarer than spotted hyena — a real Eastern Cape specialty.' },
+    { id: 'black-backed-jackal', rarity: 'Common', tip: 'Frequently seen at dusk and on night drives. Bold around the boma area, great close-up sightings.' },
+    { id: 'bat-eared-fox', rarity: 'Uncommon', tip: 'Found in drier, open grassland areas. Primarily nocturnal — the night drive spotlight often picks them up.' },
+    { id: 'african-wildcat', rarity: 'Rare', tip: 'Occasionally seen on the night drive. Longer legs and reddish-brown ear backing distinguish from domestic cats.' },
+    { id: 'caracal', rarity: 'Rare', tip: 'Present but strictly nocturnal. Sightings are a major event — count yourself very lucky.' },
+    { id: 'honey-badger', rarity: 'Rare', tip: 'Seldom seen due to wide-ranging, mostly nocturnal habits. Sightings are rare but do occur.' },
+    { id: 'small-grey-mongoose', rarity: 'Common', tip: 'Commonly seen darting across roads during daytime drives.' },
+    { id: 'small-spotted-genet', rarity: 'Uncommon', tip: 'Nocturnal. Sometimes spotted near the lodge and boma area at night.' },
+    // Primates
+    { id: 'vervet-monkey', rarity: 'Common', tip: 'Abundant around the lodge and boma area. Entertaining but keep belongings secured during dinner.' },
+    { id: 'chacma-baboon', rarity: 'Common', tip: 'Troops regularly encountered on game drives. Watch for interactions between troops and predators.' },
+    // Small Mammals & Nocturnal
+    { id: 'aardvark-antbear', rarity: 'Rare', tip: "One of Schotia's most prized nocturnal sightings. Winter months (Jun-Aug) improve odds on the night drive." },
+    { id: 'porcupine', rarity: 'Uncommon', tip: 'Seen regularly on the night drive. Quills are unmistakable in the spotlight.' },
+    { id: 'rock-hyrax-dassie', rarity: 'Common', tip: 'Often seen basking on rocks near the lodge in the afternoon sun.' },
+    { id: 'scrub-hare', rarity: 'Common', tip: 'Commonly seen on the night drive, freezing in the spotlight.' },
+    // Birds — Raptors
+    { id: 'martial-eagle', rarity: 'Uncommon', tip: "Schotia's open areas provide good raptor viewing. Ask your ranger to scan treetops and thermals." },
+    { id: 'secretary-bird', rarity: 'Uncommon', tip: 'Seen striding across the open plains. A charismatic species declining across Africa.' },
+    { id: 'african-fish-eagle', rarity: 'Uncommon', tip: "Found near the reserve's dams. Iconic call often heard during drives near water." },
+    { id: 'jackal-buzzard', rarity: 'Common', tip: 'Commonly seen soaring over the reserve. Endemic to southern Africa.' },
+    { id: 'pale-chanting-goshawk', rarity: 'Common', tip: 'Often perched on roadside poles and fence posts scanning for prey.' },
+    // Birds — Ground Birds
+    { id: 'common-ostrich', rarity: 'Common', tip: 'Frequently encountered on the open grasslands. Males with black plumage are particularly striking.' },
+    { id: 'blue-crane', rarity: 'Uncommon', tip: "South Africa's national bird. Found in open grassland areas of the reserve." },
+    { id: 'helmeted-guineafowl', rarity: 'Common', tip: 'Noisy flocks seen throughout the reserve. Often scatter across the road ahead of vehicles.' },
+    { id: 'southern-ground-hornbill', rarity: 'Rare', tip: 'Occasionally seen in groups walking through grassland. Critically endangered — a genuine highlight.' },
+    { id: 'kori-bustard', rarity: 'Uncommon', tip: "World's heaviest flying bird. Sometimes seen on the open plains." },
+    // Birds — Waterbirds
+    { id: 'egyptian-goose', rarity: 'Common', tip: 'Common around the dams and water features throughout the reserve.' },
+    { id: 'grey-heron', rarity: 'Common', tip: "Patient hunter at the reserve's dams. Often seen standing motionless in shallow water." },
+    { id: 'hadada-ibis', rarity: 'Common', tip: "Loud 'ha-da-da' call heard at dawn and dusk around the lodge." },
+    { id: 'cattle-egret', rarity: 'Common', tip: 'Almost always seen near buffalo and elephant herds, feeding on disturbed insects.' },
+    { id: 'hamerkop', rarity: 'Uncommon', tip: 'Found near dams. Look for their enormous domed nests in nearby trees.' },
+    { id: 'blacksmith-lapwing', rarity: 'Common', tip: "Common near water. Metallic 'tink-tink' call is unmistakable." },
+    // Birds — Passerines & Other
+    { id: 'fork-tailed-drongo', rarity: 'Common', tip: 'Expert mimic often seen following larger animals to catch disturbed insects.' },
+    { id: 'cape-starling', rarity: 'Common', tip: 'Glossy iridescent plumage. Common around the lodge and boma area.' },
+    { id: 'bokmakierie', rarity: 'Common', tip: "Pairs duet together — listen for 'bok-makierie' calls in the bush." },
+    { id: 'african-hoopoe', rarity: 'Common', tip: 'Unmistakable cinnamon bird with black-and-white wings. Probes ground for grubs.' },
+    { id: 'crowned-hornbill', rarity: 'Uncommon', tip: 'Found in wooded sections. Distinctive red bill and casque.' },
+    // Reptiles
+    { id: 'leopard-tortoise', rarity: 'Common', tip: "Frequently seen crossing roads, especially after rain. One of the 'Little 5'." },
+    { id: 'white-throated-monitor', rarity: 'Uncommon', tip: 'Found near the dams. Can be impressively large, basking on rocks in warmer months.' },
+    { id: 'puff-adder', rarity: 'Uncommon', tip: 'Occasionally seen on roads, especially in summer. Rely on camouflage, so watch your step.' },
+    { id: 'southern-rock-agama', rarity: 'Common', tip: 'Males with bright blue heads commonly seen basking on rocks around the lodge.' },
+  ],
+};

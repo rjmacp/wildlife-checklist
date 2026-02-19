@@ -1,0 +1,68 @@
+:root {
+  --bg: #141208;
+  --card: #1e1c14;
+  --gold: #C4A86A;
+  --gold-dim: #8A7A50;
+  --green: #6B8F3C;
+  --green-lt: #A8CC5A;
+  --text: #E8DCC8;
+  --dim: #8A7A60;
+  --muted: #5a5040;
+  --orange: #BF6A3D;
+  --r: 16px;
+  --w02: rgba(255,255,255,.02);
+  --w03: rgba(255,255,255,.03);
+  --w04: rgba(255,255,255,.04);
+  --w05: rgba(255,255,255,.05);
+  --w06: rgba(255,255,255,.06);
+  --w08: rgba(255,255,255,.08);
+  --w10: rgba(255,255,255,.1);
+  --overlay: rgba(20,18,8,.95);
+  --overlay-mid: rgba(20,18,8,.5);
+  --cv-bg: #1a1810;
+  --cp-bg: linear-gradient(135deg,#1a1810,#252318);
+  --name-col: #fff;
+  --name-shadow: 0 1px 8px rgba(0,0,0,.5);
+  --ctg-s-bg: rgba(255,255,255,.1);
+  --ctg-s-col: rgba(255,255,255,.7);
+  --ctg-z-bg: rgba(255,255,255,.06);
+  --ctg-z-col: rgba(255,255,255,.5);
+  --ckb-border: rgba(255,255,255,.2);
+  --ckb-bg: rgba(0,0,0,.3);
+  --rb-border: rgba(255,255,255,.1);
+  --sx-bg: rgba(255,255,255,.08);
+}
+
+body.light {
+  --bg: #F5F0E8;
+  --card: #FFFFFF;
+  --gold: #9A7B3A;
+  --gold-dim: #7A6530;
+  --green: #4A7520;
+  --green-lt: #3D6A18;
+  --text: #2C2A24;
+  --dim: #6B6455;
+  --muted: #9A9080;
+  --orange: #A55830;
+  --cv-bg: #E8E2D8;
+  --cp-bg: linear-gradient(135deg,#E8E2D8,#DDD5C8);
+  --overlay: rgba(245,240,232,.95);
+  --overlay-mid: rgba(245,240,232,.5);
+  --name-col: #2C2A24;
+  --name-shadow: 0 1px 4px rgba(0,0,0,.15);
+  --w02: rgba(0,0,0,.03);
+  --w03: rgba(0,0,0,.04);
+  --w04: rgba(0,0,0,.05);
+  --w05: rgba(0,0,0,.06);
+  --w06: rgba(0,0,0,.08);
+  --w08: rgba(0,0,0,.07);
+  --w10: rgba(0,0,0,.1);
+  --ctg-s-bg: rgba(0,0,0,.08);
+  --ctg-s-col: rgba(0,0,0,.65);
+  --ctg-z-bg: rgba(0,0,0,.05);
+  --ctg-z-col: rgba(0,0,0,.5);
+  --ckb-border: rgba(0,0,0,.18);
+  --ckb-bg: rgba(255,255,255,.75);
+  --rb-border: rgba(0,0,0,.1);
+  --sx-bg: rgba(0,0,0,.07);
+}
