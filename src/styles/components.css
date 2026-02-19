@@ -206,9 +206,8 @@ body.light .dash-stat{box-shadow:0 1px 4px rgba(0,0,0,.08)}
 body.light .dash-recent-img{box-shadow:0 1px 3px rgba(0,0,0,.08)}
 
 /* ── DASHBOARD RINGS ── */
-.dash-rings{display:flex;gap:6px;padding-bottom:6px;overflow-x:auto;scrollbar-width:none;justify-content:center}
-.dash-rings::-webkit-scrollbar{display:none}
-.dash-ring{flex:0 0 auto;min-width:68px;text-align:center;background:var(--card);border-radius:var(--r);padding:10px 4px;border:1px solid var(--w04);transition:box-shadow .3s}
+.dash-rings{display:flex;gap:4px;padding-bottom:6px;justify-content:center}
+.dash-ring{flex:1 1 0;min-width:0;text-align:center;background:var(--card);border-radius:var(--r);padding:8px 2px;border:1px solid var(--w04);transition:box-shadow .3s}
 .dash-ring.complete{box-shadow:0 0 12px rgba(196,168,106,.3),0 0 4px rgba(196,168,106,.15);border-color:rgba(196,168,106,.4)}
 .dash-ring-svg{position:relative;width:52px;height:52px;margin:0 auto 4px}
 .dash-ring-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:17px}
@@ -227,18 +226,25 @@ body.light .dash-ring.complete{box-shadow:0 0 12px rgba(154,123,58,.2),0 0 4px r
 .park-list{display:flex;flex-direction:column;gap:12px}
 .park-card{background:var(--card);border-radius:var(--r);padding:16px 18px;border:1px solid var(--w04);cursor:pointer;transition:all .3s ease}
 .park-card:active{transform:scale(.98)}
-.park-card-top{display:flex;gap:16px;align-items:center;margin-bottom:12px}
+.park-card-top{display:flex;gap:16px;align-items:center}
 .park-icon{font-size:42px;flex-shrink:0;width:60px;height:60px;display:flex;align-items:center;justify-content:center;background:var(--w03);border-radius:14px;border:1px solid var(--w04)}
 .park-info{flex:1;min-width:0}
 .park-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text);margin-bottom:3px}
-.park-sub{font-size:12px;color:var(--dim);margin-bottom:10px;font-weight:500}
-.park-card-rings{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
-.park-card-rings::-webkit-scrollbar{display:none}
+.park-sub{font-size:12px;color:var(--dim);font-weight:500}
+.park-card-chev{font-size:10px;color:var(--dim);transition:transform .3s cubic-bezier(.22,1,.36,1);flex-shrink:0}
+.park-card-chev.open{transform:rotate(180deg)}
+.park-card-expand{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.22,1,.36,1)}
+.park-card-expand.open{grid-template-rows:1fr}
+.park-card-expand-inner{overflow:hidden}
+.park-card-rings{display:flex;gap:6px;flex-wrap:wrap;padding-top:14px}
 .park-card-ring{flex:0 0 auto;text-align:center}
 .park-card-ring .dash-ring-svg{width:48px;height:48px;margin:0 auto 3px}
 .park-card-ring .dash-ring-label{font-size:8px;color:var(--dim);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
 .park-card-ring.complete .dash-ring-label{color:var(--gold)}
+.park-card-go{width:100%;margin-top:12px;padding:10px;border-radius:10px;border:1px solid rgba(196,168,106,.25);background:rgba(196,168,106,.06);color:var(--gold);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
+.park-card-go:active{transform:scale(.97);background:rgba(196,168,106,.15)}
 body.light .park-card{box-shadow:0 1px 4px rgba(0,0,0,.08)}
+body.light .park-card-go{color:var(--gold-dim);background:rgba(154,123,58,.06);border-color:rgba(154,123,58,.25)}
 
 /* ── BROWSE BUTTON ── */
 .browse-btn{width:100%;background:var(--card);border-radius:var(--r);padding:16px 20px;border:1px solid var(--w04);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .3s ease;margin-top:10px;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--text)}
@@ -282,6 +288,41 @@ body.light .lb-name{color:var(--text)}
 .stg-opt.on{background:var(--gold);color:#fff;box-shadow:0 2px 6px rgba(196,168,106,.3)}
 body.light .stg-modal{box-shadow:0 8px 32px rgba(0,0,0,.12)}
 body.light .stg-close{border-color:rgba(0,0,0,.1);background:rgba(0,0,0,.04);color:var(--text)}
+
+/* ── PARK PICKER POPOVER ── */
+.pp-backdrop{position:fixed;inset:0;z-index:99}
+.pp-pop{position:fixed;z-index:100;width:260px;background:var(--card);border-radius:12px;border:1px solid var(--w06);box-shadow:0 8px 28px rgba(0,0,0,.35);opacity:0;visibility:hidden;transform:scale(.95) translateY(-4px);transition:opacity .15s ease,transform .15s ease,visibility .15s ease;overflow:hidden}
+.pp-pop.show{opacity:1;visibility:visible;transform:scale(1) translateY(0)}
+.pp-hdr{padding:10px 14px 6px}
+.pp-title{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--text);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* ── Hero "Spotted" row (like Liked Songs) ── */
+.pp-hero{display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;transition:background .15s}
+.pp-hero:active{background:var(--w05)}
+.pp-hero-check{width:30px;height:30px;border-radius:50%;border:2px solid var(--w10);background:var(--w03);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--dim);transition:all .3s cubic-bezier(.22,1,.36,1)}
+.pp-hero-check.spotted{border-color:var(--green);background:var(--green);color:#fff}
+.pp-hero-info{flex:1;min-width:0}
+.pp-hero-label{display:block;font-size:13px;font-weight:700;color:var(--text)}
+.pp-hero-sub{display:block;font-size:10px;color:var(--dim);margin-top:1px}
+.pp-hero.spotted .pp-hero-label{color:var(--green-lt)}
+/* ── Divider ── */
+.pp-divider{border-top:1px solid var(--w04);margin:4px 14px 0}
+/* ── Park rows ── */
+.pp-row{display:flex;align-items:center;gap:8px;padding:7px 14px;cursor:pointer;transition:background .15s}
+.pp-row:last-child{padding-bottom:10px}
+.pp-row:first-of-type{padding-top:8px}
+.pp-row:active{background:var(--w05)}
+.pp-row-icon{font-size:16px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--w03);border-radius:6px;border:1px solid var(--w04);flex-shrink:0}
+.pp-park-name{flex:1;font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pp-btn{width:22px;height:22px;border-radius:6px;border:2px solid var(--w10);background:var(--w03);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--green-lt);transition:all .3s cubic-bezier(.22,1,.36,1)}
+.pp-btn.spotted{border-color:var(--green);background:rgba(107,143,60,.35)}
+/* ── Light mode ── */
+body.light .pp-pop{box-shadow:0 8px 28px rgba(0,0,0,.12);border-color:rgba(0,0,0,.1)}
+body.light .pp-hero-check{border-color:rgba(0,0,0,.15);background:#fff}
+body.light .pp-hero-check.spotted{border-color:var(--green);background:var(--green);color:#fff}
+body.light .pp-hero.spotted .pp-hero-label{color:var(--green)}
+body.light .pp-row-icon{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.06)}
+body.light .pp-btn{border-color:rgba(0,0,0,.15);background:#fff}
+body.light .pp-btn.spotted{border-color:var(--green);background:rgba(74,117,32,.2);color:var(--green)}
 
 /* ── ANIMAL PROFILE PAGE ── */
 .ap-hero{position:relative;height:280px;margin:0 -14px;overflow:hidden;background:var(--cv-bg)}

@@ -6,6 +6,7 @@ import AnimalProfilePage from './pages/AnimalProfilePage';
 import { useTheme } from './hooks/useTheme';
 import Lightbox from './components/common/Lightbox';
 import SettingsModal from './components/common/SettingsModal';
+import ParkPicker from './components/common/ParkPicker';
 import ErrorBoundary from './components/common/ErrorBoundary';
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
         </Routes>
       </ErrorBoundary>
       <Lightbox />
+      <ParkPicker />
       <SettingsModal theme={theme} onToggleTheme={toggleTheme} />
     </>
   );

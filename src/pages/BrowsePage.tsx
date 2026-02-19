@@ -16,6 +16,7 @@ import CategoryTabs from '../components/filters/CategoryTabs';
 import FilterPanel from '../components/filters/FilterPanel';
 import ProgressBar from '../components/progress/ProgressBar';
 import AnimalList from '../components/checklist/AnimalList';
+import { openParkPicker } from '../components/common/ParkPicker';
 
 function buildAllSpecies(): BrowseAnimal[] {
   const rarityRank: Record<string, number> = { Common: 1, Uncommon: 2, Rare: 3 };
@@ -242,13 +243,20 @@ export default function BrowsePage() {
           setFilter('expandedAnimal', filters.expandedAnimal === id ? null : id)
         }
         isChecked={(id) => isSpottedForFilter(id)}
-        onToggleCheck={(id) => {
-          // In browse mode with park filter, toggle that park; otherwise toggle first available park
-          const parkId =
-            filters.parkFilter !== 'All'
-              ? filters.parkFilter
-              : (allSpecies.find((a) => a._id === id)?._parks[0]?.parkId ?? '');
-          if (parkId) toggleSpotting(parkId, id);
+        onToggleCheck={(id, e) => {
+          if (filters.parkFilter !== 'All') {
+            toggleSpotting(filters.parkFilter, id);
+          } else {
+            const animal = allSpecies.find((a) => a._id === id);
+            if (!animal) return;
+            const sightings = getCrossParkSightings(id);
+            const spottedParkIds = new Set(sightings.map((s) => s.parkId));
+            const btn = (e.target as HTMLElement).closest('.ckb') as HTMLElement | null;
+            const rect = btn?.getBoundingClientRect();
+            openParkPicker(animal.name, animal._parks, spottedParkIds, (parkId) => {
+              toggleSpotting(parkId, id);
+            }, rect ?? undefined);
+          }
         }}
         getImage={getImage}
         getCrossParkSightings={getCrossParkSightings}

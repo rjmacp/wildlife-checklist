@@ -116,7 +116,7 @@ export default function ParkPage() {
 
   // Handlers
   const handleToggleCheck = useCallback(
-    (animalId: string) => {
+    (animalId: string, _e: React.MouseEvent) => {
       if (parkId) toggleSpotting(parkId, animalId);
     },
     [parkId, toggleSpotting],

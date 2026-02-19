@@ -1,5 +1,5 @@
 export { ANIMALS } from './animals';
-export { PARKS, PARK_ADDO, PARK_EDEN, PARK_KRUGER, PARK_SCHOTIA } from './parks';
+export { PARKS, PARK_ADDO, PARK_EDEN, PARK_KRUGER, PARK_SCHOTIA, PARK_WILD } from './parks';
 export {
   CATEGORY_COLORS,
   CATEGORY_ICONS,

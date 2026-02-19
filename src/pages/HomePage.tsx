@@ -1,11 +1,11 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Container from '../components/layout/Container';
 import Header from '../components/layout/Header';
 import ProgressRing from '../components/progress/ProgressRing';
 import { useChecklist } from '../hooks/useChecklist';
 import { useWikipediaImages } from '../hooks/useWikipediaImages';
-import { PARKS, ANIMALS, CATEGORY_COLORS, CATEGORY_ICONS } from '../data';
+import { PARKS, PARK_WILD, ANIMALS, CATEGORY_COLORS, CATEGORY_ICONS } from '../data';
 import { formatTimeAgo } from '../utils/time';
 import type { Category } from '../types/animals';
 
@@ -13,6 +13,7 @@ const ALL_CATEGORIES: Category[] = ['Mammal', 'Bird', 'Reptile', 'Amphibian', 'M
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const [expandedPark, setExpandedPark] = useState<string | null>(null);
   const { checklist, getUniqueSpotted, getAllSightings } = useChecklist();
 
   const uniqueSpotted = useMemo(() => getUniqueSpotted(), [getUniqueSpotted]);
@@ -32,6 +33,7 @@ export default function HomePage() {
   // Parks visited (at least one sighting)
   const parksVisited = useMemo(() => {
     return PARKS.filter((p) => {
+      if (p.id === PARK_WILD.id) return false;
       const pd = checklist[p.id];
       return pd && Object.keys(pd).length > 0;
     }).length;
@@ -76,7 +78,7 @@ export default function HomePage() {
 
   // Per-park category stats
   const parkStats = useMemo(() => {
-    return PARKS.map((park) => {
+    return [...PARKS].sort((a, b) => a.name.localeCompare(b.name)).map((park) => {
       const catStats = ALL_CATEGORIES.map((cat) => {
         const catSpecies = park.species.filter((sp) => ANIMALS[sp.id]?.category === cat);
         const spotted = catSpecies.filter((sp) => !!checklist[park.id]?.[sp.id]).length;
@@ -114,7 +116,7 @@ export default function HomePage() {
             </div>
             <div className="dash-stat">
               <div className="dash-stat-val">
-                {parksVisited}/{PARKS.length}
+                {parksVisited}
               </div>
               <div className="dash-stat-label">Parks Visited</div>
             </div>
@@ -171,10 +173,10 @@ export default function HomePage() {
           <ProgressRing
             spotted={uniqueSpotted.size}
             total={totalUniqueAnimals}
-            size={72}
+            size={48}
             color={totalColor}
           >
-            <span style={{ fontSize: 13, fontWeight: 700 }}>
+            <span style={{ fontSize: 10, fontWeight: 700 }}>
               {uniqueSpotted.size}/{totalUniqueAnimals}
             </span>
           </ProgressRing>
@@ -192,76 +194,95 @@ export default function HomePage() {
               }
               style={{ cursor: 'pointer' }}
             >
-              <ProgressRing spotted={c.spotted} total={c.total} size={72} color={clr}>
-                <span style={{ fontSize: 16 }}>{icon}</span>
+              <ProgressRing spotted={c.spotted} total={c.total} size={48} color={clr}>
+                <span style={{ fontSize: 14 }}>{icon}</span>
               </ProgressRing>
-              <div className="dash-ring-label">
+              <div className="dash-ring-count">
                 {c.spotted}/{c.total}
               </div>
+              <div className="dash-ring-label">{c.category}</div>
             </div>
           );
         })}
       </div>
       <button className="browse-btn" onClick={() => navigate('/browse')}>
-        Browse All Species
+        🔍 Browse All Species
       </button>
 
       {/* By Park section */}
       <h2 className="dash-section">By Park</h2>
       <div className="park-list">
-        {parkStats.map(({ park, catStats, totalSpotted, totalSpecies }) => (
-          <div
-            key={park.id}
-            className="park-card"
-            onClick={() => navigate(`/park/${park.id}`)}
-          >
-            <div className="park-card-top">
-              <div className="park-icon">{park.icon}</div>
-              <div className="park-info">
-                <div className="park-name">{park.name}</div>
-                <div className="park-sub">{park.subtitle}</div>
-              </div>
-            </div>
-            <div className="park-card-rings">
-              <div
-                className={`park-card-ring${
-                  totalSpotted === totalSpecies && totalSpecies > 0 ? ' complete' : ''
-                }`}
-              >
-                <ProgressRing
-                  spotted={totalSpotted}
-                  total={totalSpecies}
-                  size={48}
-                  color={
-                    totalSpecies && totalSpotted / totalSpecies > 0.5
-                      ? '#6B8F3C'
-                      : 'var(--gold)'
-                  }
-                >
-                  <span style={{ fontSize: 10, fontWeight: 700 }}>
-                    {totalSpotted}/{totalSpecies}
-                  </span>
-                </ProgressRing>
-              </div>
-              {catStats.map((c) => {
-                const clr = CATEGORY_COLORS[c.category]?.bg ?? '#888';
-                const icon = CATEGORY_ICONS[c.category] ?? '';
-                return (
-                  <div
-                    key={c.category}
-                    className={`park-card-ring${
-                      c.spotted === c.total && c.total > 0 ? ' complete' : ''
-                    }`}
-                  >
-                    <ProgressRing spotted={c.spotted} total={c.total} size={48} color={clr}>
-                      <span style={{ fontSize: 12 }}>{icon}</span>
-                    </ProgressRing>
+        {parkStats.filter(({ park }) => park.id !== PARK_WILD.id).map(({ park, catStats, totalSpotted, totalSpecies }) => {
+          const isExpanded = expandedPark === park.id;
+          const pct = totalSpecies ? Math.round((totalSpotted / totalSpecies) * 100) : 0;
+          return (
+            <div
+              key={park.id}
+              className="park-card"
+              onClick={() => setExpandedPark(isExpanded ? null : park.id)}
+            >
+              <div className="park-card-top">
+                <div className="park-icon">{park.icon}</div>
+                <div className="park-info">
+                  <div className="park-name">{park.name}</div>
+                  <div className="park-sub">
+                    {totalSpotted}/{totalSpecies} spotted · {pct}%
                   </div>
-                );
-              })}
+                </div>
+                <span className={`park-card-chev${isExpanded ? ' open' : ''}`}>▼</span>
+              </div>
+              <div className={`park-card-expand${isExpanded ? ' open' : ''}`}>
+                <div className="park-card-expand-inner">
+                  <div className="park-card-rings">
+                    <div
+                      className={`park-card-ring${
+                        totalSpotted === totalSpecies && totalSpecies > 0 ? ' complete' : ''
+                      }`}
+                    >
+                      <ProgressRing
+                        spotted={totalSpotted}
+                        total={totalSpecies}
+                        size={48}
+                        color={
+                          totalSpecies && totalSpotted / totalSpecies > 0.5
+                            ? '#6B8F3C'
+                            : 'var(--gold)'
+                        }
+                      >
+                        <span style={{ fontSize: 10, fontWeight: 700 }}>
+                          {totalSpotted}/{totalSpecies}
+                        </span>
+                      </ProgressRing>
+                    </div>
+                    {catStats.map((c) => {
+                      const clr = CATEGORY_COLORS[c.category]?.bg ?? '#888';
+                      const icon = CATEGORY_ICONS[c.category] ?? '';
+                      return (
+                        <div
+                          key={c.category}
+                          className={`park-card-ring${
+                            c.spotted === c.total && c.total > 0 ? ' complete' : ''
+                          }`}
+                        >
+                          <ProgressRing spotted={c.spotted} total={c.total} size={48} color={clr}>
+                            <span style={{ fontSize: 12 }}>{icon}</span>
+                          </ProgressRing>
+                          <div className="dash-ring-label">{c.spotted}/{c.total}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <button
+                    className="park-card-go"
+                    onClick={(e) => { e.stopPropagation(); navigate(`/park/${park.id}`); }}
+                  >
+                    View Park →
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </Container>
   );

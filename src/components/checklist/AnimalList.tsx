@@ -9,7 +9,7 @@ interface Props {
   expandedAnimal: string | null;
   onToggleExpand: (id: string) => void;
   isChecked: (id: string) => boolean;
-  onToggleCheck: (id: string) => void;
+  onToggleCheck: (id: string, e: React.MouseEvent) => void;
   getImage: (slug: string) => string | null;
   getCrossParkSightings: (id: string) => Array<{ parkId: string; parkName: string; date: string }>;
   getSpottedDate?: (id: string) => string | undefined;
@@ -55,7 +55,7 @@ export default function AnimalList({
           isExpanded={expandedAnimal === a._id}
           viewMode={viewMode}
           imageUrl={a.wikipediaSlug ? getImage(a.wikipediaSlug) : null}
-          onToggleCheck={() => onToggleCheck(a._id)}
+          onToggleCheck={(e) => onToggleCheck(a._id, e)}
           onToggleExpand={() => onToggleExpand(a._id)}
           crossParkSightings={getCrossParkSightings(a._id)}
           currentParkId={currentParkId}
