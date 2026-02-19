@@ -253,6 +253,7 @@ export default function HomePage() {
                           {totalSpotted}/{totalSpecies}
                         </span>
                       </ProgressRing>
+                      <div className="dash-ring-label">Total</div>
                     </div>
                     {catStats.map((c) => {
                       const clr = CATEGORY_COLORS[c.category]?.bg ?? '#888';
