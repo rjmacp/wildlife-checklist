@@ -75,7 +75,7 @@ img{display:block}input,button{font-family:inherit}::-webkit-scrollbar{display:n
 .fbn.on{border-color:rgba(196,168,106,.35);background:rgba(196,168,106,.1);color:var(--gold)}
 .fbn.sp{border-color:rgba(107,143,60,.4);background:rgba(107,143,60,.12);color:var(--green-lt)}
 .fbn.cl{border-color:rgba(200,80,80,.2);background:rgba(200,80,80,.05);color:#c87070}
-.fcn{margin-left:auto;font-size:11px;color:var(--muted);font-weight:500}
+.fcn{margin-left:auto;margin-right:4px;font-size:11px;color:var(--muted);font-weight:500}
 .fp{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:14px;border:1px solid var(--w04);display:none}
 .fp.show{display:block;animation:si .25s ease}
 .fg{margin-bottom:12px}.fg:last-child{margin-bottom:0}
