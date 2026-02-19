@@ -188,27 +188,31 @@ export default function FilterPanel(props: Props) {
           <div className="fos">
             {(
               [
-                ['type', 'Type'],
-                ['az', 'Name'],
-                ['rarity', 'Rarity'],
-                ['size', 'Size'],
-                ['conservation', 'Conservation'],
-                ['recent', 'Recently Spotted'],
+                ['type', null, 'Type'],
+                ['az', 'za', 'Name'],
+                ['rarity', 'rarity-r', 'Rarity'],
+                ['size', 'size-r', 'Size'],
+                ['conservation', 'conservation-r', 'Conservation'],
+                ['recent', 'recent-r', 'Recent'],
               ] as const
-            ).map(([v, l]) => (
-              <FilterOption
-                key={v}
-                label={v === 'az' && sort === 'za' ? 'Name ↓' : v === 'az' && sort === 'az' ? 'Name ↑' : l}
-                active={v === 'az' ? sort === 'az' || sort === 'za' : sort === v}
-                onClick={() => {
-                  if (v === 'az') {
-                    onSetSort(sort === 'az' ? 'za' : 'az');
-                  } else {
-                    onSetSort(v);
-                  }
-                }}
-              />
-            ))}
+            ).map(([fwd, rev, label]) => {
+              const isActive = sort === fwd || (rev != null && sort === rev);
+              const arrow = rev == null ? '' : sort === fwd ? ' ↑' : sort === rev ? ' ↓' : '';
+              return (
+                <FilterOption
+                  key={fwd}
+                  label={`${label}${arrow}`}
+                  active={isActive}
+                  onClick={() => {
+                    if (rev == null) {
+                      onSetSort(fwd);
+                    } else {
+                      onSetSort(sort === fwd ? rev : fwd);
+                    }
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

@@ -43,9 +43,18 @@ export function sortAnimals<T extends ResolvedAnimal | BrowseAnimal>(
           (RARITY_ORDER[a.rarity] ?? 9) - (RARITY_ORDER[b.rarity] ?? 9) ||
           a.name.localeCompare(b.name)
         );
+      case 'rarity-r':
+        return (
+          (RARITY_ORDER[b.rarity] ?? 9) - (RARITY_ORDER[a.rarity] ?? 9) ||
+          a.name.localeCompare(b.name)
+        );
       case 'size':
         return (
           (SIZE_ORDER[a.size] ?? 9) - (SIZE_ORDER[b.size] ?? 9) || a.name.localeCompare(b.name)
+        );
+      case 'size-r':
+        return (
+          (SIZE_ORDER[b.size] ?? 9) - (SIZE_ORDER[a.size] ?? 9) || a.name.localeCompare(b.name)
         );
       case 'conservation': {
         const ca = ANIMALS[a._id]?.conservationStatus;
@@ -53,6 +62,13 @@ export function sortAnimals<T extends ResolvedAnimal | BrowseAnimal>(
         const oa = ca ? (CONSERVATION_ORDER[ca] ?? 9) : 9;
         const ob = cb ? (CONSERVATION_ORDER[cb] ?? 9) : 9;
         return oa - ob || a.name.localeCompare(b.name);
+      }
+      case 'conservation-r': {
+        const ca2 = ANIMALS[a._id]?.conservationStatus;
+        const cb2 = ANIMALS[b._id]?.conservationStatus;
+        const oa2 = ca2 ? (CONSERVATION_ORDER[ca2] ?? 9) : 9;
+        const ob2 = cb2 ? (CONSERVATION_ORDER[cb2] ?? 9) : 9;
+        return ob2 - oa2 || a.name.localeCompare(b.name);
       }
       case 'recent': {
         const da = parkChecklist?.[a._id] ?? null;
@@ -68,6 +84,22 @@ export function sortAnimals<T extends ResolvedAnimal | BrowseAnimal>(
         if (ua && !ub) return -1;
         if (!ua && ub) return 1;
         if (ua && ub) return new Date(ub).getTime() - new Date(ua).getTime();
+        return a.name.localeCompare(b.name);
+      }
+      case 'recent-r': {
+        const da2 = parkChecklist?.[a._id] ?? null;
+        const db2 = parkChecklist?.[b._id] ?? null;
+        const ua2 =
+          uniqueSpotted && !da2 && fullChecklist
+            ? getCrossParkLatestDate(a._id, fullChecklist)
+            : da2;
+        const ub2 =
+          uniqueSpotted && !db2 && fullChecklist
+            ? getCrossParkLatestDate(b._id, fullChecklist)
+            : db2;
+        if (ua2 && !ub2) return 1;
+        if (!ua2 && ub2) return -1;
+        if (ua2 && ub2) return new Date(ua2).getTime() - new Date(ub2).getTime();
         return a.name.localeCompare(b.name);
       }
     }
