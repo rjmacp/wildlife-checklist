@@ -446,7 +446,6 @@ const hf=sf!=="All"||rf!=="All"||cf!=="All"||sc!=="All"||sco||sr;
 
 let h=`<div class="hdr"><button class="back-btn" id="backBtn">\u2190</button><button class="tmb" id="tmb">${tm==='dark'?'\u2600\uFE0F':'\uD83C\uDF19'}</button><div class="hdr-ey">${e(park.name)}</div><h1>${e(park.subtitle)}</h1><div class="hdr-m">${A.length} species \u2022 Tap to spot</div></div>`;
 
-if(imgLoading){h+=`<div class="ild">\uD83D\uDCF7 Loading photos\u2026</div>`}
 
 h+=`<div class="pb pb-exp" id="pbToggle">`;
 h+=`<div class="pr"><span class="ps">${tc} / ${A.length}</span><span class="pp">${pr.toFixed(1)}% spotted <span class="pb-arrow" id="pbArrow">\u25BC</span></span></div>`;
@@ -671,7 +670,6 @@ const spottedCount=pf!=='All'
 
 let h=`<div class="hdr"><button class="back-btn" id="backBtn">\u2190</button><button class="tmb" id="tmb">${tm==='dark'?'\u2600\uFE0F':'\uD83C\uDF19'}</button><div class="hdr-ey">All Parks</div><h1>All Species</h1><div class="hdr-m">${A.length} species across ${PARKS.length} parks</div></div>`;
 
-if(imgLoading){h+=`<div class="ild">\uD83D\uDCF7 Loading photos\u2026</div>`}
 
 const browsepr=adjusted.length?spottedCount/adjusted.length*100:0;
 h+=`<div class="pb pb-exp" id="pbToggle">`;
