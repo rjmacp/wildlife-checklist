@@ -164,9 +164,9 @@ body.light .back-btn{border-color:rgba(0,0,0,.1);background:rgba(0,0,0,.04)}
 .park-prog-bar{height:4px;background:var(--w05);border-radius:3px;overflow:hidden}
 .park-prog-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.22,1,.36,1)}
 .park-card-top{display:flex;gap:16px;align-items:center;margin-bottom:12px}
-.park-card-rings{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.park-card-rings{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;justify-content:center}
 .park-card-rings::-webkit-scrollbar{display:none}
-.park-card-ring{flex:1 1 0;min-width:0;text-align:center}
+.park-card-ring{flex:0 0 auto;text-align:center}
 .park-card-ring .dash-ring-svg{width:48px;height:48px;margin:0 auto 3px}
 .park-card-ring .dash-ring-label{font-size:8px;color:var(--dim);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
 .park-card-ring.complete .dash-ring-label{color:var(--gold)}
@@ -199,9 +199,9 @@ body.light .xp-tooltip{box-shadow:0 4px 16px rgba(0,0,0,.1)}
 .dash-recent-name{font-size:11px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dash-recent-park{font-size:9px;color:var(--gold);font-weight:600;margin-top:2px}
 .dash-recent-time{font-size:9px;color:var(--muted);margin-top:1px}
-.dash-rings{display:flex;gap:6px;padding-bottom:6px;overflow-x:auto;scrollbar-width:none}
+.dash-rings{display:flex;gap:6px;padding-bottom:6px;overflow-x:auto;scrollbar-width:none;justify-content:center}
 .dash-rings::-webkit-scrollbar{display:none}
-.dash-ring{flex:1 1 0;min-width:68px;text-align:center;background:var(--card);border-radius:var(--r);padding:10px 4px;border:1px solid var(--w04);transition:box-shadow .3s}
+.dash-ring{flex:0 0 auto;min-width:68px;text-align:center;background:var(--card);border-radius:var(--r);padding:10px 4px;border:1px solid var(--w04);transition:box-shadow .3s}
 .dash-ring.complete{box-shadow:0 0 12px rgba(196,168,106,.3),0 0 4px rgba(196,168,106,.15);border-color:rgba(196,168,106,.4)}
 .dash-ring-svg{position:relative;width:52px;height:52px;margin:0 auto 4px}
 .dash-ring-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:17px}

@@ -146,6 +146,168 @@ const PARK_EDEN = {
     // ══ FOREST SPECIALISTS ══
     { id: "narina-trogon", r: "Rare", t: "One of Africa's most beautiful birds. Brilliant green and red. Sits motionless in the canopy — scan carefully." },
     { id: "olive-thrush", r: "Common", t: "Familiar ground feeder with olive-brown plumage and orange belly. Flicks leaf litter aside near the walkway." },
+    // ══ COCKATOOS ══
+    { id: "bare-eyed-cockatoo", r: "Common", t: "Playful and social white cockatoo with a bare blue eye-patch. Often near the feeding stations interacting with visitors." },
+    { id: "citron-crested-cockatoo", r: "Rare", t: "A critically endangered subspecies with a stunning orange crest. One of the aviary's conservation treasures — look near the cockatoo perching area." },
+    { id: "lesser-sulphur-crested-cockatoo", r: "Uncommon", t: "Critically Endangered in the wild. Bright yellow crest and ear patches. Often perched on high branches near other cockatoos." },
+    { id: "medium-sulphur-crested-cockatoo", r: "Uncommon", t: "Larger than the lesser with a prominent yellow crest. Extremely intelligent — watch for problem-solving behaviour at enrichment stations." },
+    { id: "moluccan-cockatoo", r: "Uncommon", t: "Magnificent salmon-pink crest fans open when excited. One of the loudest birds in the aviary — you will hear them before you see them." },
+    { id: "palm-cockatoo", r: "Rare", t: "A dramatic dark grey cockatoo with a massive bill and red cheek patches. The only bird that drums with sticks — watch for this remarkable behaviour." },
+    { id: "umbrella-cockatoo", r: "Common", t: "Pure white with a broad fan-shaped crest. Very affectionate and social — often approaches visitors along the walkway with curiosity." },
+    // ══ TOUCANS & ARACARIS ══
+    { id: "black-necked-aracari", r: "Uncommon", t: "A smaller member of the toucan family with a colourful serrated bill. Check fruiting trees where small groups feed together." },
+    { id: "channel-billed-toucan", r: "Uncommon", t: "Large toucan with a spectacular blue-ridged bill. Listen for the croaking calls from the upper canopy near fruiting fig trees." },
+    { id: "green-aracari", r: "Uncommon", t: "The smallest toucan in the aviary with vivid green and yellow plumage. Look for family groups moving together through the canopy." },
+    // ══ LORIES & LORIKEETS ══
+    { id: "dusky-lory", r: "Uncommon", t: "Brown and orange parrot with a brush-tipped tongue for feeding on nectar. Check flowering trees where they hang upside-down to reach blossoms." },
+    { id: "green-naped-lorikeet", r: "Common", t: "Brilliantly colourful and acrobatic — often hangs upside-down at flowers. Their excited chattering draws attention to flowering trees." },
+    { id: "ornate-lorikeet", r: "Uncommon", t: "A beautifully marked lorikeet with red forehead and blue streaking. Less common than the rainbow lorikeet — check nectar feeders carefully." },
+    { id: "red-lory", r: "Uncommon", t: "Vivid red plumage makes this lory easy to spot against the green canopy. Often seen at nectar feeders and flowering trees." },
+    // ══ CONURES ══
+    { id: "black-capped-conure", r: "Uncommon", t: "Charming small conure with a dark cap and scaly breast. Quieter than most conures — check feeding platforms for small groups." },
+    { id: "nanday-parakeet", r: "Common", t: "Distinctive jet-black head on a green body. Extremely vocal — their loud calls often draw attention from across the aviary." },
+    { id: "gold-cap-conure", r: "Uncommon", t: "Golden-orange cap glows in sunlight. Related to the sun conure — compare the two species near the feeding stations." },
+    { id: "jandaya-conure", r: "Common", t: "Golden-yellow head and orange belly make them hard to miss. Often in noisy groups near the sun conures — compare the two species." },
+    { id: "maroon-bellied-conure", r: "Uncommon", t: "Look for the distinctive maroon belly patch on this green conure. Quieter and gentler than most — often in the mid-canopy." },
+    { id: "patagonian-conure", r: "Uncommon", t: "The largest conure in the aviary with olive plumage and a yellow belly patch. Often perches on prominent branches near the walkway." },
+    { id: "peach-fronted-conure", r: "Common", t: "Bright green with a peach-orange forehead. Hardy and active — look for them foraging in small flocks throughout the dome." },
+    { id: "red-fronted-conure", r: "Uncommon", t: "Large green conure with a red forehead and scattered red flecks. Often in mixed conure groups near feeding stations." },
+    { id: "red-masked-conure", r: "Uncommon", t: "Striking red face mask on green plumage. The species made famous by 'The Wild Parrots of Telegraph Hill'. Check exposed perches." },
+    { id: "white-eyed-conure", r: "Common", t: "Green conure with scattered red feathers and a white eye-ring. Hardy and adaptable — one of the more commonly seen conures." },
+    // ══ FLAMINGOS ══
+    { id: "greater-flamingo", r: "Common", t: "The taller, paler flamingo species. Watch them filter-feeding with their bills upside-down in the shallow water areas." },
+    { id: "caribbean-flamingo", r: "Common", t: "The most vividly pink flamingo — their intense colour comes from their crustacean-rich diet. Stunning against the green forest backdrop." },
+    // ══ CRANES ══
+    { id: "blue-crane", r: "Uncommon", t: "South Africa's national bird with elegant silvery-blue plumage. Watch for graceful courtship dancing near the open areas of the aviary." },
+    { id: "grey-crowned-crane", r: "Uncommon", t: "Regal crane with a spectacular golden crown. Watch for their elaborate dancing displays near the open areas of the aviary floor." },
+    // ══ CORVIDS & JAYS ══
+    { id: "cape-crow", r: "Uncommon", t: "Large glossy black crow with a slender bill. Highly intelligent — watch for their problem-solving behaviour near feeding areas." },
+    { id: "inca-jay", r: "Uncommon", t: "Spectacular blue and yellow jay from South America. Noisy family groups move through the mid-canopy — listen for their chattering calls." },
+    { id: "white-tailed-jay", r: "Uncommon", t: "Blue and white jay from Ecuador. Often in small groups foraging through the canopy — look for the distinctive white tail tip." },
+    // ══ DUCKS & TEAL ══
+    { id: "bahama-pintail", r: "Uncommon", t: "Attractive duck with white cheeks and a red-and-blue bill. Check the shallow water areas where it dabbles and upends for food." },
+    { id: "brazilian-teal", r: "Uncommon", t: "Small South American duck — males have a red bill and iridescent green wing patch. Found near the pond and stream areas." },
+    { id: "canvasback", r: "Rare", t: "North America's largest diving duck with a distinctive sloping head profile. Males have a rich chestnut head. Check deeper water areas." },
+    { id: "cape-shoveler", r: "Uncommon", t: "Near-endemic to southern Africa with an oversized spatulate bill for filter-feeding. Watch it sweep its bill through the shallows." },
+    { id: "carolina-duck", r: "Uncommon", t: "Also known as the wood duck — males are arguably the most beautiful ducks in North America. Check the waterside perches and pools." },
+    { id: "chestnut-teal", r: "Uncommon", t: "Males have a glossy green head and rich chestnut body. An Australian species — check the pond edges and shallow water areas." },
+    { id: "chiloe-wigeon", r: "Uncommon", t: "South American wigeon with a metallic green head patch. Often grazes on grass near the water as well as dabbling on the surface." },
+    { id: "eurasian-wigeon", r: "Rare", t: "Handsome duck with a chestnut head and cream forehead in males. Grazes on short grass near water — an unusual habit for a duck." },
+    { id: "ferruginous-duck", r: "Rare", t: "Rich chestnut-brown diving duck with bright white undertail. Near Threatened in the wild. Check vegetated pool edges and quieter water areas." },
+    { id: "fulvous-whistling-duck", r: "Uncommon", t: "Tall, tawny duck with distinctive white flank stripes. Listen for their high-pitched whistling calls near the water features." },
+    { id: "green-winged-teal", r: "Uncommon", t: "One of the smallest ducks — males have a green eye-patch on a chestnut head. Check shallow pool edges and muddy banks." },
+    { id: "laysan-teal", r: "Rare", t: "One of the world's rarest ducks — a remarkable conservation story. Brown with a white eye-ring. A very special sighting near quiet water areas." },
+    { id: "mandarin-duck", r: "Uncommon", t: "Often called the world's most beautiful duck. Males are extraordinarily ornate with orange 'sail' feathers. Check waterside perches and ponds." },
+    { id: "marbled-teal", r: "Rare", t: "Pale sandy-brown duck with delicate marbling. Classified as Vulnerable. A quiet, shy species — check densely vegetated pool edges." },
+    { id: "northern-pintail", r: "Uncommon", t: "Elegant duck with extremely long pointed tail feathers in males. Chocolate-brown head and white breast stripe. Check the pond areas." },
+    { id: "northern-shoveler", r: "Uncommon", t: "Instantly recognisable by the comically large spatulate bill. Males have a green head and chestnut flanks. Filter-feeds in the shallows." },
+    { id: "red-crested-pochard", r: "Uncommon", t: "Males are spectacular with a rounded orange head and red bill. A diving duck — check the deeper water areas of the aviary." },
+    { id: "ringed-teal", r: "Uncommon", t: "One of the smallest and most beautifully patterned ducks. Males have salmon-pink flanks with fine spots. Check pond edges and waterside perches." },
+    { id: "rosy-billed-pochard", r: "Uncommon", t: "Males have a striking rosy-red bill with a prominent knob. A large diving duck from South America — check the deeper pools." },
+    { id: "white-faced-whistling-duck", r: "Common", t: "Tall, elegant duck with a distinctive white face. Listen for the clear three-note whistle. Often stands upright near the water features." },
+    // ══ GEESE, SWANS & SHELDUCKS ══
+    { id: "barnacle-goose", r: "Uncommon", t: "Handsome goose with a white face and black head. Medieval legend claimed they hatched from barnacles. Often grazes on grass near the water." },
+    { id: "black-swan", r: "Uncommon", t: "Iconic Australian species — entirely black plumage with a bright red bill. White flight feathers are a surprise when they take flight." },
+    { id: "canada-goose", r: "Uncommon", t: "Large and recognisable with a black head and white chinstrap. Often near the pond and grassy areas. May honk loudly when disturbed." },
+    { id: "chinese-goose", r: "Uncommon", t: "Domesticated goose with a prominent bill knob and swan-like neck. Excellent alarm bird — raises a loud fuss when anyone approaches." },
+    { id: "common-shelduck", r: "Uncommon", t: "Boldly patterned duck-goose hybrid appearance with a dark green head, chestnut band, and red bill. Check near the water features." },
+    { id: "maned-goose", r: "Uncommon", t: "Australian wood duck with a dark mane on the back of the neck. More goose-like than duck-like — often grazes on grass near water." },
+    { id: "mute-swan", r: "Uncommon", t: "The classic graceful white swan with an orange bill and black knob. One of the heaviest flying birds. Found on the larger water features." },
+    { id: "orinoco-goose", r: "Uncommon", t: "Handsome South American goose with chestnut flanks and a buff head. Usually found in pairs near the pond and stream areas." },
+    // ══ ADDITIONAL MACAWS ══
+    { id: "green-winged-macaw", r: "Uncommon", t: "Massive red macaw with green wing patches — often confused with the scarlet macaw. Look for the red feather lines on the white face." },
+    { id: "hyacinth-macaw", r: "Rare", t: "The world's largest parrot by length with stunning cobalt-blue plumage. A Vulnerable species and the aviary's most spectacular resident." },
+    { id: "illigers-macaw", r: "Uncommon", t: "Medium-sized green macaw with blue wings and an orange belly patch. Also called the blue-winged macaw. Often in pairs near macaw perching areas." },
+    // ══ ADDITIONAL PARROTS & PARAKEETS ══
+    { id: "princess-of-wales-parakeet", r: "Rare", t: "Exquisitely delicate parakeet with pastel green, blue, and pink plumage. Near Threatened in its native Australia. A graceful aviary highlight." },
+    { id: "alexandrine-parakeet", r: "Uncommon", t: "One of the largest parakeets with a pink neck ring in males and a large red bill. Named after Alexander the Great. Check the upper canopy." },
+    { id: "australian-king-parrot", r: "Uncommon", t: "Males are spectacular with a bright red head and breast. The only Australian parrot with a completely red head. Check higher perching areas." },
+    { id: "jardines-parrot", r: "Uncommon", t: "Stocky green African parrot with orange-red patches. Quieter than most parrots — check feeding stations and mid-canopy perches." },
+    { id: "blue-fronted-amazon", r: "Uncommon", t: "Popular Amazon parrot with a blue forehead and yellow face. Excellent talker — listen for mimicry near the parrot feeding stations." },
+    { id: "eastern-rosella", r: "Uncommon", t: "Strikingly colourful with a red head, white cheeks, and scalloped back. One of Australia's most beautiful parrots. Check seed feeders." },
+    { id: "eclectus-parrot", r: "Uncommon", t: "Males are green, females are red — so different they look like separate species. One of the most sexually dimorphic parrots in the aviary." },
+    { id: "maximilians-pionus", r: "Uncommon", t: "Stocky green parrot with a scaly-looking head and red undertail. One of the quieter parrot species — check feeding stations calmly." },
+    { id: "monk-parakeet", r: "Common", t: "The only parrot that builds stick nests — look for their large communal nests in the aviary. Green with a grey face and breast." },
+    { id: "moustache-parakeet", r: "Uncommon", t: "Green parakeet with a pink breast and distinctive black moustache stripes. Active and vocal — often in noisy flocks through the canopy." },
+    { id: "orange-winged-amazon", r: "Uncommon", t: "Large green Amazon parrot with orange wing patches visible in flight. Often in noisy groups near the macaw and Amazon parrot area." },
+    { id: "red-bellied-parrot", r: "Uncommon", t: "Small grey parrot with an orange belly in males. A quieter African species — check the parrot feeding stations and mid-canopy perches." },
+    { id: "red-fronted-kakariki", r: "Uncommon", t: "Vibrant green New Zealand parakeet with a bright red crown. Unusually for a parrot, often forages on the ground. Check the forest floor." },
+    { id: "red-rumped-parakeet", r: "Uncommon", t: "Slender Australian parakeet — males are vivid green with a red rump. Often feeds on the ground in more open areas of the aviary." },
+    { id: "senegal-parrot", r: "Common", t: "Compact parrot with a grey head and bright yellow-orange belly. Popular and personable — often near feeding stations and visitor areas." },
+    { id: "timneh-grey-parrot", r: "Rare", t: "Smaller, darker cousin of the African grey with a maroon tail. Endangered in the wild. An exceptional mimic — listen carefully near feeding stations." },
+    { id: "white-crowned-pionus", r: "Uncommon", t: "Green parrot with a distinctive white crown and blue breast. One of the quietest parrot species in the aviary — a calm, gentle bird." },
+    { id: "yellow-crowned-amazon", r: "Uncommon", t: "Large green Amazon parrot with a variable yellow crown patch. Excellent talker and singer — listen for impressive vocalisations near feeding areas." },
+    // ══ ADDITIONAL HORNBILLS ══
+    { id: "african-grey-hornbill", r: "Uncommon", t: "The most widespread African hornbill with plain grey plumage and a pale bill. Listen for its thin piping whistle in the woodland sections." },
+    { id: "bradfields-hornbill", r: "Uncommon", t: "Brown-and-white hornbill with a pale yellowish bill. Check the mid-canopy fruiting trees where it forages for insects and fruit." },
+    { id: "red-billed-hornbill", r: "Common", t: "Small hornbill with a distinctive slender red bill. One of the most familiar African hornbills — often seen foraging on the aviary floor." },
+    { id: "von-der-deckens-hornbill", r: "Uncommon", t: "Males have a bright red bill with ivory tip; females have an all-black bill. A striking East African species — check the mid-canopy." },
+    { id: "yellow-billed-hornbill", r: "Uncommon", t: "The 'flying banana' with a large curved yellow bill. Often seen foraging on the ground for insects and seeds near the walkway." },
+    // ══ ADDITIONAL TURACOS & PLANTAIN-EATERS ══
+    { id: "bare-faced-go-away-bird", r: "Uncommon", t: "Pale grey with a distinctive bare black face. Like its grey cousin, calls 'go-away' loudly. Check prominent perches near open areas." },
+    { id: "guinea-turaco", r: "Uncommon", t: "Vivid green forest turaco with crimson flight feathers and a red-and-white eye-line. Check the mid-canopy near fruiting trees." },
+    { id: "violet-turaco", r: "Rare", t: "The largest turaco species with spectacular violet-blue plumage and a red crest. Crimson flight feathers flash dramatically when it takes flight." },
+    { id: "western-grey-plantain-eater", r: "Uncommon", t: "Large grey-brown turaco relative with a bushy crest and yellow bill. Loud, cackling call carries across the aviary. Check prominent perches." },
+    // ══ ADDITIONAL STARLINGS ══
+    { id: "ashy-starling", r: "Uncommon", t: "Elegant ash-grey starling with a long tail. Endemic to Tanzania — a special species to see outside its native range." },
+    { id: "burchells-starling", r: "Uncommon", t: "Large, spectacular starling with iridescent blue-purple plumage. Distinguished from the cape starling by its dark eye. Check fruiting trees." },
+    { id: "common-starling", r: "Uncommon", t: "Dark iridescent plumage shimmers green and purple. Famous for murmurations in the wild. Check the more open areas and feeding stations." },
+    { id: "golden-breasted-starling", r: "Uncommon", t: "Often called the world's most beautiful starling — metallic blue-green back with a golden-yellow breast. A true aviary highlight." },
+    { id: "plum-coloured-starling", r: "Uncommon", t: "Males are stunning iridescent amethyst-purple above and white below. Females are brown and streaked — check fruiting fig trees." },
+    { id: "purple-glossy-starling", r: "Uncommon", t: "Large starling with entirely iridescent purple-green plumage and bright orange eyes. Their metallic colours shimmer brilliantly in sunlight." },
+    { id: "superb-starling", r: "Common", t: "Truly superb — metallic blue-green back with a bright orange belly separated by a thin white line. Bold and confiding near visitors." },
+    // ══ ADDITIONAL PIGEONS & DOVES ══
+    { id: "australian-crested-dove", r: "Uncommon", t: "Distinctive upright black crest and iridescent wing patches. Wings produce a whistling sound in flight that serves as an alarm signal." },
+    { id: "emerald-dove", r: "Uncommon", t: "Stunningly beautiful ground dove with brilliant emerald-green wings. Shy — walk slowly and scan the forest floor in darker sections." },
+    { id: "green-imperial-pigeon", r: "Uncommon", t: "Large pigeon with metallic green upperparts. Feeds on fruit high in the canopy — look carefully among the leaves of fruiting trees." },
+    { id: "spotted-dove", r: "Common", t: "Graceful dove with a distinctive spotted neck patch. Their gentle, rhythmic cooing adds to the aviary's soundscape. Often near the walkway." },
+    { id: "namaqua-dove", r: "Uncommon", t: "Africa's smallest dove with a distinctive long pointed tail. Males have a black face and breast. Look for them feeding on the ground." },
+    { id: "rameron-pigeon", r: "Uncommon", t: "Large, dark purple pigeon with yellow eye-patches and bill. Feeds on fruit in the canopy. An important seed disperser for indigenous trees." },
+    { id: "speckled-pigeon", r: "Common", t: "Large pigeon with chestnut-brown wings covered in white spots and a red eye-patch. Common near the entrance and open areas." },
+    { id: "zebra-dove", r: "Uncommon", t: "Small, delicate dove with fine zebra-striped barring. Prized for its melodious cooing in Southeast Asia. Feeds calmly on the ground." },
+    // ══ ADDITIONAL WATERBIRDS ══
+    { id: "african-spoonbill", r: "Uncommon", t: "Elegant white wading bird with a distinctive spoon-shaped bill and red face. Sweeps its bill side to side through shallow water to feed." },
+    { id: "black-crowned-night-heron", r: "Uncommon", t: "Stocky heron with a black crown and red eyes. Active mainly at dusk — check overhanging branches near the stream and pool areas." },
+    { id: "common-moorhen", r: "Uncommon", t: "Dark waterbird with a red frontal shield and yellow-tipped bill. Walks on floating vegetation near the pond with jerky head movements." },
+    { id: "reed-cormorant", r: "Uncommon", t: "Small dark cormorant often seen perched with wings outstretched to dry after diving. Check near the stream and pool areas." },
+    { id: "scarlet-ibis", r: "Uncommon", t: "One of the aviary's most spectacular wading birds — entirely brilliant scarlet plumage. Their stunning colour comes from their crustacean-rich diet." },
+    // ══ ADDITIONAL PHEASANTS, QUAIL & GUINEAFOWL ══
+    { id: "california-quail", r: "Uncommon", t: "Plump quail with a distinctive forward-curving black head plume. Runs rather than flies — scan the undergrowth and forest floor edges." },
+    { id: "common-quail", r: "Rare", t: "Africa's smallest gamebird — superb camouflage makes them almost invisible on the ground. Listen for the 'wet-my-lips' call." },
+    { id: "crested-wood-partridge", r: "Rare", t: "One of the world's most beautiful partridges — males have iridescent green plumage and a red crest. Forages quietly on the forest floor." },
+    { id: "kenya-crested-guineafowl", r: "Uncommon", t: "Black spotted plumage with a curly black crest. More secretive than the helmeted guineafowl — check the shaded forest floor areas." },
+    { id: "reevess-pheasant", r: "Rare", t: "Males have the longest tail feathers of any bird — up to 2.4 metres. Classified as Vulnerable. Check the undergrowth in shadier areas." },
+    // ══ ADDITIONAL BARBETS ══
+    { id: "bearded-barbet", r: "Uncommon", t: "Large barbet with a red breast and prominent bristle-like feathers around the bill base. Check dead branches and fruiting trees." },
+    { id: "red-and-yellow-barbet", r: "Uncommon", t: "Boldly coloured with a red head and yellow wing patches. Listen for the loud, clock-like duetting calls from prominent perches." },
+    // ══ ADDITIONAL WEAVERS & BISHOPS ══
+    { id: "chestnut-weaver", r: "Uncommon", t: "Breeding males are rich chestnut with a black head. Check the weaver colony areas where males build nests to attract females." },
+    { id: "golden-palm-weaver", r: "Uncommon", t: "Brilliantly golden-yellow in breeding plumage. Weaves neat nests from palm fronds — look for nests suspended from palm leaves." },
+    { id: "red-billed-quelea", r: "Common", t: "The most abundant wild bird on Earth. Males have variable face masks and red bills. Often in flocks near seed feeders." },
+    { id: "zanzibar-red-bishop", r: "Uncommon", t: "Breeding males are fiery red-orange with a black belly. Similar to southern red bishop but with black belly. Check reedy areas." },
+    // ══ ADDITIONAL WHYDAHS & WIDOWBIRDS ══
+    { id: "long-tailed-widowbird", r: "Uncommon", t: "Breeding males are jet-black with extraordinarily long tail feathers that billow behind in display flights. Check grassier open areas." },
+    { id: "shaft-tailed-whydah", r: "Uncommon", t: "Breeding males have unique tail feathers with bare shafts ending in spatula-shaped tips. Watch for hovering display flights over open areas." },
+    // ══ ADDITIONAL FINCHES ══
+    { id: "zebra-finch", r: "Common", t: "Males have orange cheek patches and a zebra-striped tail. The most studied songbird in science. Check seed feeders and open areas." },
+    // ══ ADDITIONAL BULBULS ══
+    { id: "cape-bulbul", r: "Common", t: "Endemic to the Cape region with a distinctive white eye-wattle. Cheerful chattering call is a familiar sound. Common throughout the aviary." },
+    // ══ ADDITIONAL ROBIN-CHATS ══
+    { id: "white-starred-robin", r: "Rare", t: "Beautiful forest robin with slate-blue upperparts and a white star on the forehead. A skulking species — scan the leaf litter carefully." },
+    // ══ ADDITIONAL THRUSHES ══
+    { id: "groundscraper-thrush", r: "Uncommon", t: "Distinctive upright thrush with bold spots and a striking facial pattern. Named for scraping the ground with its bill. Check open areas." },
+    // ══ ADDITIONAL WHITE-EYES ══
+    { id: "cape-white-eye", r: "Common", t: "Tiny, active bird with a distinctive white eye-ring. Moves through foliage in restless flocks gleaning insects and probing flowers." },
+    // ══ ADDITIONAL SHRIKES ══
+    { id: "long-tailed-shrike", r: "Uncommon", t: "Predatory passerine with a long tail and black head mask. Perches conspicuously on exposed branches scanning for prey below." },
+    // ══ ADDITIONAL WARBLERS ══
+    { id: "willow-warbler", r: "Uncommon", t: "A summer migrant from Europe that travels over 12,000 km. Plain olive-green — easily overlooked among the showier species. Check low vegetation." },
+    // ══ THICK-KNEES ══
+    { id: "cape-thick-knee", r: "Rare", t: "Large-eyed, nocturnal wading bird with superb camouflage. Freezes when alarmed — listen for its haunting piping call after dusk." },
+    // ══ ADDITIONAL KINGFISHERS ══
+    { id: "laughing-kookaburra", r: "Uncommon", t: "Australia's iconic bird with a cackling laugh-like call. The largest kingfisher in the world — hunts snakes and lizards, not fish." },
+    // ══ ADDITIONAL ORIOLES ══
+    { id: "white-edged-oriole", r: "Uncommon", t: "Striking yellow-and-black New World oriole with white wing edges. Not related to the black-headed oriole despite similar colours." },
   ]
 };
 PARKS.push(PARK_EDEN);
