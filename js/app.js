@@ -265,7 +265,7 @@ function renderHome(){
     const latestInfo=latestSighting?ANIMALS[latestSighting.animalId]:null;
 
     h+=`<div class="dash-stats">`;
-    h+=`<div class="dash-stat"><div class="dash-stat-val">${uniqueSpotted.size}</div><div class="dash-stat-lbl">Total Spotted</div></div>`;
+    h+=`<div class="dash-stat" id="statSpotted" style="cursor:pointer"><div class="dash-stat-val">${uniqueSpotted.size}</div><div class="dash-stat-lbl">Total Spotted</div></div>`;
     h+=`<div class="dash-stat"><div class="dash-stat-val">${parksVisited}</div><div class="dash-stat-lbl">Parks Visited</div></div>`;
     h+=`</div>`;
 
@@ -398,6 +398,7 @@ function renderHome(){
   // Events
   document.getElementById('tmb').onclick=()=>{tm=tm==='dark'?'light':'dark';applyTheme();try{localStorage.setItem("addo-theme",tm)}catch(e){}R()};
   document.getElementById('browseBtn').onclick=()=>{navigate('browse')};
+  document.getElementById('statSpotted').onclick=()=>{sco='spotted';navigate('browse')};
   document.querySelectorAll('[data-park]').forEach(el=>el.onclick=()=>{navigate('park/'+el.dataset.park)});
   document.querySelectorAll('[data-animal]').forEach(el=>el.onclick=()=>{navigate('animal/'+el.dataset.animal)});
   document.querySelectorAll('[data-dlb]').forEach(el=>el.onclick=function(ev){
@@ -1024,7 +1025,8 @@ window.addEventListener('hashchange',function(ev){
   // Reset filters when navigating to a new page
   const route=getRoute();
   if(route.page==='browse'){
-    sr="";ac="All";sc="All";sf="All";rf="All";cf="All";shf=false;sco=false;ex=null;
+    const keepSco=sco;
+    sr="";ac="All";sc="All";sf="All";rf="All";cf="All";shf=false;sco=keepSco;srt="az";shs=false;ex=null;
     imgLoaded=false;
   }
   R();
