@@ -1,6 +1,6 @@
 {
-  "name": "Safari Spotter - Wildlife Checklist",
-  "short_name": "Safari Spotter",
+  "name": "Safari Wildlife Checklist",
+  "short_name": "Safari Wildlife Checklist",
   "description": "Track your wildlife sightings across South African parks",
   "start_url": "./",
   "display": "standalone",

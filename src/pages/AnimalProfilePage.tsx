@@ -141,9 +141,6 @@ export default function AnimalProfilePage() {
             <button className="cv-expand" onClick={() => handleLightbox(0)}>
               &#x26F6;
             </button>
-            <button className="ap-link ap-hero-add-photo" onClick={handleAddPhoto}>
-              &#128247; Add Photo
-            </button>
           </>
         ) : (
           <div className="ap-hero-emoji">{animal.emoji}</div>
@@ -205,6 +202,11 @@ export default function AnimalProfilePage() {
                 </div>
               );
             })}
+            {anySpotted && (
+              <button className="ap-link" style={{ marginTop: 12, width: '100%', justifyContent: 'center' }} onClick={handleAddPhoto}>
+                &#128247; Add Photo
+              </button>
+            )}
           </div>
         </div>
       </div>

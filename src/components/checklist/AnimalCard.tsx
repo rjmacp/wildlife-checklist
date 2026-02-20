@@ -279,13 +279,15 @@ export default function AnimalCard({
               </div>
             )}
             <div className="ds cd-actions">
-              <button
-                className="ap-link"
-                data-add-photo
-                onClick={handleAddPhoto}
-              >
-                &#128247; Add Photo
-              </button>
+              {isChecked && (
+                <button
+                  className="ap-link"
+                  data-add-photo
+                  onClick={handleAddPhoto}
+                >
+                  &#128247; Add Photo
+                </button>
+              )}
               <button
                 className="ap-link"
                 data-profile
