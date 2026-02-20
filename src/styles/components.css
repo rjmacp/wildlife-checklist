@@ -91,6 +91,7 @@ body.light .vtb.on{border-color:rgba(154,123,58,.4);background:rgba(154,123,58,.
 .cv{position:relative;height:200px;overflow:hidden;cursor:pointer;background:var(--cv-bg);transition:background .3s ease}
 .ci{width:100%;height:100%;object-fit:cover;transition:transform .4s ease,opacity .3s;opacity:.9}
 .cv:active .ci{transform:scale(1.03);opacity:.95}
+.cv:active .cc-slide{transform:none;opacity:1}
 .cp{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:72px;background:var(--cp-bg);opacity:.5}
 .cg{position:absolute;bottom:0;left:0;right:0;height:100%;background:linear-gradient(to top,var(--overlay) 0%,var(--overlay-mid) 40%,transparent 100%);pointer-events:none}
 body.light .ci{opacity:1}
@@ -271,6 +272,25 @@ body.light .browse-btn{box-shadow:0 1px 4px rgba(0,0,0,.08)}
 body.light .lb-overlay{background:rgba(245,240,232,.95)}
 body.light .lb-close{border-color:rgba(0,0,0,.15);background:rgba(0,0,0,.08);color:var(--text)}
 body.light .lb-name{color:var(--text)}
+
+/* ── CARD CAROUSEL ── */
+.cc-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;width:100%;height:100%;position:relative;z-index:1}
+.cc-track::-webkit-scrollbar{display:none}
+.cc-slide{flex:0 0 100%;scroll-snap-align:start;width:100%;height:100%;object-fit:cover}
+.cc-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2;pointer-events:none}
+.cc-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);transition:all .2s}
+.cc-dot.active{background:#fff;transform:scale(1.2)}
+body.light .cc-dot{background:rgba(0,0,0,.25)}
+body.light .cc-dot.active{background:rgba(0,0,0,.7)}
+
+/* ── LIGHTBOX GALLERY NAV ── */
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.45);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;transition:all .2s;backdrop-filter:blur(4px)}
+.lb-nav:active{transform:translateY(-50%) scale(.9)}
+.lb-nav-l{left:8px}
+.lb-nav-r{right:8px}
+.lb-counter{font-size:11px;font-weight:600;color:rgba(255,255,255,.5);margin-left:auto}
+body.light .lb-nav{border-color:rgba(0,0,0,.12);background:rgba(255,255,255,.7);color:var(--text)}
+body.light .lb-counter{color:rgba(0,0,0,.4)}
 
 /* ── SETTINGS MODAL ── */
 .stg-overlay{position:fixed;inset:0;z-index:999;display:none}

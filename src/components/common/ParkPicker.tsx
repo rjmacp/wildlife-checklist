@@ -68,11 +68,16 @@ export default function ParkPicker() {
 
   useEffect(() => {
     if (!state) return;
-    const handler = (e: KeyboardEvent) => {
+    const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close();
     };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
+    const handleScroll = () => close();
+    document.addEventListener('keydown', handleKey);
+    window.addEventListener('scroll', handleScroll, true);
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      window.removeEventListener('scroll', handleScroll, true);
+    };
   }, [state, close]);
 
   const handleToggle = useCallback(

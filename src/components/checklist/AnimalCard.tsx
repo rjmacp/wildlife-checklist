@@ -1,8 +1,10 @@
+import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ResolvedAnimal, BrowseAnimal } from '../../types/animals';
 import { ANIMALS } from '../../data/animals';
 import { CATEGORY_COLORS } from '../../data/constants';
 import { conservationClass, rarityClass } from '../../utils/colors';
+import { useGalleryImages } from '../../hooks/useGalleryImages';
 import CheckButton from './CheckButton';
 import { openLightbox } from '../common/Lightbox';
 import type { ViewMode } from '../../types/state';
@@ -50,10 +52,45 @@ export default function AnimalCard({
   const csC = csStatus ? conservationClass(csStatus) : null;
   const xpOther = crossParkSightings.filter((s) => s.parkId !== currentParkId);
 
+  // Gallery images
+  const slug = imageUrl ? (ANIMALS[a._id]?.wikipediaSlug ?? null) : null;
+  const { images: galleryImages } = useGalleryImages(slug);
+  const allImages = imageUrl ? [imageUrl, ...galleryImages] : [];
+  const multi = allImages.length > 1;
+
+  const [activeSlide, setActiveSlide] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const swipedRef = useRef(false);
+  const touchStartRef = useRef<{ x: number; scrollLeft: number } | null>(null);
+
+  const handleScroll = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const idx = Math.round(el.scrollLeft / el.clientWidth);
+    setActiveSlide(idx);
+  }, []);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    swipedRef.current = false;
+    touchStartRef.current = {
+      x: e.touches[0]!.clientX,
+      scrollLeft: trackRef.current?.scrollLeft ?? 0,
+    };
+  }, []);
+
+  const handleTouchMove = useCallback(() => {
+    const el = trackRef.current;
+    if (!el || !touchStartRef.current) return;
+    if (Math.abs(el.scrollLeft - touchStartRef.current.scrollLeft) > 10) {
+      swipedRef.current = true;
+    }
+  }, []);
+
   const handleCardClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
-    if (target.closest('[data-check]') || target.closest('[data-expand]') || target.closest('[data-profile]'))
+    if (target.closest('[data-check]') || target.closest('[data-expand]') || target.closest('[data-profile]') || target.closest('.cc-dots'))
       return;
+    if (target.closest('.cc-track') && swipedRef.current) return;
     if (viewMode === 'grid') {
       navigate(`/animal/${a._id}`);
       return;
@@ -64,7 +101,11 @@ export default function AnimalCard({
   const handleLightbox = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!imageUrl) return;
-    openLightbox(imageUrl, a.name, a.emoji, a.rarity);
+    if (allImages.length > 1) {
+      openLightbox(allImages, activeSlide, a.name, a.emoji, a.rarity);
+    } else {
+      openLightbox(imageUrl, a.name, a.emoji, a.rarity);
+    }
   };
 
   // For browse mode, get tips from the right park
@@ -80,7 +121,22 @@ export default function AnimalCard({
   return (
     <article className={`ac${isChecked ? ' ck' : ''}`}>
       <div className="cv" onClick={handleCardClick}>
-        {imageUrl && (
+        {imageUrl && multi ? (
+          <div className="cc-track" ref={trackRef} onScroll={handleScroll} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}>
+            {allImages.map((url, i) => (
+              <img
+                key={i}
+                className="cc-slide"
+                src={url}
+                alt={`${a.name} ${i + 1}`}
+                loading="lazy"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            ))}
+          </div>
+        ) : imageUrl ? (
           <img
             className="ci"
             src={imageUrl}
@@ -92,7 +148,7 @@ export default function AnimalCard({
               if (next) next.style.display = 'flex';
             }}
           />
-        )}
+        ) : null}
         <div className="cp" style={imageUrl ? { display: 'none' } : undefined}>
           {a.emoji}
         </div>
@@ -101,6 +157,13 @@ export default function AnimalCard({
           <button className="cv-expand" data-expand onClick={handleLightbox}>
             ⛶
           </button>
+        )}
+        {multi && (
+          <div className="cc-dots">
+            {allImages.map((_, i) => (
+              <span key={i} className={`cc-dot${i === activeSlide ? ' active' : ''}`} />
+            ))}
+          </div>
         )}
         <CheckButton checked={isChecked} onClick={(e) => { e.stopPropagation(); onToggleCheck(e); }} />
         <div className="cio">

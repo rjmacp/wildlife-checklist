@@ -8,6 +8,7 @@ import { CATEGORY_COLORS } from '../data/constants';
 import { useChecklist } from '../hooks/useChecklist';
 import { useWikipediaImages } from '../hooks/useWikipediaImages';
 import { useWikipediaExtract } from '../hooks/useWikipediaExtract';
+import { useGalleryImages } from '../hooks/useGalleryImages';
 import { conservationClass, rarityClass } from '../utils/colors';
 import { openLightbox } from '../components/common/Lightbox';
 import type { Rarity } from '../types/animals';
@@ -65,6 +66,11 @@ export default function AnimalProfilePage() {
 
   const hiResUrl = (url: string) => url.replace(/\/\d+px-/, '/800px-');
 
+  // Gallery images
+  const gallerySlug = imageUrl ? (animal.wikipediaSlug ?? null) : null;
+  const { images: galleryImages } = useGalleryImages(gallerySlug);
+  const allImages = imageUrl ? [imageUrl, ...galleryImages] : [];
+
   const handleLightbox = () => {
     if (!imageUrl) return;
     let rarity: Rarity = 'Common';
@@ -72,7 +78,11 @@ export default function AnimalProfilePage() {
     for (const p of parks) {
       if ((rarityRank[p.rarity] ?? 0) > (rarityRank[rarity] ?? 0)) rarity = p.rarity;
     }
-    openLightbox(imageUrl, animal.name, animal.emoji, rarity);
+    if (allImages.length > 1) {
+      openLightbox(allImages, 0, animal.name, animal.emoji, rarity);
+    } else {
+      openLightbox(imageUrl, animal.name, animal.emoji, rarity);
+    }
   };
 
   return (
