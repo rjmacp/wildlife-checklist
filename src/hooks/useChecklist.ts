@@ -35,13 +35,6 @@ export function useChecklist() {
     [checklist],
   );
 
-  const isSpottedAnywhere = useCallback(
-    (animalId: string): boolean => {
-      return PARKS.some((p) => !!checklist[p.id]?.[animalId]);
-    },
-    [checklist],
-  );
-
   const getUniqueSpotted = useCallback((): Set<string> => {
     const seen = new Set<string>();
     for (const park of PARKS) {
@@ -92,7 +85,6 @@ export function useChecklist() {
     checklist,
     toggleSpotting,
     isSpotted,
-    isSpottedAnywhere,
     getUniqueSpotted,
     getCrossParkSightings,
     getAllSightings,

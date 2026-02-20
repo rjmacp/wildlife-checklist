@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { hiResUrl } from '../../services/wikipedia';
 import { rarityClass } from '../../utils/colors';
 import type { Rarity } from '../../types/animals';
@@ -13,6 +13,8 @@ interface LightboxData {
 
 let openLightboxFn: ((data: LightboxData) => void) | null = null;
 
+export function openLightbox(url: string, name: string, emoji: string, rarity: Rarity): void;
+export function openLightbox(images: string[], startIndex: number, name: string, emoji: string, rarity: Rarity): void;
 export function openLightbox(
   images: string | string[],
   startIndexOrName: number | string,
@@ -20,10 +22,7 @@ export function openLightbox(
   emojiOrRarity: string | Rarity,
   rarity?: Rarity,
 ) {
-  // Support both old signature: (url, name, emoji, rarity)
-  // and new signature: (images[], startIndex, name, emoji, rarity)
   if (typeof images === 'string') {
-    // Old signature
     openLightboxFn?.({
       images: [images],
       startIndex: 0,
@@ -59,10 +58,17 @@ export default function Lightbox() {
     };
   }, []);
 
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const close = useCallback(() => {
     setOpen(false);
     document.body.style.overflow = '';
-    setTimeout(() => setData(null), 300);
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setData(null), 300);
+  }, []);
+
+  useEffect(() => () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
   }, []);
 
   const goNext = useCallback(() => {
@@ -97,6 +103,13 @@ export default function Lightbox() {
     if (data.images.length > 2) preload((index - 1 + data.images.length) % data.images.length);
   }, [data, index]);
 
+  const imgErrorRef = useRef(false);
+
+  // Reset error flag when image changes
+  useEffect(() => {
+    imgErrorRef.current = false;
+  }, [index, data]);
+
   const rCls = data ? rarityClass(data.rarity) : '';
   const multi = data && data.images.length > 1;
 
@@ -119,8 +132,9 @@ export default function Lightbox() {
               src={hiResUrl(data.images[index]!)}
               alt={data.name}
               onError={(e) => {
-                const img = e.currentTarget;
-                if (img.src !== data.images[index]) img.src = data.images[index]!;
+                if (imgErrorRef.current) return;
+                imgErrorRef.current = true;
+                e.currentTarget.src = data.images[index]!;
               }}
             />
           )}

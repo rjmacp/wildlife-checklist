@@ -47,15 +47,6 @@ export function useFilters(initial?: Partial<FilterState>) {
     }));
   }, []);
 
-  const resetForNavigation = useCallback((keepSpotted?: SpottedFilter, keepCategory?: string) => {
-    setFilters((prev) => ({
-      ...DEFAULT_FILTERS,
-      viewMode: prev.viewMode,
-      spotted: keepSpotted ?? false,
-      category: keepCategory ?? 'All',
-    }));
-  }, []);
-
   const hasActiveFilters =
     filters.size !== 'All' ||
     filters.rarity !== 'All' ||
@@ -64,5 +55,5 @@ export function useFilters(initial?: Partial<FilterState>) {
     filters.spotted !== false ||
     filters.search !== '';
 
-  return { filters, setFilter, clearFilters, resetForNavigation, hasActiveFilters };
+  return { filters, setFilter, clearFilters, hasActiveFilters };
 }

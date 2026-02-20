@@ -1,43 +1,8 @@
-import { useState, useEffect } from 'react';
-import { fetchGalleryImages } from '../services/wikipedia';
+// Gallery fetching disabled — Wikimedia Commons images were low quality.
+// Keeping the hook interface so the carousel/lightbox code stays intact
+// and can be re-enabled later with a better image source.
 
-const cache: Record<string, string[]> = {};
-const inflight: Record<string, Promise<string[]>> = {};
-
-export function useGalleryImages(slug: string | null): { images: string[]; loading: boolean } {
-  const [images, setImages] = useState<string[]>(slug && cache[slug] ? cache[slug] : []);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!slug) return;
-
-    if (cache[slug]) {
-      setImages(cache[slug]);
-      return;
-    }
-
-    let cancelled = false;
-    setLoading(true);
-
-    // Deduplicate in-flight requests
-    if (!inflight[slug]) {
-      inflight[slug] = fetchGalleryImages(slug).finally(() => {
-        delete inflight[slug];
-      });
-    }
-
-    inflight[slug].then((urls) => {
-      cache[slug] = urls;
-      if (!cancelled) {
-        setImages(urls);
-        setLoading(false);
-      }
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [slug]);
-
-  return { images, loading };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function useGalleryImages(_slug: string | null, _primaryUrl?: string | null): { images: string[]; loading: boolean } {
+  return { images: [], loading: false };
 }

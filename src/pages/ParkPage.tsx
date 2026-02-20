@@ -116,7 +116,7 @@ export default function ParkPage() {
 
   // Handlers
   const handleToggleCheck = useCallback(
-    (animalId: string, _e: React.MouseEvent) => {
+    (animalId: string) => {
       if (parkId) toggleSpotting(parkId, animalId);
     },
     [parkId, toggleSpotting],
@@ -242,8 +242,14 @@ export default function ParkPage() {
         conservation={filters.conservation}
         viewMode={filters.viewMode}
         filteredCount={filtered.length}
-        onToggleFilters={() => setFilter('showFilters', !filters.showFilters)}
-        onToggleSort={() => setFilter('showSort', !filters.showSort)}
+        onToggleFilters={() => {
+          setFilter('showFilters', !filters.showFilters);
+          setFilter('showSort', false);
+        }}
+        onToggleSort={() => {
+          setFilter('showSort', !filters.showSort);
+          setFilter('showFilters', false);
+        }}
         onClear={clearFilters}
         onSetSpotted={(v) => setFilter('spotted', v)}
         onSetSize={(v) => setFilter('size', v)}

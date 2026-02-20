@@ -252,11 +252,6 @@ body.light .park-card-go{color:var(--gold-dim);background:rgba(154,123,58,.06);b
 .browse-btn:active{transform:scale(.98)}
 body.light .browse-btn{box-shadow:0 1px 4px rgba(0,0,0,.08)}
 
-/* ── PARK FILTER ── */
-.park-filter{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;margin-bottom:8px;scrollbar-width:none}
-.park-filter::-webkit-scrollbar{display:none}
-.park-filter .ctb{padding:8px 14px;border-radius:11px;font-size:11px}
-
 /* ── LIGHTBOX ── */
 .lb-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease}
 .lb-overlay.open{opacity:1;visibility:visible}
@@ -401,9 +396,6 @@ body.light .ap-spotted-row.spotted{background:rgba(74,117,32,.08);border-color:r
 body.light .ap-spotted-btn{border-color:rgba(0,0,0,.15);background:#fff}
 body.light .ap-spotted-btn.spotted{border-color:var(--green);background:rgba(74,117,32,.2);color:var(--green)}
 body.light .ap-spotted-row.spotted .ap-spotted-date{color:var(--green)}
-
-/* ── LOADING ── */
-.ild{font-size:10px;color:var(--gold-dim);text-align:center;padding:4px 0 12px;animation:pulse 1.5s ease infinite}
 
 /* ── ANIMATIONS ── */
 @keyframes si{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}

@@ -10,6 +10,7 @@ import { useWikipediaImages } from '../hooks/useWikipediaImages';
 import { useWikipediaExtract } from '../hooks/useWikipediaExtract';
 import { useGalleryImages } from '../hooks/useGalleryImages';
 import { conservationClass, rarityClass } from '../utils/colors';
+import { hiResUrl } from '../services/wikipedia';
 import { openLightbox } from '../components/common/Lightbox';
 import type { Rarity } from '../types/animals';
 
@@ -31,6 +32,11 @@ export default function AnimalProfilePage() {
   const slugs = animal?.wikipediaSlug ? [animal.wikipediaSlug] : [];
   const { getImage } = useWikipediaImages(slugs);
   const imageUrl = animal?.wikipediaSlug ? getImage(animal.wikipediaSlug) : null;
+
+  // Gallery images (must be before early return to satisfy Rules of Hooks)
+  const gallerySlug = imageUrl ? (animal?.wikipediaSlug ?? null) : null;
+  const { images: galleryImages } = useGalleryImages(gallerySlug, imageUrl);
+  const allImages = imageUrl ? [imageUrl, ...galleryImages] : [];
 
   // Gather cross-park data
   const parks: ParkInfo[] = [];
@@ -63,13 +69,6 @@ export default function AnimalProfilePage() {
       </Container>
     );
   }
-
-  const hiResUrl = (url: string) => url.replace(/\/\d+px-/, '/800px-');
-
-  // Gallery images
-  const gallerySlug = imageUrl ? (animal.wikipediaSlug ?? null) : null;
-  const { images: galleryImages } = useGalleryImages(gallerySlug);
-  const allImages = imageUrl ? [imageUrl, ...galleryImages] : [];
 
   const handleLightbox = () => {
     if (!imageUrl) return;
@@ -123,7 +122,7 @@ export default function AnimalProfilePage() {
       {/* Tags */}
       <div className="ap-tags" style={{ marginTop: 14 }}>
         <span className="ctg ctg-s" style={{ background: `${clr}30`, color: clr }}>
-          {CATEGORY_COLORS[animal.category] ? '' : ''}{animal.category}
+          {animal.category}
         </span>
         <span className="ctg ctg-s" style={{ background: `${clr}20`, color: clr }}>
           {animal.subcategory}

@@ -7,4 +7,4 @@ import type { Park } from '../../types/animals';
 
 export const PARKS: Park[] = [PARK_ADDO, PARK_SCHOTIA, PARK_EDEN, PARK_KRUGER, PARK_WILD];
 
-export { PARK_ADDO, PARK_EDEN, PARK_KRUGER, PARK_SCHOTIA, PARK_WILD };
+export { PARK_WILD };

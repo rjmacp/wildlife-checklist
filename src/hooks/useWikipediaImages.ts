@@ -5,9 +5,10 @@ import { fetchImages } from '../services/wikipedia';
 
 export function useWikipediaImages(slugs: string[]) {
   const [cache, setCache] = useState<ImageCache>(loadImageCache);
-  const [loading, setLoading] = useState(false);
   const loadedRef = useRef(false);
   const slugsRef = useRef<string[]>([]);
+  const cacheRef = useRef(cache);
+  cacheRef.current = cache;
 
   // Reset loaded state when slugs change significantly
   useEffect(() => {
@@ -21,27 +22,26 @@ export function useWikipediaImages(slugs: string[]) {
 
   useEffect(() => {
     if (loadedRef.current || slugs.length === 0) return;
-    const missing = slugs.filter((s) => s && !cache[s]);
+    const currentCache = cacheRef.current;
+    const missing = slugs.filter((s) => s && !currentCache[s]);
     if (missing.length === 0) {
       loadedRef.current = true;
       return;
     }
 
     let cancelled = false;
-    setLoading(true);
 
-    fetchImages(slugs, cache).then((newCache) => {
+    fetchImages(slugs, currentCache).then((newCache) => {
       if (cancelled) return;
       setCache(newCache);
       saveImageCache(newCache);
-      setLoading(false);
       loadedRef.current = true;
     });
 
     return () => {
       cancelled = true;
     };
-  }, [slugs, cache]);
+  }, [slugs]);
 
   const getImage = useCallback(
     (slug: string): string | null => {
@@ -50,5 +50,5 @@ export function useWikipediaImages(slugs: string[]) {
     [cache],
   );
 
-  return { getImage, loading };
+  return { getImage };
 }

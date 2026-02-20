@@ -8,8 +8,8 @@ describe('data integrity', () => {
     expect(count).toBeGreaterThanOrEqual(90);
   });
 
-  it('has 4 parks', () => {
-    expect(PARKS).toHaveLength(4);
+  it('has 5 parks', () => {
+    expect(PARKS).toHaveLength(5);
   });
 
   it('all park species reference valid animals', () => {

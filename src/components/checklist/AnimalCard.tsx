@@ -54,7 +54,7 @@ export default function AnimalCard({
 
   // Gallery images
   const slug = imageUrl ? (ANIMALS[a._id]?.wikipediaSlug ?? null) : null;
-  const { images: galleryImages } = useGalleryImages(slug);
+  const { images: galleryImages } = useGalleryImages(slug, imageUrl);
   const allImages = imageUrl ? [imageUrl, ...galleryImages] : [];
   const multi = allImages.length > 1;
 
@@ -243,7 +243,7 @@ export default function AnimalCard({
             )}
             {!browseMode && xpOther.length > 0 && (
               <div className="ds">
-                <CrossParkBadge sightings={crossParkSightings} otherCount={xpOther.length} />
+                <CrossParkBadge sightings={xpOther} />
               </div>
             )}
             {browseMode && crossParkSightings.length > 0 && (
@@ -288,15 +288,13 @@ export default function AnimalCard({
 
 function CrossParkBadge({
   sightings,
-  otherCount,
 }: {
   sightings: CrossParkSighting[];
-  otherCount: number;
 }) {
   const text =
     sightings.length > 1
-      ? `Seen in ${sightings.length} parks`
-      : `Also seen in ${sightings.find((_, i) => i === otherCount - 1)?.parkName ?? ''}`;
+      ? `Seen in ${sightings.length} other parks`
+      : `Also seen in ${sightings[0]?.parkName ?? ''}`;
 
   return (
     <div className="xp-badge" onClick={(e) => {

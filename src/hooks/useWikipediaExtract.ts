@@ -11,12 +11,16 @@ export function useWikipediaExtract(slug: string | undefined) {
     setLoading(true);
     setExtract(null);
 
-    fetchWikiExtract(slug).then((text) => {
-      if (!cancelled) {
-        setExtract(text);
-        setLoading(false);
-      }
-    });
+    fetchWikiExtract(slug)
+      .then((text) => {
+        if (!cancelled) {
+          setExtract(text);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setLoading(false);
+      });
 
     return () => {
       cancelled = true;
