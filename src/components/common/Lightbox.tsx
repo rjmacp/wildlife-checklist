@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { hiResUrl } from '../../services/wikipedia';
 import { rarityClass } from '../../utils/colors';
+import { deletePhoto } from '../../utils/capturePhoto';
 import type { Rarity } from '../../types/animals';
+import type { UserPhoto } from '../../types/state';
 
 interface LightboxData {
   images: string[];
@@ -9,18 +11,20 @@ interface LightboxData {
   name: string;
   emoji: string;
   rarity: Rarity;
+  photoMeta?: (UserPhoto | undefined)[];
 }
 
 let openLightboxFn: ((data: LightboxData) => void) | null = null;
 
 export function openLightbox(url: string, name: string, emoji: string, rarity: Rarity): void;
-export function openLightbox(images: string[], startIndex: number, name: string, emoji: string, rarity: Rarity): void;
+export function openLightbox(images: string[], startIndex: number, name: string, emoji: string, rarity: Rarity, photoMeta?: (UserPhoto | undefined)[]): void;
 export function openLightbox(
   images: string | string[],
   startIndexOrName: number | string,
   nameOrEmoji: string,
   emojiOrRarity: string | Rarity,
   rarity?: Rarity,
+  photoMeta?: (UserPhoto | undefined)[],
 ) {
   if (typeof images === 'string') {
     openLightboxFn?.({
@@ -37,6 +41,7 @@ export function openLightbox(
       name: nameOrEmoji,
       emoji: emojiOrRarity as string,
       rarity: rarity!,
+      photoMeta,
     });
   }
 }
@@ -110,6 +115,27 @@ export default function Lightbox() {
     imgErrorRef.current = false;
   }, [index, data]);
 
+  const currentPhotoMeta = data?.photoMeta?.[index];
+
+  const handleDelete = useCallback(async () => {
+    if (!data || !currentPhotoMeta) return;
+    const ok = window.confirm('Delete this photo?');
+    if (!ok) return;
+
+    await deletePhoto(currentPhotoMeta.animalId, currentPhotoMeta.id);
+
+    const newImages = data.images.filter((_, i) => i !== index);
+    const newMeta = data.photoMeta?.filter((_, i) => i !== index);
+
+    if (newImages.length === 0) {
+      close();
+    } else {
+      const newIndex = index >= newImages.length ? newImages.length - 1 : index;
+      setData({ ...data, images: newImages, photoMeta: newMeta });
+      setIndex(newIndex);
+    }
+  }, [data, currentPhotoMeta, index, close]);
+
   const rCls = data ? rarityClass(data.rarity) : '';
   const multi = data && data.images.length > 1;
 
@@ -141,10 +167,10 @@ export default function Lightbox() {
           {multi && (
             <>
               <button className="lb-nav lb-nav-l" onClick={(e) => { e.stopPropagation(); goPrev(); }}>
-                ‹
+                &#8249;
               </button>
               <button className="lb-nav lb-nav-r" onClick={(e) => { e.stopPropagation(); goNext(); }}>
-                ›
+                &#8250;
               </button>
             </>
           )}
@@ -155,6 +181,11 @@ export default function Lightbox() {
             <span className="lb-name">{data.name}</span>
             <span className={`lb-rarity rb ${rCls}`}>{data.rarity}</span>
             {multi && <span className="lb-counter">{index + 1} / {data.images.length}</span>}
+            {currentPhotoMeta && (
+              <button className="lb-delete" onClick={handleDelete} title="Delete photo">
+                &#128465;
+              </button>
+            )}
           </div>
         )}
       </div>

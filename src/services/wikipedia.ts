@@ -3,7 +3,7 @@ import type { ImageCache } from '../types/state';
 const API_BASE = 'https://en.wikipedia.org/w/api.php';
 
 export function hiResUrl(url: string): string {
-  if (!url) return url;
+  if (!url || url.startsWith('blob:')) return url;
   return url.replace(/\/(\d+)px-/, (_m, w) => `/${Math.min(parseInt(w) * 2, 1280)}px-`);
 }
 

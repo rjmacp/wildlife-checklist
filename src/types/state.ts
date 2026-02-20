@@ -8,3 +8,15 @@ export type ChecklistData = Record<string, Record<string, string>>;
 
 /** Wikipedia image cache: { wikipediaSlug: imageUrl } */
 export type ImageCache = Record<string, string>;
+
+/** A single user-uploaded photo */
+export interface UserPhoto {
+  id: string;          // crypto.randomUUID()
+  animalId: string;
+  parkId: string;
+  timestamp: string;   // ISO date
+  mimeType: string;
+}
+
+/** Photo index keyed by animalId */
+export type PhotoIndex = Record<string, UserPhoto[]>;

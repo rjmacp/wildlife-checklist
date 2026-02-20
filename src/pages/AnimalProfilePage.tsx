@@ -11,6 +11,7 @@ import { useWikipediaExtract } from '../hooks/useWikipediaExtract';
 import { useGalleryImages } from '../hooks/useGalleryImages';
 import { conservationClass, rarityClass } from '../utils/colors';
 import { hiResUrl } from '../services/wikipedia';
+import { capturePhoto } from '../utils/capturePhoto';
 import { openLightbox } from '../components/common/Lightbox';
 import type { Rarity } from '../types/animals';
 
@@ -33,10 +34,10 @@ export default function AnimalProfilePage() {
   const { getImage } = useWikipediaImages(slugs);
   const imageUrl = animal?.wikipediaSlug ? getImage(animal.wikipediaSlug) : null;
 
-  // Gallery images (must be before early return to satisfy Rules of Hooks)
-  const gallerySlug = imageUrl ? (animal?.wikipediaSlug ?? null) : null;
-  const { images: galleryImages } = useGalleryImages(gallerySlug, imageUrl);
-  const allImages = imageUrl ? [imageUrl, ...galleryImages] : [];
+  // User photos
+  const { images: userImages, photos: userPhotos } = useGalleryImages(animalId ?? null);
+  const allImages = [...(imageUrl ? [imageUrl] : []), ...userImages];
+  const photoMeta = [...(imageUrl ? [undefined] : []), ...userPhotos.map((p) => p)];
 
   // Gather cross-park data
   const parks: ParkInfo[] = [];
@@ -70,18 +71,43 @@ export default function AnimalProfilePage() {
     );
   }
 
-  const handleLightbox = () => {
-    if (!imageUrl) return;
-    let rarity: Rarity = 'Common';
+  const bestRarity = (): Rarity => {
     const rarityRank: Record<string, number> = { Common: 1, Uncommon: 2, Rare: 3 };
+    let r: Rarity = 'Common';
     for (const p of parks) {
-      if ((rarityRank[p.rarity] ?? 0) > (rarityRank[rarity] ?? 0)) rarity = p.rarity;
+      if ((rarityRank[p.rarity] ?? 0) > (rarityRank[r] ?? 0)) r = p.rarity;
     }
+    return r;
+  };
+
+  const handleLightbox = (startIndex = 0) => {
+    if (allImages.length === 0) return;
+    const rarity = bestRarity();
     if (allImages.length > 1) {
-      openLightbox(allImages, 0, animal.name, animal.emoji, rarity);
+      openLightbox(allImages, startIndex, animal.name, animal.emoji, rarity, photoMeta);
     } else {
-      openLightbox(imageUrl, animal.name, animal.emoji, rarity);
+      if (photoMeta[0]) {
+        openLightbox(allImages, 0, animal.name, animal.emoji, rarity, photoMeta);
+      } else {
+        openLightbox(allImages[0]!, animal.name, animal.emoji, rarity);
+      }
     }
+  };
+
+  // Resolve target parkId for photo upload
+  const targetParkId = (): string => {
+    // Most recently spotted park
+    let latest: { parkId: string; date: string } | null = null;
+    for (const p of parks) {
+      const d = checklist[p.parkId]?.[animalId];
+      if (d && (!latest || d > latest.date)) latest = { parkId: p.parkId, date: d };
+    }
+    if (latest) return latest.parkId;
+    return parks[0]?.parkId ?? 'unknown';
+  };
+
+  const handleAddPhoto = async () => {
+    await capturePhoto(animalId, targetParkId());
   };
 
   return (
@@ -109,8 +135,8 @@ export default function AnimalProfilePage() {
             <div className="ap-hero-emoji" style={{ display: 'none' }}>
               {animal.emoji}
             </div>
-            <button className="cv-expand" onClick={handleLightbox}>
-              ⛶
+            <button className="cv-expand" onClick={() => handleLightbox(0)}>
+              &#x26F6;
             </button>
           </>
         ) : (
@@ -118,6 +144,28 @@ export default function AnimalProfilePage() {
         )}
         <div className="ap-hero-overlay" />
       </div>
+
+      {/* Add Photo button */}
+      <div style={{ marginTop: 10, marginBottom: 4 }}>
+        <button className="ap-add-photo" onClick={handleAddPhoto}>
+          &#128247; Add Photo
+        </button>
+      </div>
+
+      {/* User photo thumbnails */}
+      {userImages.length > 0 && (
+        <div className="ap-user-photos">
+          {userImages.map((url, i) => (
+            <img
+              key={userPhotos[i]?.id ?? i}
+              className="ap-thumb"
+              src={url}
+              alt={`User photo ${i + 1}`}
+              onClick={() => handleLightbox(imageUrl ? i + 1 : i)}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Tags */}
       <div className="ap-tags" style={{ marginTop: 14 }}>

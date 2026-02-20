@@ -5,6 +5,7 @@ import { ANIMALS } from '../../data/animals';
 import { CATEGORY_COLORS } from '../../data/constants';
 import { conservationClass, rarityClass } from '../../utils/colors';
 import { useGalleryImages } from '../../hooks/useGalleryImages';
+import { capturePhoto } from '../../utils/capturePhoto';
 import CheckButton from './CheckButton';
 import { openLightbox } from '../common/Lightbox';
 import type { ViewMode } from '../../types/state';
@@ -52,10 +53,10 @@ export default function AnimalCard({
   const csC = csStatus ? conservationClass(csStatus) : null;
   const xpOther = crossParkSightings.filter((s) => s.parkId !== currentParkId);
 
-  // Gallery images
-  const slug = imageUrl ? (ANIMALS[a._id]?.wikipediaSlug ?? null) : null;
-  const { images: galleryImages } = useGalleryImages(slug, imageUrl);
-  const allImages = imageUrl ? [imageUrl, ...galleryImages] : [];
+  // User photos
+  const { images: userImages, photos: userPhotos } = useGalleryImages(a._id);
+  const allImages = [...(imageUrl ? [imageUrl] : []), ...userImages];
+  const photoMeta = [...(imageUrl ? [undefined] : []), ...userPhotos.map((p) => p)];
   const multi = allImages.length > 1;
 
   const [activeSlide, setActiveSlide] = useState(0);
@@ -88,7 +89,7 @@ export default function AnimalCard({
 
   const handleCardClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
-    if (target.closest('[data-check]') || target.closest('[data-expand]') || target.closest('[data-profile]') || target.closest('.cc-dots'))
+    if (target.closest('[data-check]') || target.closest('[data-expand]') || target.closest('[data-profile]') || target.closest('.cc-dots') || target.closest('[data-add-photo]'))
       return;
     if (target.closest('.cc-track') && swipedRef.current) return;
     if (viewMode === 'grid') {
@@ -100,12 +101,22 @@ export default function AnimalCard({
 
   const handleLightbox = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!imageUrl) return;
+    if (allImages.length === 0) return;
     if (allImages.length > 1) {
-      openLightbox(allImages, activeSlide, a.name, a.emoji, a.rarity);
+      openLightbox(allImages, activeSlide, a.name, a.emoji, a.rarity, photoMeta);
     } else {
-      openLightbox(imageUrl, a.name, a.emoji, a.rarity);
+      if (photoMeta[0]) {
+        openLightbox(allImages, 0, a.name, a.emoji, a.rarity, photoMeta);
+      } else {
+        openLightbox(allImages[0]!, a.name, a.emoji, a.rarity);
+      }
     }
+  };
+
+  const handleAddPhoto = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const parkId = currentParkId ?? crossParkSightings[0]?.parkId ?? 'unknown';
+    await capturePhoto(a._id, parkId);
   };
 
   // For browse mode, get tips from the right park
@@ -121,7 +132,7 @@ export default function AnimalCard({
   return (
     <article className={`ac${isChecked ? ' ck' : ''}`}>
       <div className="cv" onClick={handleCardClick}>
-        {imageUrl && multi ? (
+        {allImages.length > 1 ? (
           <div className="cc-track" ref={trackRef} onScroll={handleScroll} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}>
             {allImages.map((url, i) => (
               <img
@@ -136,10 +147,10 @@ export default function AnimalCard({
               />
             ))}
           </div>
-        ) : imageUrl ? (
+        ) : allImages.length === 1 ? (
           <img
             className="ci"
-            src={imageUrl}
+            src={allImages[0]}
             alt={a.name}
             loading="lazy"
             onError={(e) => {
@@ -149,13 +160,13 @@ export default function AnimalCard({
             }}
           />
         ) : null}
-        <div className="cp" style={imageUrl ? { display: 'none' } : undefined}>
+        <div className="cp" style={allImages.length > 0 ? { display: 'none' } : undefined}>
           {a.emoji}
         </div>
         <div className="cg" />
-        {imageUrl && (
+        {allImages.length > 0 && (
           <button className="cv-expand" data-expand onClick={handleLightbox}>
-            ⛶
+            &#x26F6;
           </button>
         )}
         {multi && (
@@ -174,12 +185,12 @@ export default function AnimalCard({
             </span>
             <span className={`rb ${rCls}`}>{a.rarity}</span>
             <span className="ctg ctg-z">
-              {a.size} • {a.color}
+              {a.size} &bull; {a.color}
             </span>
             {csStatus && <span className={`ctg ap-cs-pill ap-cs-${csC}`}>{csStatus}</span>}
           </div>
         </div>
-        <span className={`ceh${isExpanded ? ' o' : ''}`}>▼</span>
+        <span className={`ceh${isExpanded ? ' o' : ''}`}>&#9660;</span>
       </div>
 
       <div className={`cd${isExpanded ? ' open' : ''}`}>
@@ -187,41 +198,41 @@ export default function AnimalCard({
           <div className="cdi">
             {tip && (
               <div className="ds">
-                <div className="dl">💡 Safari Tip</div>
+                <div className="dl">&#128161; Safari Tip</div>
                 <div className="dt">{tip}</div>
               </div>
             )}
             {a.description && (
               <div className="ds">
-                <div className="dl">📖 About</div>
+                <div className="dl">&#128214; About</div>
                 <div className="dd">{a.description}</div>
               </div>
             )}
             {(a.weight || a.length || a.lifespan || a.activity || a.diet) && (
               <div className="ds">
-                <div className="dl">📊 Quick Facts</div>
+                <div className="dl">&#128202; Quick Facts</div>
                 <div className="dg">
                   {a.weight && (
                     <div className="dst">
-                      <div className="dsl">⚖️ Weight</div>
+                      <div className="dsl">&#9878;&#65039; Weight</div>
                       <div className="dsv">{a.weight}</div>
                     </div>
                   )}
                   {a.length && (
                     <div className="dst">
-                      <div className="dsl">📏 Size</div>
+                      <div className="dsl">&#128207; Size</div>
                       <div className="dsv">{a.length}</div>
                     </div>
                   )}
                   {a.lifespan && (
                     <div className="dst">
-                      <div className="dsl">⏳ Lifespan</div>
+                      <div className="dsl">&#8987; Lifespan</div>
                       <div className="dsv">{a.lifespan}</div>
                     </div>
                   )}
                   {a.activity && (
                     <div className="dst">
-                      <div className="dsl">🕒 Activity</div>
+                      <div className="dsl">&#128339; Activity</div>
                       <div className="dsv">{a.activity}</div>
                     </div>
                   )}
@@ -229,16 +240,25 @@ export default function AnimalCard({
                 {a.diet && (
                   <div style={{ marginTop: 8 }}>
                     <div className="dst">
-                      <div className="dsl">🌿 Diet</div>
+                      <div className="dsl">&#127807; Diet</div>
                       <div className="dsv">{a.diet}</div>
                     </div>
                   </div>
                 )}
               </div>
             )}
+            <div className="ds">
+              <button
+                className="ap-add-photo"
+                data-add-photo
+                onClick={handleAddPhoto}
+              >
+                &#128247; Add Photo
+              </button>
+            </div>
             {spottedDate && (
               <div className="ds">
-                <div className="spb">✓ Spotted on {new Date(spottedDate).toLocaleDateString()}</div>
+                <div className="spb">&#10003; Spotted on {new Date(spottedDate).toLocaleDateString()}</div>
               </div>
             )}
             {!browseMode && xpOther.length > 0 && (
@@ -251,7 +271,7 @@ export default function AnimalCard({
                 {crossParkSightings.map((s) => (
                   <div className="ds" key={s.parkId}>
                     <div className="spb">
-                      ✓ Spotted in {s.parkName} on {new Date(s.date).toLocaleDateString()}
+                      &#10003; Spotted in {s.parkName} on {new Date(s.date).toLocaleDateString()}
                     </div>
                   </div>
                 ))}
@@ -259,10 +279,10 @@ export default function AnimalCard({
             )}
             {browseMode && browseAnimal._parks && (
               <div className="ds">
-                <div className="dl">🏞️ Available In</div>
+                <div className="dl">&#127966;&#65039; Available In</div>
                 {browseAnimal._parks.filter((p) => p.parkId !== 'wild').map((p) => (
                   <div className="xp-row" key={p.parkId}>
-                    {p.parkName} — {p.rarity}
+                    {p.parkName} &mdash; {p.rarity}
                   </div>
                 ))}
               </div>
@@ -276,7 +296,7 @@ export default function AnimalCard({
                   navigate(`/animal/${a._id}`);
                 }}
               >
-                View Full Profile →
+                View Full Profile &rarr;
               </button>
             </div>
           </div>
@@ -301,11 +321,11 @@ function CrossParkBadge({
       e.stopPropagation();
       (e.currentTarget as HTMLElement).classList.toggle('show');
     }}>
-      🌍 {text}
+      &#127757; {text}
       <div className="xp-tooltip">
         {sightings.map((s) => (
           <div className="xp-row" key={s.parkId}>
-            {s.parkName} — {new Date(s.date).toLocaleDateString()}
+            {s.parkName} &mdash; {new Date(s.date).toLocaleDateString()}
           </div>
         ))}
       </div>
