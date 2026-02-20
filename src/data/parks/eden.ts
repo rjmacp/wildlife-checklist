@@ -5,6 +5,11 @@ export const PARK_EDEN: Park = {
   name: 'Birds of Eden',
   subtitle: "World's Largest Free-Flight Aviary",
   icon: '🦜',
+  description: 'Birds of Eden is the world\'s largest single-span free-flight aviary, spanning 2 hectares of indigenous forest covered by a massive dome. It serves as a sanctuary for previously captive, confiscated, and injured birds in a natural forest environment.',
+  location: 'Garden Route, Western Cape, South Africa',
+  size: '2 hectares',
+  established: '2005',
+  highlights: ['World\'s largest free-flight aviary', 'Over 220 bird species', 'Indigenous forest sanctuary', 'Elevated canopy walkway'],
   species: [
     // ══ TURACOS ══
     { id: 'knysna-turaco', rarity: 'Common', tip: 'Flagship species of the aviary. Listen for their \'kok-kok-kok\' call in the canopy. Crimson wings flash in flight.' },

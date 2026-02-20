@@ -5,6 +5,11 @@ export const PARK_KRUGER: Park = {
   name: 'Kruger National Park',
   subtitle: "South Africa's Premier Big 5 Safari",
   icon: '🦁',
+  description: 'Kruger National Park is South Africa\'s flagship safari destination, spanning nearly 20,000 km² of diverse landscapes. With over 147 mammal species and 500 bird species, it offers unrivalled wildlife diversity and some of the best Big 5 viewing on the continent.',
+  location: 'Limpopo & Mpumalanga, South Africa',
+  size: '19,485 km²',
+  established: '1898',
+  highlights: ['Big 5', 'Largest game reserve in South Africa', '147 mammal species', '500+ bird species', 'Self-drive and guided safaris'],
   species: [
     // Mammals — Big 5+
     { id: 'african-elephant', rarity: 'Common', tip: 'Huge herds along the Olifants and Letaba rivers. Over 17,000 in the park.' },

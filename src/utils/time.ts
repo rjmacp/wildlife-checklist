@@ -8,3 +8,7 @@ export function formatTimeAgo(isoDate: string): string {
   if (days < 30) return `${days}d ago`;
   return new Date(isoDate).toLocaleDateString();
 }
+
+export function formatLogDate(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' });
+}

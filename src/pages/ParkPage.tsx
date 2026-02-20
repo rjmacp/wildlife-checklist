@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import Container from '../components/layout/Container';
 import Header from '../components/layout/Header';
@@ -7,19 +7,26 @@ import CategoryTabs from '../components/filters/CategoryTabs';
 import FilterPanel from '../components/filters/FilterPanel';
 import ProgressBar from '../components/progress/ProgressBar';
 import AnimalList from '../components/checklist/AnimalList';
+import ParkInfoTab from '../components/park/ParkInfoTab';
 import { PARKS, ANIMALS, CATEGORY_COLORS } from '../data';
 import { useChecklist } from '../hooks/useChecklist';
+import { useSafariSession } from '../hooks/useSafariSession';
 import { useFilters } from '../hooks/useFilters';
 import { useWikipediaImages } from '../hooks/useWikipediaImages';
 import { applyAnimalFilters } from '../utils/filters';
 import { sortAnimals } from '../utils/sorting';
+import { openSafariStory } from '../components/common/SafariStory';
 import type { ResolvedAnimal, Category } from '../types/animals';
+
+type ParkTab = 'wildlife' | 'info';
 
 export default function ParkPage() {
   const { parkId } = useParams<{ parkId: string }>();
   const park = PARKS.find((p) => p.id === parkId);
   const { checklist, toggleSpotting, isSpotted, getCrossParkSightings } = useChecklist();
+  const { session, ensureSession, endSession } = useSafariSession();
   const { filters, setFilter, clearFilters, hasActiveFilters } = useFilters();
+  const [tab, setTab] = useState<ParkTab>('wildlife');
 
   // Build species list: merge park species with ANIMALS data
   const species = useMemo<ResolvedAnimal[]>(() => {
@@ -110,12 +117,35 @@ export default function ParkPage() {
     [species, isParkSpotted],
   );
 
+  // Safari session state for this park
+  const isSessionHere = session?.parkId === parkId;
+
+  const handleFinishSafari = useCallback(() => {
+    if (!parkId || !session) return;
+    openSafariStory({
+      mode: 'summary',
+      parkId,
+      session,
+      checklist,
+      onComplete: () => endSession(),
+    });
+  }, [parkId, session, checklist, endSession]);
+
   // Handlers
   const handleToggleCheck = useCallback(
     (animalId: string) => {
-      if (parkId) toggleSpotting(parkId, animalId);
+      if (!parkId) return;
+      const alreadySpotted = isSpotted(parkId, animalId);
+      toggleSpotting(parkId, animalId);
+      // When spotting (not un-spotting), silently ensure a visit session
+      if (!alreadySpotted) {
+        const currentlySpotted = species
+          .filter((s) => isSpotted(parkId, s._id))
+          .map((s) => s._id);
+        ensureSession(parkId, currentlySpotted);
+      }
     },
-    [parkId, toggleSpotting],
+    [parkId, toggleSpotting, isSpotted, species, ensureSession],
   );
 
   const handleToggleExpand = useCallback(
@@ -148,6 +178,9 @@ export default function ParkPage() {
     [parkId, checklist],
   );
 
+  // Whether this park has info content (skip for "wild")
+  const hasInfo = Boolean(park?.description);
+
   if (!park) {
     return (
       <Container>
@@ -171,103 +204,135 @@ export default function ParkPage() {
         backTo="/"
       />
 
-      <ProgressBar
-        spotted={totalSpotted}
-        total={species.length}
-        categories={categoryBreakdown}
-        rarities={rarityBreakdown}
-      />
-
-      <SearchBar value={filters.search} onChange={(v) => setFilter('search', v)} />
-
-      <CategoryTabs
-        categories={categories}
-        active={filters.category}
-        onSelect={handleCategorySelect}
-        counts={categoryCounts}
-        totalCount={species.length}
-      />
-
-      {showSubcategoryTabs && (
-        <div className="cts scts" role="tablist">
+      {hasInfo && (
+        <div className="park-tabs">
           <button
-            className={`ctb sc${filters.subcategory === 'All' ? ' a' : ''}`}
-            onClick={() => handleSubcategorySelect('All')}
-            role="tab"
-            aria-selected={filters.subcategory === 'All'}
+            className={`park-tab${tab === 'wildlife' ? ' active' : ''}`}
+            onClick={() => setTab('wildlife')}
           >
-            All
+            Wildlife
           </button>
-          {subcategories.map((sub) => {
-            const cnt = species.filter((s) => {
-              if (filters.category !== 'All' && s.category !== filters.category) return false;
-              return s.subcategory === sub;
-            }).length;
-            const clr =
-              filters.category !== 'All'
-                ? (CATEGORY_COLORS[filters.category as Category]?.bg ?? 'var(--gold)')
-                : 'var(--gold)';
-            return (
-              <button
-                key={sub}
-                className={`ctb sc${filters.subcategory === sub ? ' a' : ''}`}
-                onClick={() => handleSubcategorySelect(sub)}
-                role="tab"
-                aria-selected={filters.subcategory === sub}
-                style={
-                  filters.subcategory === sub
-                    ? { borderColor: `${clr}80`, background: `${clr}20`, color: clr }
-                    : undefined
-                }
-              >
-                {sub} ({cnt})
-              </button>
-            );
-          })}
+          <button
+            className={`park-tab${tab === 'info' ? ' active' : ''}`}
+            onClick={() => setTab('info')}
+          >
+            Info
+          </button>
         </div>
       )}
 
-      <FilterPanel
-        showFilters={filters.showFilters}
-        showSort={filters.showSort}
-        hasActiveFilters={hasActiveFilters}
-        sort={filters.sort}
-        spotted={filters.spotted}
-        size={filters.size}
-        rarity={filters.rarity}
-        conservation={filters.conservation}
-        viewMode={filters.viewMode}
-        filteredCount={filtered.length}
-        onToggleFilters={() => {
-          setFilter('showFilters', !filters.showFilters);
-          setFilter('showSort', false);
-        }}
-        onToggleSort={() => {
-          setFilter('showSort', !filters.showSort);
-          setFilter('showFilters', false);
-        }}
-        onClear={clearFilters}
-        onSetSpotted={(v) => setFilter('spotted', v)}
-        onSetSize={(v) => setFilter('size', v)}
-        onSetRarity={(v) => setFilter('rarity', v)}
-        onSetConservation={(v) => setFilter('conservation', v)}
-        onSetSort={(v) => setFilter('sort', v)}
-        onSetViewMode={(v) => setFilter('viewMode', v)}
-      />
+      {tab === 'wildlife' ? (
+        <>
+          <ProgressBar
+            spotted={totalSpotted}
+            total={species.length}
+            categories={categoryBreakdown}
+            rarities={rarityBreakdown}
+            safari={
+              isSessionHere
+                ? { label: 'End Visit', variant: 'finish', onClick: handleFinishSafari }
+                : undefined
+            }
+          />
 
-      <AnimalList
-        animals={filtered}
-        viewMode={filters.viewMode}
-        expandedAnimal={filters.expandedAnimal}
-        onToggleExpand={handleToggleExpand}
-        isChecked={isParkSpotted}
-        onToggleCheck={handleToggleCheck}
-        getImage={getImage}
-        getCrossParkSightings={getCrossParkSightings}
-        getSpottedDate={getSpottedDate}
-        currentParkId={parkId}
-        onClearFilters={clearFilters}
-      />
+          <SearchBar value={filters.search} onChange={(v) => setFilter('search', v)} />
+
+          <CategoryTabs
+            categories={categories}
+            active={filters.category}
+            onSelect={handleCategorySelect}
+            counts={categoryCounts}
+            totalCount={species.length}
+          />
+
+          {showSubcategoryTabs && (
+            <div className="cts scts" role="tablist">
+              <button
+                className={`ctb sc${filters.subcategory === 'All' ? ' a' : ''}`}
+                onClick={() => handleSubcategorySelect('All')}
+                role="tab"
+                aria-selected={filters.subcategory === 'All'}
+              >
+                All
+              </button>
+              {subcategories.map((sub) => {
+                const cnt = species.filter((s) => {
+                  if (filters.category !== 'All' && s.category !== filters.category) return false;
+                  return s.subcategory === sub;
+                }).length;
+                const clr =
+                  filters.category !== 'All'
+                    ? (CATEGORY_COLORS[filters.category as Category]?.bg ?? 'var(--gold)')
+                    : 'var(--gold)';
+                return (
+                  <button
+                    key={sub}
+                    className={`ctb sc${filters.subcategory === sub ? ' a' : ''}`}
+                    onClick={() => handleSubcategorySelect(sub)}
+                    role="tab"
+                    aria-selected={filters.subcategory === sub}
+                    style={
+                      filters.subcategory === sub
+                        ? { borderColor: `${clr}80`, background: `${clr}20`, color: clr }
+                        : undefined
+                    }
+                  >
+                    {sub} ({cnt})
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          <FilterPanel
+            showFilters={filters.showFilters}
+            showSort={filters.showSort}
+            hasActiveFilters={hasActiveFilters}
+            sort={filters.sort}
+            spotted={filters.spotted}
+            size={filters.size}
+            rarity={filters.rarity}
+            conservation={filters.conservation}
+            viewMode={filters.viewMode}
+            filteredCount={filtered.length}
+            onToggleFilters={() => {
+              setFilter('showFilters', !filters.showFilters);
+              setFilter('showSort', false);
+            }}
+            onToggleSort={() => {
+              setFilter('showSort', !filters.showSort);
+              setFilter('showFilters', false);
+            }}
+            onClear={clearFilters}
+            onSetSpotted={(v) => setFilter('spotted', v)}
+            onSetSize={(v) => setFilter('size', v)}
+            onSetRarity={(v) => setFilter('rarity', v)}
+            onSetConservation={(v) => setFilter('conservation', v)}
+            onSetSort={(v) => setFilter('sort', v)}
+            onSetViewMode={(v) => setFilter('viewMode', v)}
+          />
+
+          <AnimalList
+            animals={filtered}
+            viewMode={filters.viewMode}
+            expandedAnimal={filters.expandedAnimal}
+            onToggleExpand={handleToggleExpand}
+            isChecked={isParkSpotted}
+            onToggleCheck={handleToggleCheck}
+            getImage={getImage}
+            getCrossParkSightings={getCrossParkSightings}
+            getSpottedDate={getSpottedDate}
+            currentParkId={parkId}
+            onClearFilters={clearFilters}
+          />
+        </>
+      ) : (
+        <ParkInfoTab
+          park={park}
+          species={species}
+          isParkSpotted={isParkSpotted}
+        />
+      )}
     </Container>
   );
 }

@@ -196,6 +196,22 @@ export default function AnimalCard({
       <div className={`cd${isExpanded ? ' open' : ''}`}>
         <div className="cd-wrap">
           <div className="cdi">
+            {(isChecked || spottedDate) && (
+              <div className="ds cd-actions">
+                {isChecked && (
+                  <button
+                    className="ap-link"
+                    data-add-photo
+                    onClick={handleAddPhoto}
+                  >
+                    &#128247; Add Photo
+                  </button>
+                )}
+                {spottedDate && (
+                  <div className="spb">&#10003; Spotted on {new Date(spottedDate).toLocaleDateString()}</div>
+                )}
+              </div>
+            )}
             {tip && (
               <div className="ds">
                 <div className="dl">&#128161; Safari Tip</div>
@@ -247,11 +263,6 @@ export default function AnimalCard({
                 )}
               </div>
             )}
-            {spottedDate && (
-              <div className="ds">
-                <div className="spb">&#10003; Spotted on {new Date(spottedDate).toLocaleDateString()}</div>
-              </div>
-            )}
             {!browseMode && xpOther.length > 0 && (
               <div className="ds">
                 <CrossParkBadge sightings={xpOther} />
@@ -279,15 +290,6 @@ export default function AnimalCard({
               </div>
             )}
             <div className="ds cd-actions">
-              {isChecked && (
-                <button
-                  className="ap-link"
-                  data-add-photo
-                  onClick={handleAddPhoto}
-                >
-                  &#128247; Add Photo
-                </button>
-              )}
               <button
                 className="ap-link"
                 data-profile

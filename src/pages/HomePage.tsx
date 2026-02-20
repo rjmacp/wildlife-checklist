@@ -4,9 +4,11 @@ import Container from '../components/layout/Container';
 import Header from '../components/layout/Header';
 import ProgressRing from '../components/progress/ProgressRing';
 import { useChecklist } from '../hooks/useChecklist';
+import { useSafariSession } from '../hooks/useSafariSession';
 import { useWikipediaImages } from '../hooks/useWikipediaImages';
 import { PARKS, PARK_WILD, ANIMALS, CATEGORY_COLORS, CATEGORY_ICONS } from '../data';
 import { formatTimeAgo } from '../utils/time';
+import { openSafariStory } from '../components/common/SafariStory';
 import type { Category } from '../types/animals';
 
 const ALL_CATEGORIES: Category[] = ['Mammal', 'Bird', 'Reptile', 'Amphibian', 'Marine', 'Insect'];
@@ -15,6 +17,9 @@ export default function HomePage() {
   const navigate = useNavigate();
   const [expandedPark, setExpandedPark] = useState<string | null>(null);
   const { checklist, getUniqueSpotted, getAllSightings } = useChecklist();
+  const { session, endSession } = useSafariSession();
+
+  const sessionPark = session ? PARKS.find((p) => p.id === session.parkId) : null;
 
   const uniqueSpotted = useMemo(() => getUniqueSpotted(), [getUniqueSpotted]);
   const allSightings = useMemo(() => getAllSightings(), [getAllSightings]);
@@ -106,6 +111,30 @@ export default function HomePage() {
     <Container>
       <Header eyebrow="South Africa" title="Wildlife Checklist" subtitle={subtitle} />
 
+      {session && sessionPark && (
+        <div className="sf-banner" onClick={() => navigate(`/park/${session.parkId}`)}>
+          <span className="sf-banner-icon">{sessionPark.icon}</span>
+          <div className="sf-banner-text">
+            Visit in progress at <strong>{sessionPark.name}</strong>
+          </div>
+          <button
+            className="sf-banner-finish"
+            onClick={(e) => {
+              e.stopPropagation();
+              openSafariStory({
+                mode: 'summary',
+                parkId: session.parkId,
+                session,
+                checklist,
+                onComplete: () => endSession(),
+              });
+            }}
+          >
+            End Visit
+          </button>
+        </div>
+      )}
+
       {hasSightings ? (
         <>
           {/* Stats strip */}
@@ -114,7 +143,7 @@ export default function HomePage() {
               <div className="dash-stat-val">{uniqueSpotted.size}</div>
               <div className="dash-stat-label">Species Spotted</div>
             </div>
-            <div className="dash-stat">
+            <div className="dash-stat" style={{ cursor: 'pointer' }} onClick={() => navigate('/log')}>
               <div className="dash-stat-val">
                 {parksVisited}
               </div>
@@ -210,7 +239,10 @@ export default function HomePage() {
       </button>
 
       {/* By Park section */}
-      <h2 className="dash-section">By Park</h2>
+      <div className="dash-section-row">
+        <h2 className="dash-section">By Park</h2>
+        <button className="dash-section-link" onClick={() => navigate('/log')}>Previous Visits →</button>
+      </div>
       <div className="park-list">
         {parkStats.filter(({ park }) => park.id !== PARK_WILD.id).map(({ park, catStats, totalSpotted, totalSpecies }) => {
           const isExpanded = expandedPark === park.id;
@@ -277,7 +309,7 @@ export default function HomePage() {
                     className="park-card-go"
                     onClick={(e) => { e.stopPropagation(); navigate(`/park/${park.id}`); }}
                   >
-                    View Park →
+                    View Park
                   </button>
                 </div>
               </div>

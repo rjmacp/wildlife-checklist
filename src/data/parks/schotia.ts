@@ -5,6 +5,11 @@ export const PARK_SCHOTIA: Park = {
   name: 'Schotia Private Game Reserve',
   subtitle: 'Big 5 — Afternoon & Night Safari',
   icon: '🦁',
+  description: 'Schotia is the oldest private game reserve in the Eastern Cape, offering intimate Big 5 safari experiences with afternoon game drives followed by a bush dinner and night drive. The smaller reserve size means excellent, up-close wildlife sightings.',
+  location: 'Eastern Cape, South Africa',
+  size: '150 km²',
+  established: '1991',
+  highlights: ['Big 5', 'Afternoon & night safari drives', 'Bush dinner under the stars', 'Giraffe (not found in Addo)'],
   species: [
     // Big 5
     { id: 'lion', rarity: 'Common', tip: "Schotia's lions are frequently seen on the evening drive. The smaller reserve means very reliable sightings." },

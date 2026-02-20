@@ -40,6 +40,11 @@ export interface Park {
   name: string;
   subtitle: string;
   icon: string;
+  description?: string;
+  location?: string;
+  size?: string;
+  established?: string;
+  highlights?: string[];
   species: ParkSpeciesEntry[];
 }
 

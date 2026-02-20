@@ -5,6 +5,11 @@ export const PARK_ADDO: Park = {
   name: 'Addo Elephant National Park',
   subtitle: 'Main Game Drive — Big 5',
   icon: '🐘',
+  description: 'Addo Elephant National Park is home to over 600 elephants and is one of only two parks in the world where the Big 7 can be found. The park spans five biomes, from dense valley bushveld to coastline, offering extraordinary biodiversity.',
+  location: 'Eastern Cape, South Africa',
+  size: '1,640 km²',
+  established: '1931',
+  highlights: ['Big 5', 'Largest elephant population in South Africa', 'Flightless dung beetle (endemic)', 'Five biomes in one park'],
   species: [
     // Mammals — Big 5
     { id: 'african-elephant', rarity: 'Common', tip: 'Best seen at waterholes on sunny days. Over 600 in the park.' },
