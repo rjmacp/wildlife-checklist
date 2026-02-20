@@ -193,7 +193,6 @@ export default function FilterPanel(props: Props) {
                 ['rarity', 'rarity-r', 'Rarity'],
                 ['size', 'size-r', 'Size'],
                 ['conservation', 'conservation-r', 'Conservation'],
-                ['recent', 'recent-r', 'Recent'],
               ] as const
             ).map(([fwd, rev, label]) => {
               const isActive = sort === fwd || (rev != null && sort === rev);

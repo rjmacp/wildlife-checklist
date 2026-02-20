@@ -1,4 +1,4 @@
-export type SortMode = 'type' | 'az' | 'za' | 'rarity' | 'rarity-r' | 'size' | 'size-r' | 'conservation' | 'conservation-r' | 'recent' | 'recent-r';
+export type SortMode = 'type' | 'az' | 'za' | 'rarity' | 'rarity-r' | 'size' | 'size-r' | 'conservation' | 'conservation-r';
 export type ViewMode = 'list' | 'grid';
 export type SpottedFilter = false | 'spotted' | 'unspotted';
 export type Theme = 'light' | 'dark';

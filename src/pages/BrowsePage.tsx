@@ -80,13 +80,7 @@ export default function BrowsePage() {
 
   const filtered = useMemo(() => {
     const f = applyAnimalFilters(parkFiltered, filters, isSpottedForFilter);
-    return sortAnimals(
-      f,
-      filters.sort,
-      filters.parkFilter !== 'All' ? checklist[filters.parkFilter] ?? {} : null,
-      uniqueSpotted,
-      checklist,
-    );
+    return sortAnimals(f, filters.sort);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parkFiltered, filters, checklist, uniqueSpotted]);
 

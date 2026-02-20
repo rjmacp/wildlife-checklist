@@ -69,11 +69,7 @@ export default function ParkPage() {
   // Apply filters and sorting
   const filtered = useMemo(() => {
     const result = applyAnimalFilters(species, filters, isParkSpotted);
-    return sortAnimals(
-      result,
-      filters.sort,
-      parkId ? checklist[parkId] ?? null : null,
-    );
+    return sortAnimals(result, filters.sort);
   }, [species, filters, isParkSpotted, checklist, parkId]);
 
   // Subcategories within the currently active category (or all)

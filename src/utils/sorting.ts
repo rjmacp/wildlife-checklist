@@ -1,29 +1,12 @@
 import type { ResolvedAnimal, BrowseAnimal } from '../types/animals';
-import type { SortMode, ChecklistData } from '../types/state';
+import type { SortMode } from '../types/state';
 import { ANIMALS } from '../data/animals';
-import { PARKS } from '../data/parks';
 import { SIZE_ORDER, CONSERVATION_ORDER, RARITY_ORDER, CATEGORY_ORDER } from '../data/constants';
 
-function getCrossParkLatestDate(
-  animalId: string,
-  checklist: ChecklistData,
-): string | null {
-  let latest: string | null = null;
-  for (const park of PARKS) {
-    const date = checklist[park.id]?.[animalId];
-    if (date && (!latest || new Date(date) > new Date(latest))) {
-      latest = date;
-    }
-  }
-  return latest;
-}
 
 export function sortAnimals<T extends ResolvedAnimal | BrowseAnimal>(
   arr: T[],
   sortMode: SortMode,
-  parkChecklist?: Record<string, string> | null,
-  uniqueSpotted?: Set<string> | null,
-  fullChecklist?: ChecklistData,
 ): T[] {
   const sorted = [...arr];
   sorted.sort((a, b) => {
@@ -69,38 +52,6 @@ export function sortAnimals<T extends ResolvedAnimal | BrowseAnimal>(
         const oa2 = ca2 ? (CONSERVATION_ORDER[ca2] ?? 9) : 9;
         const ob2 = cb2 ? (CONSERVATION_ORDER[cb2] ?? 9) : 9;
         return ob2 - oa2 || a.name.localeCompare(b.name);
-      }
-      case 'recent': {
-        const da = parkChecklist?.[a._id] ?? null;
-        const db = parkChecklist?.[b._id] ?? null;
-        const ua =
-          uniqueSpotted && !da && fullChecklist
-            ? getCrossParkLatestDate(a._id, fullChecklist)
-            : da;
-        const ub =
-          uniqueSpotted && !db && fullChecklist
-            ? getCrossParkLatestDate(b._id, fullChecklist)
-            : db;
-        if (ua && !ub) return -1;
-        if (!ua && ub) return 1;
-        if (ua && ub) return new Date(ub).getTime() - new Date(ua).getTime();
-        return a.name.localeCompare(b.name);
-      }
-      case 'recent-r': {
-        const da2 = parkChecklist?.[a._id] ?? null;
-        const db2 = parkChecklist?.[b._id] ?? null;
-        const ua2 =
-          uniqueSpotted && !da2 && fullChecklist
-            ? getCrossParkLatestDate(a._id, fullChecklist)
-            : da2;
-        const ub2 =
-          uniqueSpotted && !db2 && fullChecklist
-            ? getCrossParkLatestDate(b._id, fullChecklist)
-            : db2;
-        if (ua2 && !ub2) return 1;
-        if (!ua2 && ub2) return -1;
-        if (ua2 && ub2) return new Date(ua2).getTime() - new Date(ub2).getTime();
-        return a.name.localeCompare(b.name);
       }
     }
   });
