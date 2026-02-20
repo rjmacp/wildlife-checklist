@@ -325,6 +325,7 @@ body.light .pp-btn.spotted{border-color:var(--green);background:rgba(74,117,32,.
 .ap-hero-emoji{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:96px;background:var(--cp-bg)}
 .ap-hero-overlay{position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,var(--bg) 0%,transparent 100%);pointer-events:none}
 .ap-hero .cv-expand{position:absolute;bottom:14px;right:14px}
+.ap-hero-add-photo{position:absolute;bottom:14px;left:14px;z-index:3;margin-top:0;padding:6px 14px;font-size:11px}
 .ap-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
 .ap-tags .ctg{font-size:10px;padding:4px 10px;border-radius:8px;font-weight:600}
 .ap-tags .rb{font-size:9px}
@@ -353,7 +354,9 @@ body.light .pp-btn.spotted{border-color:var(--green);background:rgba(74,117,32,.
 .ap-spotted.ap-spotted-yes{border-color:rgba(107,143,60,.4);background:rgba(107,143,60,.06)}
 .ap-spotted-header{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--dim);margin-bottom:12px}
 .ap-spotted.ap-spotted-yes .ap-spotted-header{color:var(--green-lt)}
-.ap-spotted-parks{display:flex;flex-direction:column;gap:8px}
+.ap-spotted-expand{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.22,1,.36,1);overflow:hidden}
+.ap-spotted-expand.open{grid-template-rows:1fr}
+.ap-spotted-parks{display:flex;flex-direction:column;gap:8px;overflow:hidden}
 .ap-spotted-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;background:var(--w03);border:1px solid var(--w04)}
 .ap-spotted-row.spotted{background:rgba(107,143,60,.1);border-color:rgba(107,143,60,.25)}
 .ap-spotted-btn{width:36px;height:36px;border-radius:10px;border:2px solid var(--w10);background:var(--w03);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--dim);transition:all .3s cubic-bezier(.22,1,.36,1);flex-shrink:0}
@@ -397,7 +400,11 @@ body.light .ap-spotted-btn{border-color:rgba(0,0,0,.15);background:#fff}
 body.light .ap-spotted-btn.spotted{border-color:var(--green);background:rgba(74,117,32,.2);color:var(--green)}
 body.light .ap-spotted-row.spotted .ap-spotted-date{color:var(--green)}
 
-/* ── ADD PHOTO BUTTON ── */
+/* ── CARD DETAIL ACTIONS ROW ── */
+.cd-actions{display:flex;gap:8px}
+.cd-actions .ap-link{flex:1;text-align:center;justify-content:center;margin-top:0}
+
+/* ── ADD PHOTO BUTTON (profile page) ── */
 .ap-add-photo{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;border:2px dashed var(--w10);background:transparent;color:var(--dim);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
 .ap-add-photo:active{transform:scale(.96);border-color:var(--gold-dim);color:var(--gold)}
 body.light .ap-add-photo{border-color:rgba(0,0,0,.15);color:var(--dim)}

@@ -55,6 +55,9 @@ export default function AnimalProfilePage() {
   const csStatus = animal?.conservationStatus;
   const csCls = csStatus ? conservationClass(csStatus) : null;
 
+  // Spotted section toggle (default open if spotted, closed if not)
+  const [spottedOpen, setSpottedOpen] = useState(anySpotted);
+
   // Conservation scale toggle
   const [csOpen, setCsOpen] = useState(false);
 
@@ -138,18 +141,14 @@ export default function AnimalProfilePage() {
             <button className="cv-expand" onClick={() => handleLightbox(0)}>
               &#x26F6;
             </button>
+            <button className="ap-link ap-hero-add-photo" onClick={handleAddPhoto}>
+              &#128247; Add Photo
+            </button>
           </>
         ) : (
           <div className="ap-hero-emoji">{animal.emoji}</div>
         )}
         <div className="ap-hero-overlay" />
-      </div>
-
-      {/* Add Photo button */}
-      <div style={{ marginTop: 10, marginBottom: 4 }}>
-        <button className="ap-add-photo" onClick={handleAddPhoto}>
-          &#128247; Add Photo
-        </button>
       </div>
 
       {/* User photo thumbnails */}
@@ -181,29 +180,32 @@ export default function AnimalProfilePage() {
 
       {/* Spotted status */}
       <div className={`ap-spotted${anySpotted ? ' ap-spotted-yes' : ''}`}>
-        <div className="ap-spotted-header">
+        <div className="ap-spotted-header" style={{ cursor: 'pointer' }} onClick={() => setSpottedOpen(!spottedOpen)}>
           {anySpotted ? '✓' : '👁'} {anySpotted ? 'Spotted' : 'Not Yet Spotted'}
+          <span className="ap-cs-arrow" style={{ marginLeft: 6 }}>{spottedOpen ? '▼' : '▶'}</span>
         </div>
-        <div className="ap-spotted-parks">
-          {parks.map((p) => {
-            const date = checklist[p.parkId]?.[animalId];
-            return (
-              <div className={`ap-spotted-row${date ? ' spotted' : ''}`} key={p.parkId}>
-                <button
-                  className={`ap-spotted-btn${date ? ' spotted' : ''}`}
-                  onClick={() => toggleSpotting(p.parkId, animalId)}
-                >
-                  {date ? '✓' : ''}
-                </button>
-                <span className="ap-spotted-park">
-                  {p.parkIcon} {p.parkName}
-                </span>
-                <span className="ap-spotted-date">
-                  {date ? new Date(date).toLocaleDateString() : 'Tap to mark spotted'}
-                </span>
-              </div>
-            );
-          })}
+        <div className={`ap-spotted-expand${spottedOpen ? ' open' : ''}`}>
+          <div className="ap-spotted-parks">
+            {parks.map((p) => {
+              const date = checklist[p.parkId]?.[animalId];
+              return (
+                <div className={`ap-spotted-row${date ? ' spotted' : ''}`} key={p.parkId}>
+                  <button
+                    className={`ap-spotted-btn${date ? ' spotted' : ''}`}
+                    onClick={() => toggleSpotting(p.parkId, animalId)}
+                  >
+                    {date ? '✓' : ''}
+                  </button>
+                  <span className="ap-spotted-park">
+                    {p.parkIcon} {p.parkName}
+                  </span>
+                  <span className="ap-spotted-date">
+                    {date ? new Date(date).toLocaleDateString() : 'Tap to mark spotted'}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
 

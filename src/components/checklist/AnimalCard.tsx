@@ -247,15 +247,6 @@ export default function AnimalCard({
                 )}
               </div>
             )}
-            <div className="ds">
-              <button
-                className="ap-add-photo"
-                data-add-photo
-                onClick={handleAddPhoto}
-              >
-                &#128247; Add Photo
-              </button>
-            </div>
             {spottedDate && (
               <div className="ds">
                 <div className="spb">&#10003; Spotted on {new Date(spottedDate).toLocaleDateString()}</div>
@@ -287,7 +278,14 @@ export default function AnimalCard({
                 ))}
               </div>
             )}
-            <div className="ds">
+            <div className="ds cd-actions">
+              <button
+                className="ap-link"
+                data-add-photo
+                onClick={handleAddPhoto}
+              >
+                &#128247; Add Photo
+              </button>
               <button
                 className="ap-link"
                 data-profile
