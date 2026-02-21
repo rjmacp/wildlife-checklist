@@ -179,7 +179,7 @@ export default function AnimalProfilePage() {
       <div className={`ap-spotted${anySpotted ? ' ap-spotted-yes' : ''}`}>
         <div className="ap-spotted-header" style={{ cursor: 'pointer' }} onClick={() => setSpottedOpen(!spottedOpen)}>
           {anySpotted ? '✓' : '👁'} {anySpotted ? 'Spotted' : 'Not Yet Spotted'}
-          <span className="ap-cs-arrow" style={{ marginLeft: 6 }}>{spottedOpen ? '▼' : '▶'}</span>
+          <span className="ap-cs-arrow">{spottedOpen ? '▼' : '▶'}</span>
         </div>
         <div className={`ap-spotted-expand${spottedOpen ? ' open' : ''}`}>
           <div className="ap-spotted-parks">
@@ -319,27 +319,10 @@ export default function AnimalProfilePage() {
         )}
       </div>
 
-      {/* Safari Tips by Park */}
-      {parks.some((p) => p.tip) && (
-        <div className="ap-section">
-          <div className="ap-section-title">💡 Safari Tips</div>
-          {parks.map((p) =>
-            p.tip ? (
-              <div className="ap-tip" key={p.parkId}>
-                <div className="ap-tip-park">
-                  {p.parkIcon} {p.parkName}
-                </div>
-                <div className="dt">{p.tip}</div>
-              </div>
-            ) : null,
-          )}
-        </div>
-      )}
-
       {/* Available In */}
       <div className="ap-section">
         <div className="ap-section-title">🏞️ Available In</div>
-        {parks.map((p) => (
+        {parks.filter((p) => p.parkId !== 'wild').map((p) => (
           <div
             className="ap-park-link"
             key={p.parkId}

@@ -10,21 +10,14 @@ interface CategoryBreakdown {
   total: number;
 }
 
-interface SafariAction {
-  label: string;
-  variant: 'finish';
-  onClick: () => void;
-}
-
 interface Props {
   spotted: number;
   total: number;
   categories: CategoryBreakdown[];
   rarities?: Array<{ rarity: string; spotted: number; total: number }>;
-  safari?: SafariAction;
 }
 
-export default function ProgressBar({ spotted, total, categories, rarities, safari }: Props) {
+export default function ProgressBar({ spotted, total, categories, rarities }: Props) {
   const [expanded, setExpanded] = useState(false);
   const pct = total ? (spotted / total) * 100 : 0;
   const totalColor = pct > 50 ? '#6B8F3C' : 'var(--gold)';
@@ -40,18 +33,6 @@ export default function ProgressBar({ spotted, total, categories, rarities, safa
           {spotted} / {total}
         </span>
         <div className="pr-right">
-          {safari && (
-            <button
-              className="pb-safari pb-safari-finish"
-              onClick={(e) => {
-                e.stopPropagation();
-                safari.onClick();
-              }}
-            >
-              <span className="sf-dot" />
-              {safari.label}
-            </button>
-          )}
           <span className="pp">
             {pct.toFixed(1)}%{' '}
             <span className="pb-arrow">{expanded ? '▲' : '▼'}</span>

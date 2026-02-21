@@ -20,20 +20,3 @@ export interface UserPhoto {
 
 /** Photo index keyed by animalId */
 export type PhotoIndex = Record<string, UserPhoto[]>;
-
-/** An active safari session at a park */
-export interface SafariSession {
-  parkId: string;
-  preSpotted: string[];    // animal IDs spotted in this park before session started
-  startedAt: string;       // ISO date (for display only)
-}
-
-/** A completed safari visit entry */
-export interface SafariLogEntry {
-  id: string;                 // crypto.randomUUID()
-  parkId: string;
-  startedAt: string;          // ISO date
-  endedAt: string;            // ISO date
-  spottedAnimalIds: string[]; // animal IDs spotted NEW during this session
-}
-export type SafariLog = SafariLogEntry[];

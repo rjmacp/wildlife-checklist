@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 interface Props {
   spotted: number;
   total: number;
@@ -7,10 +9,16 @@ interface Props {
 }
 
 export default function ProgressRing({ spotted, total, size, color, children }: Props) {
+  const [mounted, setMounted] = useState(false);
   const r = (size - 6) / 2;
   const circ = 2 * Math.PI * r;
   const pct = total ? spotted / total : 0;
-  const offset = circ * (1 - pct);
+  const offset = mounted ? circ * (1 - pct) : circ;
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   return (
     <div className="dash-ring-svg" style={{ width: size, height: size, position: 'relative' }}>
@@ -34,7 +42,7 @@ export default function ProgressRing({ spotted, total, size, color, children }: 
           strokeDasharray={circ}
           strokeDashoffset={offset}
           transform={`rotate(-90 ${size / 2} ${size / 2})`}
-          style={{ transition: 'stroke-dashoffset .6s ease' }}
+          style={{ transition: 'stroke-dashoffset .8s cubic-bezier(.22,1,.36,1)' }}
         />
       </svg>
       {children && <div className="dash-ring-icon">{children}</div>}

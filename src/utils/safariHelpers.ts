@@ -1,5 +1,4 @@
 import { PARKS, ANIMALS, CATEGORY_ICONS, CONSERVATION_ORDER } from '../data';
-import type { SafariSession, ChecklistData } from '../types/state';
 import type { Category } from '../types/animals';
 
 export interface CategoryBreakdown {
@@ -67,40 +66,4 @@ export function getRareAnimals(parkId: string): RareAnimalInfo[] {
   });
 
   return candidates.slice(0, 5);
-}
-
-export interface SessionSpottedAnimal {
-  id: string;
-  name: string;
-  emoji: string;
-  category: Category;
-  rarity: string;
-  conservationStatus: string;
-}
-
-export function getSessionSpotted(
-  session: SafariSession,
-  checklist: ChecklistData,
-): SessionSpottedAnimal[] {
-  const parkData = checklist[session.parkId] ?? {};
-  const preSet = new Set(session.preSpotted);
-
-  const newIds = Object.keys(parkData).filter((id) => !preSet.has(id));
-
-  return newIds
-    .map((id) => {
-      const animal = ANIMALS[id];
-      if (!animal) return null;
-      const park = PARKS.find((p) => p.id === session.parkId);
-      const ps = park?.species.find((sp) => sp.id === id);
-      return {
-        id,
-        name: animal.name,
-        emoji: animal.emoji,
-        category: animal.category,
-        rarity: ps?.rarity ?? 'Common',
-        conservationStatus: animal.conservationStatus ?? 'Least Concern',
-      };
-    })
-    .filter(Boolean) as SessionSpottedAnimal[];
 }

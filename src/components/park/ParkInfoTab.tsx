@@ -7,27 +7,12 @@ import type { Park, ResolvedAnimal } from '../../types/animals';
 interface ParkInfoTabProps {
   park: Park;
   species: ResolvedAnimal[];
-  isParkSpotted: (animalId: string) => boolean;
 }
 
-export default function ParkInfoTab({ park, species, isParkSpotted }: ParkInfoTabProps) {
+export default function ParkInfoTab({ park, species }: ParkInfoTabProps) {
   const navigate = useNavigate();
   const categoryBreakdown = useMemo(() => getParkCategoryBreakdown(park.id), [park.id]);
   const rareAnimals = useMemo(() => getRareAnimals(park.id), [park.id]);
-
-  const totalSpotted = useMemo(
-    () => species.filter((s) => isParkSpotted(s._id)).length,
-    [species, isParkSpotted],
-  );
-
-  // Per-category progress
-  const categoryProgress = useMemo(() => {
-    return categoryBreakdown.map((cb) => {
-      const catSpecies = species.filter((s) => s.category === cb.category);
-      const spotted = catSpecies.filter((s) => isParkSpotted(s._id)).length;
-      return { ...cb, spotted, total: catSpecies.length };
-    });
-  }, [categoryBreakdown, species, isParkSpotted]);
 
   // Load photos for this park
   const [photoUrls, setPhotoUrls] = useState<string[]>([]);
@@ -56,7 +41,6 @@ export default function ParkInfoTab({ park, species, isParkSpotted }: ParkInfoTa
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [park.id]);
 
-  const pct = species.length > 0 ? Math.round((totalSpotted / species.length) * 100) : 0;
 
   return (
     <div className="park-info">
@@ -146,39 +130,6 @@ export default function ParkInfoTab({ park, species, isParkSpotted }: ParkInfoTa
           </div>
         </div>
       )}
-
-      {/* Your Progress */}
-      <div className="ap-section park-info-section">
-        <div className="ap-section-title">Your Progress</div>
-        <div className="park-progress-summary">
-          <div className="park-progress-header">
-            <span className="park-progress-count">{totalSpotted}/{species.length}</span>
-            <span className="park-progress-pct">{pct}%</span>
-          </div>
-          <div className="pt">
-            <div
-              className="pf"
-              style={{
-                width: `${pct}%`,
-                background: 'linear-gradient(90deg, var(--gold-dim), var(--gold))',
-              }}
-            />
-          </div>
-          {categoryProgress.length > 1 && (
-            <div className="park-cat-progress">
-              {categoryProgress.map((cp) => (
-                <div key={cp.category} className="park-cat-row">
-                  <span className="park-cat-icon">{cp.icon}</span>
-                  <span className="park-cat-name">{cp.category}</span>
-                  <span className="park-cat-count">
-                    {cp.spotted}/{cp.total}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
 
       {/* Photos from this Park */}
       {photoUrls.length > 0 && (

@@ -5,26 +5,23 @@ import Header from '../components/layout/Header';
 import SearchBar from '../components/filters/SearchBar';
 import CategoryTabs from '../components/filters/CategoryTabs';
 import FilterPanel from '../components/filters/FilterPanel';
-import ProgressBar from '../components/progress/ProgressBar';
+import ProgressTab from '../components/park/ProgressTab';
 import AnimalList from '../components/checklist/AnimalList';
 import ParkInfoTab from '../components/park/ParkInfoTab';
 import { PARKS, ANIMALS, CATEGORY_COLORS } from '../data';
 import { useChecklist } from '../hooks/useChecklist';
-import { useSafariSession } from '../hooks/useSafariSession';
 import { useFilters } from '../hooks/useFilters';
 import { useWikipediaImages } from '../hooks/useWikipediaImages';
 import { applyAnimalFilters } from '../utils/filters';
 import { sortAnimals } from '../utils/sorting';
-import { openSafariStory } from '../components/common/SafariStory';
 import type { ResolvedAnimal, Category } from '../types/animals';
 
-type ParkTab = 'wildlife' | 'info';
+type ParkTab = 'wildlife' | 'info' | 'progress';
 
 export default function ParkPage() {
   const { parkId } = useParams<{ parkId: string }>();
   const park = PARKS.find((p) => p.id === parkId);
   const { checklist, toggleSpotting, isSpotted, getCrossParkSightings } = useChecklist();
-  const { session, ensureSession, endSession } = useSafariSession();
   const { filters, setFilter, clearFilters, hasActiveFilters } = useFilters();
   const [tab, setTab] = useState<ParkTab>('wildlife');
 
@@ -92,7 +89,7 @@ export default function ParkPage() {
     return [...subs].sort();
   }, [species, filters.category]);
 
-  const showSubcategoryTabs = subcategories.length > 1;
+  const showSubcategoryTabs = filters.category !== 'All' && subcategories.length > 1;
 
   // Category breakdown for progress bar
   const categoryBreakdown = useMemo(() => {
@@ -117,35 +114,13 @@ export default function ParkPage() {
     [species, isParkSpotted],
   );
 
-  // Safari session state for this park
-  const isSessionHere = session?.parkId === parkId;
-
-  const handleFinishSafari = useCallback(() => {
-    if (!parkId || !session) return;
-    openSafariStory({
-      mode: 'summary',
-      parkId,
-      session,
-      checklist,
-      onComplete: () => endSession(),
-    });
-  }, [parkId, session, checklist, endSession]);
-
   // Handlers
   const handleToggleCheck = useCallback(
     (animalId: string) => {
       if (!parkId) return;
-      const alreadySpotted = isSpotted(parkId, animalId);
       toggleSpotting(parkId, animalId);
-      // When spotting (not un-spotting), silently ensure a visit session
-      if (!alreadySpotted) {
-        const currentlySpotted = species
-          .filter((s) => isSpotted(parkId, s._id))
-          .map((s) => s._id);
-        ensureSession(parkId, currentlySpotted);
-      }
     },
-    [parkId, toggleSpotting, isSpotted, species, ensureSession],
+    [parkId, toggleSpotting],
   );
 
   const handleToggleExpand = useCallback(
@@ -204,37 +179,31 @@ export default function ParkPage() {
         backTo="/"
       />
 
-      {hasInfo && (
-        <div className="park-tabs">
-          <button
-            className={`park-tab${tab === 'wildlife' ? ' active' : ''}`}
-            onClick={() => setTab('wildlife')}
-          >
-            Wildlife
-          </button>
+      <div className="park-tabs">
+        {hasInfo && (
           <button
             className={`park-tab${tab === 'info' ? ' active' : ''}`}
             onClick={() => setTab('info')}
           >
             Info
           </button>
-        </div>
-      )}
+        )}
+        <button
+          className={`park-tab${tab === 'wildlife' ? ' active' : ''}`}
+          onClick={() => setTab('wildlife')}
+        >
+          Wildlife
+        </button>
+        <button
+          className={`park-tab${tab === 'progress' ? ' active' : ''}`}
+          onClick={() => setTab('progress')}
+        >
+          Progress
+        </button>
+      </div>
 
       {tab === 'wildlife' ? (
         <>
-          <ProgressBar
-            spotted={totalSpotted}
-            total={species.length}
-            categories={categoryBreakdown}
-            rarities={rarityBreakdown}
-            safari={
-              isSessionHere
-                ? { label: 'End Visit', variant: 'finish', onClick: handleFinishSafari }
-                : undefined
-            }
-          />
-
           <SearchBar value={filters.search} onChange={(v) => setFilter('search', v)} />
 
           <CategoryTabs
@@ -326,11 +295,18 @@ export default function ParkPage() {
             onClearFilters={clearFilters}
           />
         </>
+      ) : tab === 'progress' ? (
+        <ProgressTab
+          spotted={totalSpotted}
+          total={species.length}
+          categories={categoryBreakdown}
+          rarities={rarityBreakdown}
+          spottedAnimals={species.filter((s) => isParkSpotted(s._id))}
+        />
       ) : (
         <ParkInfoTab
           park={park}
           species={species}
-          isParkSpotted={isParkSpotted}
         />
       )}
     </Container>
